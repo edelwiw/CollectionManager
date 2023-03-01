@@ -16,8 +16,10 @@ public class CommandExecutor {
         this.collectionManager = collectionManager;
         this.commands = new HashMap<>();
 
-        Command show = new Show(this.collectionManager, "show", "Print all elements of collection");
+        Command show = new Show(this.collectionManager);
+        Command clear = new Clear(this.collectionManager);
         commands.put(show.getName(), show);
+        commands.put(clear.getName(), clear);
     }
 
     public void enterInteractiveMode(){

@@ -4,8 +4,8 @@ import Run.CollectionManager;
 
 public class Show extends Command{
 
-    public Show(CollectionManager collectionManager, String name, String description) {
-        super(collectionManager, name, description);
+    public Show(CollectionManager collectionManager) {
+        super(collectionManager, "show", "Print all elements from collection");
     }
 
     @Override

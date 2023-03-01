@@ -19,6 +19,24 @@ public class CollectionManager {
         dragons.add(obj);
     }
 
+    /**
+     * Get dragon by fields from CLI and add it to collection
+     */
+    public void add(){
+        Dragon dragon = new Dragon();
+    }
+
+    /**
+     * Clears all elements from collection
+     */
+    public void clearCollection() {
+        dragons.clear();
+        System.out.println("Collection cleared successfully");
+    }
+
+    /**
+     * Print all collection items
+     */
     public void show() {
         if (dragons.size() == 0) {
             System.out.println("Nothing to show. Collection empty.");
