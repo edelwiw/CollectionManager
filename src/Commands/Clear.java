@@ -8,7 +8,7 @@ import Run.CollectionManager;
  */
 public class Clear implements Command{
 
-    CollectionManager collectionManager;
+    private CollectionManager collectionManager;
 
     public Clear(CollectionManager collectionManager) {
         this.collectionManager = collectionManager;

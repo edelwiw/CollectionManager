@@ -3,7 +3,7 @@ package Commands;
 import Run.CollectionManager;
 
 public class Show implements Command{
-    CollectionManager collectionManager;
+    private CollectionManager collectionManager;
 
     public Show(CollectionManager collectionManager) {
         this.collectionManager = collectionManager;
