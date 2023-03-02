@@ -2,14 +2,20 @@ package Commands;
 
 import Run.CollectionManager;
 
-public class Show extends Command{
+public class Show implements Command{
+    CollectionManager collectionManager;
 
     public Show(CollectionManager collectionManager) {
-        super(collectionManager, "show", "Print all elements from collection");
+        this.collectionManager = collectionManager;
     }
 
     @Override
     public void execute(String[] args) {
         this.collectionManager.show();
+    }
+
+    @Override
+    public String getDescription() {
+        return "show all collection items";
     }
 }

@@ -9,7 +9,7 @@ import java.util.LinkedList;
 
 public class CollectionManager {
 
-    private LinkedList<Dragon> dragons;
+    private final LinkedList<Dragon> dragons;
     private ZonedDateTime creationDate;
 
     /**
@@ -22,7 +22,7 @@ public class CollectionManager {
 
     /**
      * Add Dragon object to collection.
-     * @param obj
+     * @param obj object to add
      */
     public void add_obj(Dragon obj){
         dragons.add(obj);
@@ -105,7 +105,7 @@ public class CollectionManager {
      * Clears all elements from collection
      */
     public void clearCollection() {
-        dragons.clear();
+        this.dragons.clear();
         System.out.println("Collection cleared successfully");
     }
 

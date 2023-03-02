@@ -22,8 +22,6 @@ public class Main {
         dragons.add_obj(dragon4);
 
 
-        dragons.show();
-
         CommandExecutor commandExecutor = new CommandExecutor(dragons);
         commandExecutor.enterInteractiveMode();
     }

@@ -18,10 +18,8 @@ public class CommandExecutor {
         this.commands = new HashMap<>();
 
         // TODO add commands automatically
-        Command show = new Show(this.collectionManager);
-        Command clear = new Clear(this.collectionManager);
-        commands.put(show.getName(), show);
-        commands.put(clear.getName(), clear);
+        commands.put("show", new Show(this.collectionManager));
+        commands.put("clear", new Clear(this.collectionManager));
     }
 
     public void enterInteractiveMode(){
