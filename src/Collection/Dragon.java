@@ -1,5 +1,6 @@
 package Collection;
 
+import Exceptions.WrongArgument;
 import Exceptions.WrongField;
 
 import java.time.ZonedDateTime;
@@ -34,7 +35,7 @@ public class Dragon {
 
     /**
      * Returns Dragon ID
-     * @return ID
+     * @return Dragon ID
      */
     public Long getId() {
         return id;
@@ -42,7 +43,7 @@ public class Dragon {
 
     /**
      * Returns Dragon name
-     * @return name
+     * @return Dragon name
      */
     public String getName() {
         return name;
@@ -50,7 +51,7 @@ public class Dragon {
 
     /**
      * Returns Dragon coordinates
-     * @return Coordinates
+     * @return Dragon Coordinates
      * @see Coordinates
      */
     public Coordinates getCoordinates() {
@@ -67,7 +68,7 @@ public class Dragon {
 
     /**
      * Returns Dragon age
-     * @return age
+     * @return Dragon age
      */
     public long getAge() {
         return age;
@@ -75,7 +76,7 @@ public class Dragon {
 
     /**
      * Returns Dragon description
-     * @return description
+     * @return Dragon escription
      */
     public String getDescription() {
         return description;
@@ -83,7 +84,7 @@ public class Dragon {
 
     /**
      * Returns Dragon weight
-     * @return weight
+     * @return Dragon weight
      */
     public Double getWeight() {
         return weight;
@@ -91,7 +92,7 @@ public class Dragon {
 
     /**
      * Returns Dragon Character
-     * @return Character
+     * @return Dragon Character
      * @see DragonCharacter
      */
     public DragonCharacter getCharacter() {
@@ -100,7 +101,7 @@ public class Dragon {
 
     /**
      * Returns Dragon killer
-     * @return killer
+     * @return Dragon killer
      * @see Person
      */
     public Person getKiller() {
@@ -111,10 +112,10 @@ public class Dragon {
      * Set name for Dragon.
      * Name can't be null.
      * Name can't be empty.
-     * @param name
-     * @throws WrongField
+     * @param name name to set
+     * @throws WrongField if field value does not math requirements
      */
-    public void setName(String name) {
+    public void setName(String name) throws WrongField {
         if(name==null) throw new WrongField("Name can not be null");
         if(name.length() == 0) throw new WrongField("Name can not be empty");
         this.name = name;
@@ -122,19 +123,21 @@ public class Dragon {
 
     /**
      * Set coordinates for Dragon. Coordinates con't be null
-     * @param coordinates
+     * @param coordinates coordinates to set
      * @see Coordinates
+     * @throws WrongField if field value does not math requirements
      */
-    public void setCoordinates(Coordinates coordinates) {
+    public void setCoordinates(Coordinates coordinates) throws WrongField{
         if(coordinates==null) throw new WrongField("Coordinates con not be null");
         this.coordinates = coordinates;
     }
 
     /**
      * Set age for Dragon. Age should be positive
-     * @param age
+     * @param age age to set
+     * @throws WrongField if field value does not math requirements
      */
-    public void setAge(long age) {
+    public void setAge(long age) throws WrongField{
         if(age <= 0) throw new WrongField("Age should be positive");
         this.age = age;
     }
@@ -142,9 +145,10 @@ public class Dragon {
     /**
      * Set description for Dragon.
      * Description can't be null
-     * @param description
+     * @param description description to set
+     * @throws WrongField if field value does not math requirements
      */
-    public void setDescription(String description) {
+    public void setDescription(String description) throws WrongField {
         if(description == null) throw new WrongField("Description can not be null");
         this.description = description;
     }
@@ -152,9 +156,10 @@ public class Dragon {
     /**
      * Set weight for Dragon.
      * Weight should be positive number
-     * @param weight
+     * @param weight dragon weight to set.
+     * @throws WrongField if field value does not math requirements
      */
-    public void setWeight(Double weight) {
+    public void setWeight(Double weight) throws WrongField{
         if(weight == null) throw new WrongField("Weight should be positive number");
         this.weight = weight;
     }
@@ -162,10 +167,11 @@ public class Dragon {
     /**
      * Set character for Dragon.
      * Character can't be null
-     * @param character
+     * @param character dragon character to set
+     * @throws WrongField if field value does not math requirements
      * @see Character
      */
-    public void setCharacter(DragonCharacter character) {
+    public void setCharacter(DragonCharacter character) throws WrongField{
         if(character == null) throw new WrongField("Character can not be null");
         this.character = character;
     }
@@ -173,14 +179,20 @@ public class Dragon {
     /**
      * Set killer for Dragon
      * Killer can not be null
-     * @param killer
+     * @param killer dragon killer to set
+     * @throws WrongField if field value does not math requirements
      * @see Person
      */
-    public void setKiller(Person killer) {
+    public void setKiller(Person killer) throws WrongField {
         if(killer == null) throw new WrongField("Killer can not be null");
         this.killer = killer;
     }
 
+
+    /**
+     * Get dragon fields
+     * @return String with dragon object fields
+     */
     @Override
     public String toString() {
         return "id=" + this.id +

@@ -8,7 +8,8 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class CommandExecutor {
-    private CollectionManager collectionManager;
+
+    private final CollectionManager collectionManager;
 
     private final HashMap<String, Command> commands;
 
@@ -16,6 +17,7 @@ public class CommandExecutor {
         this.collectionManager = collectionManager;
         this.commands = new HashMap<>();
 
+        // TODO add commands automatically
         Command show = new Show(this.collectionManager);
         Command clear = new Clear(this.collectionManager);
         commands.put(show.getName(), show);
@@ -30,8 +32,8 @@ public class CommandExecutor {
             System.out.println("Enter a command");
             String[] line = commandReader.nextLine().toLowerCase().strip().split(" "); // read command from terminal
 
-            if(!commands.containsKey(line[0])) {
-                System.out.println("Not a command");
+            if(!commands.containsKey(line[0])) { // check if command exist
+                System.out.println("Not a command. Try again.");
                 continue;
             }
 
@@ -40,7 +42,7 @@ public class CommandExecutor {
                 command.execute(line);
             }
             catch (WrongArgument e){
-                System.out.println(e.getMessage());
+                System.out.println("Wrong argument! " + e.getMessage() + " Try again.");
             }
 
         }
