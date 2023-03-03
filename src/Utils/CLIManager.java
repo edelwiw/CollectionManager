@@ -5,6 +5,9 @@ import Collection.DragonCharacter;
 
 import java.util.Scanner;
 
+/**
+ * Helps to get values from terminal.
+ */
 public class CLIManager {
 
     /**

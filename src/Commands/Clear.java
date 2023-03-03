@@ -1,7 +1,8 @@
 package Commands;
 
 import Exceptions.WrongArgument;
-import Run.CollectionManager;
+import Run.LinkedListCollectionManager;
+import Utils.CollectionManager;
 
 /**
  * Clear command. Delete all items from collection.

@@ -3,11 +3,12 @@ package Run;
 import Collection.Dragon;
 import Exceptions.WrongField;
 import Utils.CLIManager;
+import Utils.CollectionManager;
 
 import java.time.ZonedDateTime;
 import java.util.LinkedList;
 
-public class CollectionManager {
+public class LinkedListCollectionManager implements CollectionManager {
 
     private final LinkedList<Dragon> dragons;
     private ZonedDateTime creationDate;
@@ -15,17 +16,9 @@ public class CollectionManager {
     /**
      * Constructor. Creates abject to work with collection.
      */
-    public CollectionManager(){
+    public LinkedListCollectionManager(){
         dragons = new LinkedList<>();
         this.creationDate = ZonedDateTime.now();
-    }
-
-    /**
-     * Add Dragon object to collection.
-     * @param obj object to add
-     */
-    public void add_obj(Dragon obj){
-        dragons.add(obj);
     }
 
     /**
@@ -98,7 +91,7 @@ public class CollectionManager {
         // TODO request coordinates
         // TODO request killer
 
-        add_obj(dragon);
+        this.dragons.add(dragon);
     }
 
     /**

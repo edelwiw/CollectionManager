@@ -2,7 +2,7 @@ package Run;
 
 import Commands.*;
 import Exceptions.WrongArgument;
-import Run.CollectionManager;
+import Utils.CollectionManager;
 
 import java.util.HashMap;
 import java.util.Scanner;

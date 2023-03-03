@@ -1,6 +1,7 @@
 package Commands;
 
-import Run.CollectionManager;
+import Run.LinkedListCollectionManager;
+import Utils.CollectionManager;
 
 public class Show implements Command{
     private CollectionManager collectionManager;

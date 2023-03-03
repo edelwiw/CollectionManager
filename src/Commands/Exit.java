@@ -12,6 +12,6 @@ public class Exit implements Command{
 
     @Override
     public String getDescription() {
-        return null;
+        return "exit program without saving data";
     }
 }
