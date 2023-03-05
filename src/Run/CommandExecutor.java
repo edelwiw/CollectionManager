@@ -20,6 +20,7 @@ public class CommandExecutor {
         commands.put("help", new Help(this.commands));
         commands.put("show", new Show(this.collectionManager));
         commands.put("clear", new Clear(this.collectionManager));
+        commands.put("add", new Add(this.collectionManager));
         commands.put("exit", new Exit());
 
     }
@@ -37,13 +38,14 @@ public class CommandExecutor {
                 continue;
             }
 
-            try{
+            try{ // try to execute command with arguments
                 Command command = commands.get(line[0]);
                 command.execute(line);
             }
             catch (WrongArgument e){
                 System.out.println("Wrong argument! " + e.getMessage() + " Try again.");
             }
+            // TODO add NotEnoughArguments exception
 
         }
     }

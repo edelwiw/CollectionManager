@@ -6,9 +6,7 @@ public class Coordinates {
     private double x; // Value can not be greater than 710
     private Long y; // Value cannot be null
 
-    public Coordinates(double x, Long y){
-        this.setX(x);
-        this.setY(y);
+    public Coordinates(){
     }
 
     public double getX() {
@@ -19,11 +17,12 @@ public class Coordinates {
         return this.y;
     }
 
-    public void setX(double x) {
+    public void setX(Double x) throws WrongField {
+        if(x == null) throw new WrongField("X can not be null");
         this.x = x;
     }
 
-    public void setY(Long y) {
+    public void setY(Long y) throws WrongField{
         if(y == null) throw new WrongField("Y can not be null");
         this.y = y;
     }

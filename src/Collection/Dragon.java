@@ -137,7 +137,8 @@ public class Dragon {
      * @param age age to set
      * @throws WrongField if field value does not math requirements
      */
-    public void setAge(long age) throws WrongField{
+    public void setAge(Long age) throws WrongField{
+        if(age == null) throw new WrongField("Age can not be null");
         if(age <= 0) throw new WrongField("Age should be positive");
         this.age = age;
     }
@@ -160,7 +161,7 @@ public class Dragon {
      * @throws WrongField if field value does not math requirements
      */
     public void setWeight(Double weight) throws WrongField{
-        if(weight == null) throw new WrongField("Weight should be positive number");
+        if(weight == null) throw new WrongField("Weight can not be null");
         this.weight = weight;
     }
 
@@ -200,7 +201,7 @@ public class Dragon {
                 ", coordinates=" + this.coordinates +
                 ", creationDate=" + this.creationDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) +
                 ", age=" + this.age +
-                ", description=" + this.description + " " +
+                ", description=" + this.description +
                 ", weight=" + this.weight +
                 ", character=" + this.character +
                 ", killer=" + this.killer;

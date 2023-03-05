@@ -10,11 +10,8 @@ public class Person {
     private Color hairColor; // Value can be null
     private Location location; // Value can be null
 
-    public Person(String name, String passportID, Color hairColor, Location location) {
-        this.setName(name);
-        this.setPassportID(passportID);
-        this.setLocation(location);
-        this.setHairColor(hairColor);
+    public Person(){
+
     }
 
     public String getName() {
@@ -33,13 +30,13 @@ public class Person {
         return this.location;
     }
 
-    public void setName(String name) {
+    public void setName(String name) throws WrongField{
         if(name == null) throw new WrongField("Name can nor be null");
         if(name.length() == 0) throw new WrongField("String can not be empty");
         this.name = name;
     }
 
-    public void setPassportID(String passportID) {
+    public void setPassportID(String passportID) throws WrongField{
         if(passportID == null) throw new WrongField("PassportID can nor be null");
         if(passportID.length() < 8 || passportID.length() > 28) throw new WrongField("PassportID length shouldn't be greater than 28 and less than 8");
         this.passportID = passportID;
@@ -55,9 +52,9 @@ public class Person {
 
     @Override
     public String toString() {
-        return "name=" + name + " " +
-                ", passportID=" + passportID + " " +
-                ", hairColor=" + hairColor + " " +
-                ", Collection.Location=" + location;
+        return "Person{name=" + name +
+                ", passportID=" + passportID +
+                ", hairColor=" + hairColor +
+                ", Location=" + location + "}";
     }
 }
