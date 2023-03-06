@@ -3,6 +3,7 @@ package Run;
 import Collection.Dragon;
 
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 
 /**
@@ -29,6 +30,16 @@ public class CollectionManager {
     public void clearCollection() {
         this.dragons.clear();
         System.out.println("Collection cleared successfully");
+    }
+
+    public String getInfo(){
+        String result = "";
+        result += "Information about collection:\n";
+        result += "Created at " + this.creationDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) + '\n';
+        result += "Collection type is " + this.dragons.getClass().getName() + '\n';
+        result += "Amount of items stored in - " + this.dragons.size() + '\n';
+
+        return result;
     }
 
     public void show() {

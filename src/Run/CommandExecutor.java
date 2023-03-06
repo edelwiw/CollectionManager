@@ -29,6 +29,17 @@ public class CommandExecutor {
         commands.put("clear", new Clear(this.collectionManager));
         commands.put("add", new Add(this.collectionManager));
         commands.put("exit", new Exit());
+        commands.put("info", new Info(this.collectionManager));
+        // TODO update id {element}
+        // TODO remove_by_id id
+        // TODO save
+        // TODO execute_script file_name
+        // TODO head
+        // TODO add_if_min {element}
+        // TODO remove_greater {element}
+        // TODO group_counting_by_coordinates
+        // TODO count_greater_than_character character
+        // TODO filter_less_than_age age
 
     }
 
