@@ -2,6 +2,9 @@ package Commands;
 
 import Exceptions.WrongArgument;
 
+/**
+ * Exit command. Stops program execution without saving any data to file.
+ */
 public class Exit implements Command{
 
     @Override

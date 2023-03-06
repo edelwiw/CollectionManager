@@ -4,6 +4,10 @@ import Exceptions.WrongArgument;
 
 import java.util.HashMap;
 
+/**
+ * Help command. Prints info about all available commands.
+ * This command uses HashMap with all commands in program to get its names and descriptions.
+ */
 public class Help implements Command{
     private final HashMap<String, Command> commands;
 

@@ -7,13 +7,22 @@ import Utils.CollectionManager;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class CommandExecutor {
 
-    private final CollectionManager collectionManager;
+/**
+ * Class for interactive CLI mode.
+ * @param <T>
+ */
+public class CommandExecutor<T> {
+
+    private final CollectionManager<T> collectionManager;
 
     private final HashMap<String, Command> commands;
 
-    public CommandExecutor(CollectionManager collectionManager){
+    /**
+     * Constructor for command executor.
+     * @param collectionManager collection manager class object
+     */
+    public CommandExecutor(CollectionManager<T> collectionManager){
         this.collectionManager = collectionManager;
         this.commands = new HashMap<>();
 
@@ -25,6 +34,9 @@ public class CommandExecutor {
 
     }
 
+    /**
+     * Enter an interactive mode with CLI commands execution.
+     */
     public void enterInteractiveMode(){
         System.out.println("Interactive mode");
         Scanner commandReader = new Scanner(System.in);

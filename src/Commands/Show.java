@@ -1,8 +1,11 @@
 package Commands;
 
-import Run.LinkedListCollectionManager;
 import Utils.CollectionManager;
 
+/**
+ * Show command. Prints all collection elements.
+ * This command uses collectionManager reference to call "show" method.
+ */
 public class Show implements Command{
     private CollectionManager collectionManager;
 

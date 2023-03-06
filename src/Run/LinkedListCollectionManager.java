@@ -1,14 +1,14 @@
 package Run;
 
 import Collection.Dragon;
-import Collection.DragonCharacter;
-import Exceptions.WrongField;
-import Utils.CLIManager;
 import Utils.CollectionManager;
 
 import java.time.ZonedDateTime;
 import java.util.LinkedList;
 
+/**
+ * Class for work with collection.
+ */
 public class LinkedListCollectionManager implements CollectionManager<Dragon> {
 
     private final LinkedList<Dragon> dragons;

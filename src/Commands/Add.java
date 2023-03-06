@@ -5,6 +5,10 @@ import Exceptions.WrongArgument;
 import Utils.CLIManager;
 import Utils.CollectionManager;
 
+/**
+ * Add command. Request element from CLI and add it to collection.
+ * This command uses collectionManager reference to call "add" method.
+ */
 public class Add implements Command{
 
     CollectionManager collectionManager;

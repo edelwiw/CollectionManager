@@ -1,7 +1,8 @@
 package Collection;
 
 /**
- * Enum for dragon colors
+ * Enum for dragon colors.
+ * @author Alexandr Ivanov @edelwiw
  */
 public enum Color {
     BLACK,

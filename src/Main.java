@@ -7,12 +7,12 @@ import Utils.CollectionManager;
 
 public class Main {
     public static void main(String[] args) {
-        CollectionManager dragons = new LinkedListCollectionManager();
+        CollectionManager<Dragon> dragons = new LinkedListCollectionManager();
 
         Dragon dragon = new Dragon();
         System.out.println(dragon);
 
-        CommandExecutor commandExecutor = new CommandExecutor(dragons);
+        CommandExecutor<Dragon> commandExecutor = new CommandExecutor<Dragon>(dragons);
         commandExecutor.enterInteractiveMode();
     }
 }

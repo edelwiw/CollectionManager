@@ -76,7 +76,7 @@ public class Dragon {
 
     /**
      * Returns Dragon description
-     * @return Dragon escription
+     * @return Dragon description
      */
     public String getDescription() {
         return description;
@@ -122,7 +122,7 @@ public class Dragon {
     }
 
     /**
-     * Set coordinates for Dragon. Coordinates con't be null
+     * Set coordinates for Dragon. Coordinates can't be null
      * @param coordinates coordinates to set
      * @see Coordinates
      * @throws WrongField if field value does not math requirements

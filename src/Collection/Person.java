@@ -1,9 +1,11 @@
 package Collection;
 
-import Collection.Color;
-import Collection.Location;
 import Exceptions.WrongField;
 
+/**
+ * Person class. Used to save Dragon killer.
+ * @author Alexander Ivanov
+ */
 public class Person {
     private String name; // Value can not be null, String can not be empty
     private String passportID; // String cannot be empty, Field can be null, Length shouldn't be greater than 28 and less than 8
@@ -30,12 +32,22 @@ public class Person {
         return this.location;
     }
 
+    /**
+     * Set Person name.
+     * @param name name to set.
+     * @throws WrongField when value is null or empty string.
+     */
     public void setName(String name) throws WrongField{
         if(name == null) throw new WrongField("Name can nor be null");
         if(name.length() == 0) throw new WrongField("String can not be empty");
         this.name = name;
     }
 
+    /**
+     * Set Person passport ID.
+     * @param passportID value to set.
+     * @throws WrongField when value is null or length greater than 28 or less than 8.
+     */
     public void setPassportID(String passportID) throws WrongField{
         if(passportID == null) throw new WrongField("PassportID can nor be null");
         if(passportID.length() < 8 || passportID.length() > 28) throw new WrongField("PassportID length shouldn't be greater than 28 and less than 8");
