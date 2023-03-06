@@ -1,13 +1,13 @@
 package Commands;
 
-import Utils.CollectionManager;
+import Run.CollectionManager;
 
 /**
  * Show command. Prints all collection elements.
  * This command uses collectionManager reference to call "show" method.
  */
 public class Show implements Command{
-    private CollectionManager collectionManager;
+    private final CollectionManager collectionManager;
 
     public Show(CollectionManager collectionManager) {
         this.collectionManager = collectionManager;

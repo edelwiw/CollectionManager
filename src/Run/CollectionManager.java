@@ -1,7 +1,6 @@
 package Run;
 
 import Collection.Dragon;
-import Utils.CollectionManager;
 
 import java.time.ZonedDateTime;
 import java.util.LinkedList;
@@ -9,7 +8,7 @@ import java.util.LinkedList;
 /**
  * Class for work with collection.
  */
-public class LinkedListCollectionManager implements CollectionManager<Dragon> {
+public class CollectionManager {
 
     private final LinkedList<Dragon> dragons;
     private ZonedDateTime creationDate;
@@ -17,24 +16,21 @@ public class LinkedListCollectionManager implements CollectionManager<Dragon> {
     /**
      * Constructor. Creates abject to work with collection.
      */
-    public LinkedListCollectionManager(){
+    public CollectionManager(){
         dragons = new LinkedList<>();
         this.creationDate = ZonedDateTime.now();
     }
 
-    @Override
     public void add(Dragon dragon){
         dragons.add(dragon);
         System.out.println("Element added successfully");
     }
 
-    @Override
     public void clearCollection() {
         this.dragons.clear();
         System.out.println("Collection cleared successfully");
     }
 
-    @Override
     public void show() {
         if (dragons.size() == 0) {
             System.out.println("Nothing to show. Collection empty");

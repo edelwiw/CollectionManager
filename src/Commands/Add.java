@@ -2,8 +2,8 @@ package Commands;
 
 import Collection.Dragon;
 import Exceptions.WrongArgument;
+import Run.CollectionManager;
 import Utils.CLIManager;
-import Utils.CollectionManager;
 
 /**
  * Add command. Request element from CLI and add it to collection.
@@ -11,7 +11,7 @@ import Utils.CollectionManager;
  */
 public class Add implements Command{
 
-    CollectionManager collectionManager;
+    private final CollectionManager collectionManager;
 
     public Add(CollectionManager collectionManager){
         this.collectionManager = collectionManager;
@@ -21,7 +21,7 @@ public class Add implements Command{
     public void execute(String[] args) throws WrongArgument {
         CLIManager cliManager = new CLIManager();
         Dragon dragon = cliManager.requestDragon();
-        collectionManager.add(dragon);
+        this.collectionManager.add(dragon);
     }
 
     @Override

@@ -2,7 +2,6 @@ package Run;
 
 import Commands.*;
 import Exceptions.WrongArgument;
-import Utils.CollectionManager;
 
 import java.util.HashMap;
 import java.util.Scanner;
@@ -10,11 +9,10 @@ import java.util.Scanner;
 
 /**
  * Class for interactive CLI mode.
- * @param <T>
  */
-public class CommandExecutor<T> {
+public class CommandExecutor {
 
-    private final CollectionManager<T> collectionManager;
+    private final CollectionManager collectionManager;
 
     private final HashMap<String, Command> commands;
 
@@ -22,7 +20,7 @@ public class CommandExecutor<T> {
      * Constructor for command executor.
      * @param collectionManager collection manager class object
      */
-    public CommandExecutor(CollectionManager<T> collectionManager){
+    public CommandExecutor(CollectionManager collectionManager){
         this.collectionManager = collectionManager;
         this.commands = new HashMap<>();
 

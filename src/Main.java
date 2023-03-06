@@ -1,18 +1,17 @@
 // times crying while writing this code = 0
 
 import Collection.Dragon;
-import Run.LinkedListCollectionManager;
+import Run.CollectionManager;
 import Run.CommandExecutor;
-import Utils.CollectionManager;
 
 public class Main {
     public static void main(String[] args) {
-        CollectionManager<Dragon> dragons = new LinkedListCollectionManager();
+        CollectionManager dragons = new CollectionManager();
 
         Dragon dragon = new Dragon();
         System.out.println(dragon);
 
-        CommandExecutor<Dragon> commandExecutor = new CommandExecutor<Dragon>(dragons);
+        CommandExecutor commandExecutor = new CommandExecutor(dragons);
         commandExecutor.enterInteractiveMode();
     }
 }

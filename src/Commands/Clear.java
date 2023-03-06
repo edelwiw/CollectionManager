@@ -1,9 +1,7 @@
 package Commands;
 
-import Collection.Dragon;
 import Exceptions.WrongArgument;
-import Run.LinkedListCollectionManager;
-import Utils.CollectionManager;
+import Run.CollectionManager;
 
 /**
  * Clear command. Delete all items from collection.
@@ -11,7 +9,7 @@ import Utils.CollectionManager;
  */
 public class Clear implements Command{
 
-    private CollectionManager collectionManager;
+    private final CollectionManager collectionManager;
 
     public Clear(CollectionManager collectionManager) {
         this.collectionManager = collectionManager;
@@ -19,7 +17,7 @@ public class Clear implements Command{
 
     @Override
     public void execute(String[] args) throws WrongArgument {
-        collectionManager.clearCollection();
+        this.collectionManager.clearCollection();
     }
 
     @Override
