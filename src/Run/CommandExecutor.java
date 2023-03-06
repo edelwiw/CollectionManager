@@ -4,8 +4,13 @@ import Commands.*;
 import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -52,17 +57,25 @@ public class CommandExecutor {
         Scanner commandReader = new Scanner(System.in);
 
         while (true){
-            System.out.println("Enter a command");
-            String[] line = commandReader.nextLine().toLowerCase().strip().split(" "); // read command from terminal
+            System.out.println("Enter a command"); // read command from terminal
+            Matcher mather = Pattern.compile("\\w+|\"[\\w\\s]*\"").matcher(commandReader.nextLine());
 
-            if(!commands.containsKey(line[0])) { // check if command exist
+            ArrayList<String> line = new ArrayList<>();
+            while (mather.find()) {line.add(mather.group().replaceAll("\"", ""));} // split arguments with regEx
+
+            String[] argsArray = new String[line.size()]; // convert to String array
+            argsArray = line.toArray(argsArray);
+
+            System.out.println(Arrays.toString(argsArray));
+
+            if(!commands.containsKey(argsArray[0])) { // check if command exist
                 System.out.println("Not a command. Try again.");
                 continue;
             }
 
             try{ // try to execute command with arguments
-                Command command = commands.get(line[0]);
-                command.execute(line);
+                Command command = commands.get(argsArray[0]);
+                command.execute(argsArray);
             }
             catch (WrongArgument e){
                 System.out.println("Wrong argument! " + e.getMessage() + " Try again.");
