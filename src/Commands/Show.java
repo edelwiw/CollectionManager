@@ -1,5 +1,7 @@
 package Commands;
 
+import Exceptions.NotEnoughArgs;
+import Exceptions.WrongArgument;
 import Run.CollectionManager;
 
 /**
@@ -14,7 +16,7 @@ public class Show implements Command{
     }
 
     @Override
-    public void execute(String[] args) {
+    public void execute(String[] args) throws WrongArgument, NotEnoughArgs {
         this.collectionManager.show();
     }
 

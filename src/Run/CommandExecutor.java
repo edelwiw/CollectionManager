@@ -1,6 +1,7 @@
 package Run;
 
 import Commands.*;
+import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 
 import java.util.HashMap;
@@ -65,6 +66,9 @@ public class CommandExecutor {
             }
             catch (WrongArgument e){
                 System.out.println("Wrong argument! " + e.getMessage() + " Try again.");
+            }
+            catch (NotEnoughArgs e){
+                System.out.println("Not enough arguments. " + e.getMessage() + " Try again.");
             }
             // TODO add NotEnoughArguments exception
 

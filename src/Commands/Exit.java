@@ -1,5 +1,6 @@
 package Commands;
 
+import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 
 /**
@@ -8,7 +9,7 @@ import Exceptions.WrongArgument;
 public class Exit implements Command{
 
     @Override
-    public void execute(String[] args) throws WrongArgument {
+    public void execute(String[] args) throws WrongArgument, NotEnoughArgs {
         System.out.println("Program will exit now! Bye!");
         System.exit(0);
     }

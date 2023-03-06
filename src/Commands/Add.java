@@ -1,6 +1,7 @@
 package Commands;
 
 import Collection.Dragon;
+import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 import Run.CollectionManager;
 import Utils.CLIManager;
@@ -18,7 +19,7 @@ public class Add implements Command{
     }
 
     @Override
-    public void execute(String[] args) throws WrongArgument {
+    public void execute(String[] args) throws WrongArgument, NotEnoughArgs {
         CLIManager cliManager = new CLIManager();
         Dragon dragon = cliManager.requestDragon();
         this.collectionManager.add(dragon);

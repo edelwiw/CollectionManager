@@ -1,5 +1,6 @@
 package Commands;
 
+import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 import Run.CollectionManager;
 
@@ -16,7 +17,7 @@ public class Info implements Command{
     }
 
     @Override
-    public void execute(String[] args) throws WrongArgument {
+    public void execute(String[] args) throws WrongArgument, NotEnoughArgs {
         System.out.println(collectionManager.getInfo());
     }
 
