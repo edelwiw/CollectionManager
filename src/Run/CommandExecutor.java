@@ -36,11 +36,11 @@ public class CommandExecutor {
         commands.put("add", new Add(this.collectionManager));
         commands.put("exit", new Exit());
         commands.put("info", new Info(this.collectionManager));
+        commands.put("head", new Head(this.collectionManager));
         // TODO update id {element}
         // TODO remove_by_id id
         // TODO save
         // TODO execute_script file_name
-        // TODO head
         // TODO add_if_min {element}
         // TODO remove_greater {element}
         // TODO group_counting_by_coordinates
@@ -83,7 +83,6 @@ public class CommandExecutor {
             catch (NotEnoughArgs e){
                 System.out.println("Not enough arguments. " + e.getMessage() + " Try again.");
             }
-            // TODO add NotEnoughArguments exception
 
         }
     }
