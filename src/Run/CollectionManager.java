@@ -4,6 +4,7 @@ import Collection.Dragon;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -42,17 +43,9 @@ public class CollectionManager {
         return result;
     }
 
-    public void show() {
-        if (dragons.size() == 0) {
-            System.out.println("Nothing to show. Collection empty");
-            return;
-        }
-        for (Dragon dragon : this.dragons) {
-            System.out.println("-----------------------");
-            System.out.println(dragon.getName());
-            System.out.println(dragon);
-        }
-        System.out.println("-----------------------");
+    public Iterator<Dragon> getIterator(){
+        return dragons.iterator();
     }
+
 
 }

@@ -1,8 +1,11 @@
 package Commands;
 
+import Collection.Dragon;
 import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 import Run.CollectionManager;
+
+import java.util.Iterator;
 
 /**
  * Show command. Prints all collection elements.
@@ -17,8 +20,20 @@ public class Show implements Command{
 
     @Override
     public void execute(String[] args) throws WrongArgument, NotEnoughArgs {
-        this.collectionManager.show();
-    }
+        Iterator<Dragon> iter = collectionManager.getIterator();
+        if(!iter.hasNext()) {
+            System.out.println("Nothing to show. Collection empty");
+            return;
+        }
+        while (iter.hasNext()){
+            Dragon dragon = iter.next();
+            System.out.println("-----------------------");
+            System.out.println(dragon.getName());
+            System.out.println(dragon);
+        }
+        System.out.println("-----------------------");
+
+        }
 
     @Override
     public String getDescription() {
