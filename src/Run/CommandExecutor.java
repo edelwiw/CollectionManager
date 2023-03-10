@@ -58,7 +58,7 @@ public class CommandExecutor {
 
         while (true){
             System.out.println("Enter a command"); // read command from terminal
-            Matcher mather = Pattern.compile("\\w+|\"[\\w\\s]*\"").matcher(commandReader.nextLine());
+            Matcher mather = Pattern.compile("[\\wа-яА-Я]+|\"[\\w\\sа-яА-Я]*\"").matcher(commandReader.nextLine());
 
             ArrayList<String> line = new ArrayList<>();
             while (mather.find()) {line.add(mather.group().replaceAll("\"", ""));} // split arguments with regEx
