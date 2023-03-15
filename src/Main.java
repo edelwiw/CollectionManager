@@ -6,7 +6,7 @@ import Run.CollectionManager;
 import Run.CommandExecutor;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args){
         CollectionManager dragons = new CollectionManager();
 
         Dragon dragon = new Dragon();

@@ -50,5 +50,14 @@ public class CollectionManager {
         Collections.sort(dragons);
     }
 
+    public Dragon getMin(){
+        if(dragons.size() > 0) return Collections.min(dragons);
+        return null;
+    }
+
+    public int getSize(){
+        return dragons.size();
+    }
+
 
 }

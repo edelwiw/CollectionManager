@@ -38,11 +38,11 @@ public class CommandExecutor {
         commands.put("info", new Info(this.collectionManager));
         commands.put("head", new Head(this.collectionManager));
         commands.put("sort", new Sort(this.collectionManager));
+        commands.put("add_if_min", new AddIfMin(this.collectionManager));
         // TODO update id {element}
         // TODO remove_by_id id
         // TODO save
         // TODO execute_script file_name
-        // TODO add_if_min {element}
         // TODO remove_greater {element}
         // TODO group_counting_by_coordinates
         // TODO count_greater_than_character character
