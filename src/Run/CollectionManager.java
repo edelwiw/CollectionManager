@@ -32,6 +32,17 @@ public class CollectionManager {
         System.out.println("Collection cleared successfully");
     }
 
+    public void removeById(long id){
+        for(int index = 0; index < dragons.size(); index++){
+            if(dragons.get(index).getId() == id){
+                dragons.remove(index);
+                System.out.println("Object removed successfully");
+                break;
+            }
+        }
+        System.out.println("Nu such element");
+    }
+
     public String getInfo(){
         String result = "";
         result += "Information about collection:\n";
