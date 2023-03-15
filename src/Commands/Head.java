@@ -9,7 +9,7 @@ import java.util.Iterator;
 
 public class Head implements Command{
 
-    CollectionManager collectionManager;
+    private final CollectionManager collectionManager;
 
     public Head(CollectionManager collectionManager) {
         this.collectionManager = collectionManager;

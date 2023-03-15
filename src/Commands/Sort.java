@@ -5,7 +5,7 @@ import Exceptions.WrongArgument;
 import Run.CollectionManager;
 
 public class Sort implements Command {
-    CollectionManager collectionManager;
+    private final CollectionManager collectionManager;
 
     public Sort(CollectionManager collectionManager) {
         this.collectionManager = collectionManager;
