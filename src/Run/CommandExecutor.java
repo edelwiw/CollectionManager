@@ -41,6 +41,7 @@ public class CommandExecutor {
         commands.put("add_if_min", new AddIfMin(this.collectionManager));
         commands.put("remove_by_id", new RemoveById(this.collectionManager));
         commands.put("remove_greater", new RemoveGreater(this.collectionManager));
+        commands.put("filter_less_than_age", new FilterLessThanAge(this.collectionManager));
         // TODO update id {element}
         // TODO save
         // TODO execute_script file_name
