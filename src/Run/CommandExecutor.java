@@ -40,10 +40,10 @@ public class CommandExecutor {
         commands.put("sort", new Sort(this.collectionManager));
         commands.put("add_if_min", new AddIfMin(this.collectionManager));
         commands.put("remove_by_id", new RemoveById(this.collectionManager));
+        commands.put("remove_greater", new RemoveGreater(this.collectionManager));
         // TODO update id {element}
         // TODO save
         // TODO execute_script file_name
-        // TODO remove_greater {element}
         // TODO group_counting_by_coordinates
         // TODO count_greater_than_character character
         // TODO filter_less_than_age age

@@ -35,12 +35,16 @@ public class CollectionManager {
     public void removeById(long id){
         for(int index = 0; index < dragons.size(); index++){
             if(dragons.get(index).getId() == id){
-                dragons.remove(index);
+                this.removeByIndex(index);
                 System.out.println("Object removed successfully");
                 break;
             }
         }
         System.out.println("Nu such element");
+    }
+
+    public void removeByIndex(int index) throws IndexOutOfBoundsException{
+        dragons.remove(index);
     }
 
     public String getInfo(){

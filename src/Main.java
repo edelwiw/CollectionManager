@@ -10,6 +10,7 @@ public class Main {
         CollectionManager dragons = new CollectionManager();
 
         Dragon dragon = new Dragon();
+        dragons.add(dragon);
         System.out.println(dragon);
 
         CommandExecutor commandExecutor = new CommandExecutor(dragons);
