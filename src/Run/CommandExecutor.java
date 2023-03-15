@@ -60,7 +60,7 @@ public class CommandExecutor {
 
         while (true){
             System.out.println("Enter a command"); // read command from terminal
-            Matcher mather = Pattern.compile("[\\wа-яА-Я]+|\"[\\w\\sа-яА-Я]*\"").matcher(commandReader.nextLine());
+            Matcher mather = Pattern.compile("[\\wа-яА-Я\\-]+|\"[\\w\\sа-яА-Я\\-]*\"").matcher(commandReader.nextLine());
 
             ArrayList<String> line = new ArrayList<>();
             while (mather.find()) {line.add(mather.group().replaceAll("\"", ""));} // split arguments with regEx
@@ -70,7 +70,7 @@ public class CommandExecutor {
 
             System.out.println(Arrays.toString(argsArray));
 
-            if(!commands.containsKey(argsArray[0])) { // check if command exist
+            if(!commands.containsKey(argsArray[0].toLowerCase())) { // check if command exist
                 System.out.println("Not a command. Try again.");
                 continue;
             }
