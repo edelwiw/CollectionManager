@@ -4,6 +4,10 @@ import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 import Run.CollectionManager;
 
+/**
+ * Sort command. Sorts all collection items by calling .sortCollection method in collection manager
+ * This command uses collectionManager reference to call "sortCollection" method.
+ */
 public class Sort implements Command {
     private final CollectionManager collectionManager;
 
