@@ -4,8 +4,7 @@ import Collection.Dragon;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.*;
 
 /**
  * Class for work with collection.
@@ -45,6 +44,10 @@ public class CollectionManager {
 
     public Iterator<Dragon> getIterator(){
         return dragons.iterator();
+    }
+
+    public void sortCollection(){
+        Collections.sort(dragons);
     }
 
 

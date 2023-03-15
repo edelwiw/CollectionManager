@@ -37,6 +37,7 @@ public class CommandExecutor {
         commands.put("exit", new Exit());
         commands.put("info", new Info(this.collectionManager));
         commands.put("head", new Head(this.collectionManager));
+        commands.put("sort", new Sort(this.collectionManager));
         // TODO update id {element}
         // TODO remove_by_id id
         // TODO save

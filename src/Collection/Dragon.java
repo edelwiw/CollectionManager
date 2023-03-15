@@ -2,6 +2,7 @@ package Collection;
 
 import Exceptions.WrongArgument;
 import Exceptions.WrongField;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -10,7 +11,7 @@ import java.time.format.DateTimeFormatter;
  * Dragon class. Main collection class
  * @author Alexander Ivanov @edelwiw
  */
-public class Dragon {
+public class Dragon implements Comparable<Dragon>{
     private static Long nextId = 1L;
 
     private Long id; // Value should be positive, Field value should be unique, value should be generating automatically
@@ -205,6 +206,12 @@ public class Dragon {
                 ", weight=" + this.weight +
                 ", character=" + this.character +
                 ", killer=" + this.killer;
+    }
+
+
+    @Override
+    public int compareTo(@NotNull Dragon other) {
+        return this.name.compareTo(other.name);
     }
 }
 
