@@ -1,17 +1,19 @@
-// times crying while writing this code = 0
+// times crying while writing this code = 4
 
-import Collection.Dragon;
-import Exceptions.WrongField;
+import Exceptions.NotEnoughArgs;
 import Run.CollectionManager;
 import Run.CommandExecutor;
 
-public class Main {
-    public static void main(String[] args){
-        CollectionManager dragons = new CollectionManager();
+import java.lang.reflect.Array;
+import java.nio.file.Paths;
+import java.util.Arrays;
 
-        Dragon dragon = new Dragon();
-        dragons.add(dragon);
-        System.out.println(dragon);
+public class Main {
+    public static void main(String[] args) throws NotEnoughArgs {
+        if(args.length == 0) throw new NotEnoughArgs("No file path specified");
+        CollectionManager dragons = new CollectionManager(Paths.get(args[0]));
+
+        dragons.fillCollectionFromFile();
 
         CommandExecutor commandExecutor = new CommandExecutor(dragons);
         commandExecutor.enterInteractiveMode();

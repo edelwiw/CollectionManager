@@ -105,11 +105,13 @@ public class CollectionManager {
         return dragons.size();
     }
 
+    public void fillCollectionFromFile(){
+        fillCollectionFromFile(defaultPath);
+    }
 
-    public void fillCollectionFromFile(String filePath){
+    public void fillCollectionFromFile(Path path){
         try {
-            // check filePath
-            Path path = Paths.get(filePath);
+            // check filePath;
             if(!Files.exists(path)) throw new FileNotFoundException();
             if(!Files.isReadable(path)) throw new NoPermissionException("Cannot read file.");
             if(!Files.isWritable(path)) throw new NoPermissionException("Cannot write to file.");
@@ -120,16 +122,16 @@ public class CollectionManager {
             CsvToBean<Dragon> csv = new CsvToBeanBuilder<Dragon>(reader).withType(Dragon.class).build();
 
             dragons.addAll(csv.parse());
+            System.out.println(dragons.size() + " item(s) loaded from file " + path);
         }
         catch (InvalidPathException e){
-            System.out.println("Argument must be a correct file path.");
+            System.out.println("Argument must be a correct file path. Data not loaded.");
         }
         catch (FileNotFoundException e){
-            System.out.println("File " + filePath + " not found. Data not loaded."); // file does not exist
+            System.out.println("File " + path + " not found. Data not loaded."); // file does not exist
         }
         catch (NoPermissionException e){
-            System.out.print("No enough permissions to " + filePath + " - " + e.getMessage()); // permissions deny
-            System.exit(1);
+            System.out.print("No enough permissions to " + path + " - " + e.getMessage() + " Data not loaded."); // permissions deny
         }
         catch (IOException e){e.printStackTrace();}
     }
