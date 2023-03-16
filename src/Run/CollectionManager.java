@@ -61,6 +61,15 @@ public class CollectionManager {
         return dragons.iterator();
     }
 
+    public Dragon getByID(long id){
+        for(int index = 0; index < dragons.size(); index++){
+            if(dragons.get(index).getId() == id){
+                return dragons.get(index);
+            }
+        }
+        return null;
+    }
+
     public void sortCollection(){
         Collections.sort(dragons);
     }

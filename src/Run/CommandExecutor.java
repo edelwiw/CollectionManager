@@ -42,12 +42,11 @@ public class CommandExecutor {
         commands.put("remove_by_id", new RemoveById(this.collectionManager));
         commands.put("remove_greater", new RemoveGreater(this.collectionManager));
         commands.put("filter_less_than_age", new FilterLessThanAge(this.collectionManager));
-        // TODO update id {element}
+        commands.put("update", new Update(this.collectionManager));
         // TODO save
         // TODO execute_script file_name
         // TODO group_counting_by_coordinates
         // TODO count_greater_than_character character
-        // TODO filter_less_than_age age
 
     }
 
