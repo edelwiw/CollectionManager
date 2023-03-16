@@ -2,7 +2,6 @@ package Collection;
 
 import Exceptions.WrongArgument;
 import Exceptions.WrongField;
-import org.jetbrains.annotations.NotNull;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -210,7 +209,7 @@ public class Dragon implements Comparable<Dragon>{
 
 
     @Override
-    public int compareTo(@NotNull Dragon other) {
+    public int compareTo(Dragon other) {
         return this.name.compareTo(other.name);
     }
 }
