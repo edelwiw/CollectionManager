@@ -6,6 +6,8 @@ import Exceptions.WrongArgument;
 import Run.CollectionManager;
 
 import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Filter_less_than_age command. Prints all collection elements that less than spec. value.
@@ -30,18 +32,25 @@ public class FilterLessThanAge implements Command{
             throw  new WrongArgument("Argument must be long integer number.");
         }
 
-        Iterator<Dragon> iter = collectionManager.getIterator();
-
-        if(!iter.hasNext()) {
+        if(collectionManager.getSize() == 0){
             System.out.println("Nothing to show. Collection empty.");
             return;
         }
-        while (iter.hasNext()){
-            Dragon dragon = iter.next();
-            if(dragon.getAge() < age) {
+
+        Stream<Dragon> stream = collectionManager.getStream();
+
+        List<Dragon> filtered = stream.filter((x) -> x.getAge() < age).toList();
+
+        if(filtered.size() == 0){
+            System.out.println("Nothing to show. No such elements.");
+            return;
+        }
+
+        for(Dragon element : filtered){
+            if(element.getAge() < age) {
                 System.out.println("-----------------------");
-                System.out.println(dragon.getName());
-                System.out.println(dragon);
+                System.out.println(element.getName());
+                System.out.println(element);
             }
         }
         System.out.println("-----------------------");
