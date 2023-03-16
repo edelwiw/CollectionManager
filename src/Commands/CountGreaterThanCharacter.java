@@ -7,9 +7,11 @@ import Exceptions.WrongArgument;
 import Run.CollectionManager;
 import Utils.CLIManager;
 
+import javax.sql.rowset.Predicate;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.stream.Stream;
 
 /**
  * Count_greater_than_character command. Print number of elements with character greater than spec.
@@ -34,22 +36,9 @@ public class CountGreaterThanCharacter implements Command{
             throw  new WrongArgument("Character must be selected from " + Arrays.toString(DragonCharacter.values()) + ".");
         }
 
-        Iterator<Dragon> iter = collectionManager.getIterator();
+        Stream<Dragon> stream = collectionManager.getStream();
 
-        if(!iter.hasNext()) {
-            System.out.println("Nothing to show. Collection empty.");
-            return;
-        }
-        while (iter.hasNext()){
-            Dragon dragon = iter.next();
-            if(dragon.getCharacter() == null) continue;
-            if(dragon.getCharacter().compareTo(character) > 0) {
-                System.out.println("-----------------------");
-                System.out.println(dragon.getName());
-                System.out.println(dragon);
-            }
-        }
-        System.out.println("-----------------------");
+        System.out.println("Number of elements greater than " + character + " is " + stream.filter((x) -> x.getCharacter().compareTo(character) > 0).count());
 
     }
 
