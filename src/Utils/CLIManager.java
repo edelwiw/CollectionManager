@@ -1,7 +1,6 @@
 package Utils;
 
 import Collection.*;
-import Exceptions.WrongArgument;
 import Exceptions.WrongField;
 
 import java.util.Scanner;
@@ -237,15 +236,15 @@ public class CLIManager {
     /**
      * Get dragon by fields from CLI
      * Method will ask each field. If input value is incorrect method will ask to enter it again.
+     * @param blank blank object to add fields
      * @return Dragon object
      */
-    public Dragon requestDragon(){
-        Dragon dragon = new Dragon();
+    public Dragon requestDragon(Dragon blank){
         // request name
         while (true) {
             try {
                 System.out.println("Enter a dragon name");
-                dragon.setName(this.requestString());
+                blank.setName(this.requestString());
                 break;
             } catch (WrongField e) {
                 System.out.println("Wrong name. " + e.getMessage() + ". Enter again");
@@ -256,7 +255,7 @@ public class CLIManager {
         while (true) {
             try {
                 System.out.println("Enter an age");
-                dragon.setAge(this.requestLong());
+                blank.setAge(this.requestLong());
                 break;
             } catch (WrongField e) {
                 System.out.println("Wrong age. " + e.getMessage() + ". Enter again");
@@ -269,7 +268,7 @@ public class CLIManager {
         while (true) {
             try {
                 System.out.println("Enter a description");
-                dragon.setDescription(this.requestString());
+                blank.setDescription(this.requestString());
                 break;
             } catch (WrongField e) {
                 System.out.println("Wrong description. " + e.getMessage() + ". Enter again");
@@ -280,7 +279,7 @@ public class CLIManager {
         while (true) {
             try {
                 System.out.println("Enter a weight");
-                dragon.setWeight(this.requestDouble());
+                blank.setWeight(this.requestDouble());
                 break;
             } catch (WrongField e) {
                 System.out.println("Wrong weight. " + e.getMessage() + ". Enter again");
@@ -293,7 +292,7 @@ public class CLIManager {
         while (true) {
             try {
                 System.out.println("Select character from this options.");
-                dragon.setCharacter(this.requestCharacter());
+                blank.setCharacter(this.requestCharacter());
                 break;
             } catch (IllegalArgumentException e) {
                 System.out.println("Character should be selected from options. Enter again");
@@ -301,12 +300,12 @@ public class CLIManager {
         }
 
         // request coordinates
-        dragon.setCoordinates(this.requestCoordinates());
+        blank.setCoordinates(this.requestCoordinates());
 
         // request killer
-        dragon.setKiller(this.requestPerson());
+        blank.setKiller(this.requestPerson());
 
-        return dragon;
+        return blank;
     }
 
 

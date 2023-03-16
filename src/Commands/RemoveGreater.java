@@ -27,7 +27,8 @@ public class RemoveGreater implements Command{
         }
 
         CLIManager cliManager = new CLIManager();
-        Dragon dragon = cliManager.requestDragon();
+        Dragon dragon = new Dragon();
+        cliManager.requestDragon(dragon);
 
         int counter = 0;
 

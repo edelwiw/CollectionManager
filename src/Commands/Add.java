@@ -21,7 +21,8 @@ public class Add implements Command{
     @Override
     public void execute(String[] args) throws WrongArgument, NotEnoughArgs {
         CLIManager cliManager = new CLIManager();
-        Dragon dragon = cliManager.requestDragon();
+        Dragon dragon = new Dragon();
+        cliManager.requestDragon(dragon);
         this.collectionManager.add(dragon);
     }
 

@@ -21,7 +21,8 @@ public class AddIfMin implements Command {
     @Override
     public void execute(String[] args) throws WrongArgument, NotEnoughArgs {
         CLIManager cliManager = new CLIManager();
-        Dragon dragon = cliManager.requestDragon();
+        Dragon dragon = new Dragon();
+        cliManager.requestDragon(dragon);
         if(collectionManager.getSize() == 0) this.collectionManager.add(dragon);
         else if (dragon.compareTo(collectionManager.getMin()) < 0){
             this.collectionManager.add(dragon);
