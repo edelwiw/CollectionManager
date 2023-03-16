@@ -2,6 +2,8 @@ package Collection;
 
 import Exceptions.WrongField;
 
+import java.util.Objects;
+
 /**
  * Coordinates class. Used to store dragon coordinates.
  * @author Alexander Ivanov @edelwiw
@@ -48,6 +50,14 @@ public class Coordinates {
                 "x=" + this.x +
                 ", y=" + this.y +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Coordinates that = (Coordinates) o;
+        return Double.compare(that.x, x) == 0 && y.equals(that.y);
     }
 
 }

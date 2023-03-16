@@ -5,6 +5,7 @@ import Collection.Dragon;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Class for work with collection.
@@ -59,6 +60,10 @@ public class CollectionManager {
 
     public Iterator<Dragon> getIterator(){
         return dragons.iterator();
+    }
+
+    public Stream<Dragon> getStream(){
+        return dragons.stream();
     }
 
     public Dragon getByID(long id){

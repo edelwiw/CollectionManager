@@ -44,9 +44,9 @@ public class CommandExecutor {
         commands.put("filter_less_than_age", new FilterLessThanAge(this.collectionManager));
         commands.put("update", new Update(this.collectionManager));
         commands.put("count_greater_than_character", new CountGreaterThanCharacter(this.collectionManager));
+        commands.put("group_counting_by_coordinates", new GroupCountingByCoordinates(this.collectionManager));
         // TODO save
         // TODO execute_script file_name
-        // TODO group_counting_by_coordinates
 
     }
 
