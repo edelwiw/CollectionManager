@@ -22,15 +22,21 @@ import java.util.stream.Stream;
  */
 public class CollectionManager {
 
+    private final Path defaultPath;
     private final LinkedList<Dragon> dragons;
     private ZonedDateTime creationDate;
 
     /**
      * Constructor. Creates abject to work with collection.
      */
-    public CollectionManager(){
+    public CollectionManager(Path filePath){
+        defaultPath = filePath;
         dragons = new LinkedList<>();
         this.creationDate = ZonedDateTime.now();
+    }
+
+    public Path getPath(){
+        return defaultPath;
     }
 
     public void add(Dragon dragon){

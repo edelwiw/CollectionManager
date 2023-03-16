@@ -45,7 +45,7 @@ public class CommandExecutor {
         commands.put("update", new Update(this.collectionManager));
         commands.put("count_greater_than_character", new CountGreaterThanCharacter(this.collectionManager));
         commands.put("group_counting_by_coordinates", new GroupCountingByCoordinates(this.collectionManager));
-        // TODO save
+        commands.put("save", new Save(this.collectionManager));
         // TODO execute_script file_name
 
     }
@@ -59,7 +59,7 @@ public class CommandExecutor {
 
         while (true){
             System.out.println("Enter a command"); // read command from terminal
-            Matcher mather = Pattern.compile("[\\wа-яА-Я\\-]+|\"[\\w\\sа-яА-Я\\-]*\"").matcher(commandReader.nextLine());
+            Matcher mather = Pattern.compile("[^\" ]+|\"[^\"]*\"").matcher(commandReader.nextLine());
 
             ArrayList<String> line = new ArrayList<>();
             while (mather.find()) {line.add(mather.group().replaceAll("\"", ""));} // split arguments with regEx
