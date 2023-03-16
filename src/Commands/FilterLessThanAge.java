@@ -13,7 +13,7 @@ import java.util.Iterator;
  */
 public class FilterLessThanAge implements Command{
 
-    CollectionManager collectionManager;
+    private final CollectionManager collectionManager;
 
     public FilterLessThanAge(CollectionManager collectionManager) {
         this.collectionManager = collectionManager;

@@ -10,6 +10,7 @@ import java.util.HashMap;
  * This command uses HashMap with all commands in program to get its names and descriptions.
  */
 public class Help implements Command{
+
     private final HashMap<String, Command> commands;
 
     public Help(HashMap<String, Command> commands) {

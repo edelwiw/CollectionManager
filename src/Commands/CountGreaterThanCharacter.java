@@ -11,6 +11,10 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Iterator;
 
+/**
+ * Count_greater_than_character command. Print number of elements with character greater than spec.
+ * This command uses collectionManager reference.
+ */
 public class CountGreaterThanCharacter implements Command{
 
     private final CollectionManager collectionManager;

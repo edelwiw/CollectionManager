@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  */
 public class GroupCountingByCoordinates implements Command{
 
-    CollectionManager collectionManager;
+    private final CollectionManager collectionManager;
 
     public GroupCountingByCoordinates(CollectionManager collectionManager) {
         this.collectionManager = collectionManager;

@@ -8,9 +8,13 @@ import Utils.CLIManager;
 
 import java.util.Iterator;
 
+/**
+ * Remove_by_id command. Removes all elements greater that spec.
+ * This command uses collectionManager reference.
+ */
 public class RemoveGreater implements Command{
 
-    CollectionManager collectionManager = new CollectionManager();
+    private final CollectionManager collectionManager;
 
     public RemoveGreater(CollectionManager collectionManager) {
         this.collectionManager = collectionManager;

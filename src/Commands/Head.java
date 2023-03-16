@@ -7,6 +7,10 @@ import Run.CollectionManager;
 
 import java.util.Iterator;
 
+/**
+ * Group counting by coordinates command. Print first element of collection
+ * This command uses collectionManager reference.
+ */
 public class Head implements Command{
 
     private final CollectionManager collectionManager;

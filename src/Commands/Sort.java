@@ -9,6 +9,7 @@ import Run.CollectionManager;
  * This command uses collectionManager reference to call "sortCollection" method.
  */
 public class Sort implements Command {
+
     private final CollectionManager collectionManager;
 
     public Sort(CollectionManager collectionManager) {

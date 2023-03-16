@@ -12,6 +12,7 @@ import java.util.Iterator;
  * This command uses collectionManager reference to call "show" method.
  */
 public class Show implements Command{
+
     private final CollectionManager collectionManager;
 
     public Show(CollectionManager collectionManager) {
