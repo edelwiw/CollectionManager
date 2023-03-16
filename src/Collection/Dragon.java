@@ -1,10 +1,15 @@
 package Collection;
 
-import Exceptions.WrongArgument;
 import Exceptions.WrongField;
+import Utils.ZonedDateTimeConverter;
+import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvCustomBindByName;
+import com.opencsv.bean.CsvDate;
+import com.opencsv.bean.CsvRecurse;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+
 
 /**
  * Dragon class. Main collection class
@@ -13,14 +18,23 @@ import java.time.format.DateTimeFormatter;
 public class Dragon implements Comparable<Dragon>{
     private static Long nextId = 1L;
 
+    @CsvBindByName(column = "ID", required = true)
     private Long id; // Value should be positive, Field value should be unique, value should be generating automatically
+    @CsvBindByName(column = "name", required = true)
     private String name; // Value can not be null, String can not be empty
+    @CsvRecurse
     private Coordinates coordinates; // Value can not be null
-    private final java.time.ZonedDateTime creationDate; // Value can not be null, value should be generated automatically
+    @CsvCustomBindByName(column = "creation_date", required = true, converter = ZonedDateTimeConverter.class)
+    private java.time.ZonedDateTime creationDate; // Value can not be null, value should be generated automatically
+    @CsvBindByName(column = "age", required = true)
     private long age; // Value should be positive
+    @CsvBindByName(column = "description", required = true)
     private String description; // Value can not be null
+    @CsvBindByName(column = "weight", required = true)
     private Double weight; // Value should be positive
+    @CsvBindByName(column = "character", required = true)
     private DragonCharacter character; // Value can not be null
+    @CsvRecurse
     private Person killer; // Value can be null
 
     /**
@@ -199,7 +213,7 @@ public class Dragon implements Comparable<Dragon>{
         return "id=" + this.id +
                 ", name=" + this.name +
                 ", coordinates=" + this.coordinates +
-                ", creationDate=" + this.creationDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")) +
+                ", creationDate=" + this.creationDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")) +
                 ", age=" + this.age +
                 ", description=" + this.description +
                 ", weight=" + this.weight +

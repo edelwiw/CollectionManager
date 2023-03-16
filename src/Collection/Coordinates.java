@@ -1,6 +1,7 @@
 package Collection;
 
 import Exceptions.WrongField;
+import com.opencsv.bean.CsvBindByName;
 
 import java.util.Objects;
 
@@ -9,7 +10,9 @@ import java.util.Objects;
  * @author Alexander Ivanov @edelwiw
  */
 public class Coordinates {
+    @CsvBindByName(column = "coordinates_x", required = true)
     private double x; // Value can not be greater than 710
+    @CsvBindByName(column = "coordinates_y", required = true)
     private Long y; // Value cannot be null
 
     public Coordinates(){

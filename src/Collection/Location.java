@@ -1,14 +1,18 @@
 package Collection;
 
 import Exceptions.WrongField;
+import com.opencsv.bean.CsvBindByName;
 
 /**
  * Location class. Used to store Person coordinates.
  * @author alexander Ivanov @edelwiw
  */
 public class Location {
+    @CsvBindByName(column = "location_x", required = true)
     private float x;
+    @CsvBindByName(column = "location_y", required = true)
     private int y;
+    @CsvBindByName(column = "location_name", required = true)
     private String name; // Value cannot be greater than 535, Value cannot be null
 
     public Location() {
@@ -65,4 +69,6 @@ public class Location {
                 ", name='" + this.name + '\'' +
                 '}';
     }
+
+
 }

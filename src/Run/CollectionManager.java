@@ -1,7 +1,17 @@
 package Run;
 
 import Collection.Dragon;
+import com.opencsv.CSVReader;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
 
+import javax.naming.NoPermissionException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -86,6 +96,32 @@ public class CollectionManager {
 
     public int getSize(){
         return dragons.size();
+    }
+
+
+    public void fillCollectionFromFile(String filePath){
+        try {
+            // check filePath
+            Path path = Paths.get(filePath);
+            if(!Files.exists(path)) throw new FileNotFoundException();
+            if(!Files.isReadable(path)) throw new NoPermissionException("Cannot read file");
+            if(!Files.isWritable(path)) throw new NoPermissionException("Cannot write to file");
+
+            // create BufferedInputStream and read bytes
+            BufferedInputStream inputStream = new BufferedInputStream(Files.newInputStream(path));
+            CSVReader reader = new CSVReader(new InputStreamReader(inputStream));
+            CsvToBean<Dragon> csv = new CsvToBeanBuilder<Dragon>(reader).withType(Dragon.class).build();
+
+            dragons.addAll(csv.parse());
+        }
+        catch (FileNotFoundException e){
+            System.out.println("File " + filePath + " not found. Data not loaded"); // file does not exist
+        }
+        catch (NoPermissionException e){
+            System.out.print("No enough permissions to" + filePath + " - " + e.getMessage()); // permissions deny
+            System.exit(1);
+        }
+        catch (IOException e){e.printStackTrace();}
     }
 
 
