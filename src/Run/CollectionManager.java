@@ -36,14 +36,25 @@ public class CollectionManager {
         this.creationDate = ZonedDateTime.now();
     }
 
+    /**
+     * Returns s default file path specified in class.
+     * @return path
+     */
     public Path getPath(){
         return defaultPath;
     }
 
+    /**
+     * Adds object to collection
+     * @param dragon object to add
+     */
     public void add(Dragon dragon){
         dragons.add(dragon);
     }
 
+    /**
+     * Removes all elements from collection
+     */
     public void clearCollection() {
         this.dragons.clear();
     }
@@ -63,10 +74,19 @@ public class CollectionManager {
        return false;
     }
 
+    /**
+     * Removes element with specified index
+     * @param index object to be removed index
+     * @throws IndexOutOfBoundsException when elements with such index does not exist
+     */
     public void removeByIndex(int index) throws IndexOutOfBoundsException{
         dragons.remove(index);
     }
 
+    /**
+     * Get info about collection
+     * @return string with info about collection
+     */
     public String getInfo(){
         String result = "";
         result += "Information about collection:\n";
@@ -77,14 +97,27 @@ public class CollectionManager {
         return result;
     }
 
+    /**
+     * Get iterator
+     * @return iterator
+     */
     public Iterator<Dragon> getIterator(){
         return dragons.iterator();
     }
 
+    /**
+     * Get stream
+     * @return stream
+     */
     public Stream<Dragon> getStream(){
         return dragons.stream();
     }
 
+    /**
+     * Get object with specified id from collection
+     * @param id id of object to find
+     * @return dragon object with spec. id
+     */
     public Dragon getByID(long id){
         for(int index = 0; index < dragons.size(); index++){
             if(dragons.get(index).getId() == id){
@@ -94,23 +127,41 @@ public class CollectionManager {
         return null;
     }
 
+    /**
+     * Sorts collection
+     */
     public void sortCollection(){
         Collections.sort(dragons);
     }
 
+    /**
+     * Get element with min. value
+     * @return dragon object with min. value
+     */
     public Dragon getMin(){
         if(dragons.size() > 0) return Collections.min(dragons);
         return null;
     }
 
+    /**
+     * Get collection size
+     * @return number of elements stored in collection
+     */
     public int getSize(){
         return dragons.size();
     }
 
+    /**
+     * Fill collection from file from default file path
+     */
     public void fillCollectionFromFile(){
         fillCollectionFromFile(defaultPath);
     }
 
+    /**
+     * Fill collection from file
+     * @param path path to .csv file to load from
+     */
     public void fillCollectionFromFile(Path path){
         try {
             // check filePath;
