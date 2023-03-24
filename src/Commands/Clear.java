@@ -19,6 +19,7 @@ public class Clear implements Command{
     @Override
     public void execute(String[] args) throws WrongArgument, NotEnoughArgs {
         this.collectionManager.clearCollection();
+        System.out.println("Collection cleared successfully");
     }
 
     @Override

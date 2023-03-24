@@ -42,23 +42,25 @@ public class CollectionManager {
 
     public void add(Dragon dragon){
         dragons.add(dragon);
-        System.out.println("Element added successfully");
     }
 
     public void clearCollection() {
         this.dragons.clear();
-        System.out.println("Collection cleared successfully");
     }
 
-    public void removeById(long id){
+    /**
+     * Removes object from collection with specified id.
+     * @param id id of object to be removed from collection.
+     * @return true if object was removed successfully, false if object with spec. id does now exist.
+     */
+    public boolean removeById(long id){
         for(int index = 0; index < dragons.size(); index++){
             if(dragons.get(index).getId() == id){
                 this.removeByIndex(index);
-                System.out.println("Object removed successfully");
-                break;
+                return true;
             }
         }
-        System.out.println("Nu such element");
+       return false;
     }
 
     public void removeByIndex(int index) throws IndexOutOfBoundsException{
@@ -121,7 +123,13 @@ public class CollectionManager {
             CSVReader reader = new CSVReader(new InputStreamReader(inputStream));
             CsvToBean<Dragon> csv = new CsvToBeanBuilder<Dragon>(reader).withType(Dragon.class).build();
 
-            dragons.addAll(csv.parse());
+            try {
+                dragons.addAll(csv.parse());
+            }
+            catch (Throwable e){
+                System.out.println("An error occurred while reading file. Data not loaded.");
+            }
+
             System.out.println(dragons.size() + " item(s) loaded from file " + path);
         }
         catch (InvalidPathException e){

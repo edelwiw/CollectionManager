@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
  * @author Alexander Ivanov @edelwiw
  */
 public class Dragon implements Comparable<Dragon>{
+    @CsvBindByName(column = "next_id", required = true)
     private static Long nextId = 1L;
 
     @CsvBindByName(column = "ID", required = true)

@@ -1,8 +1,9 @@
-package Run;
+package Commands;
 
 import Commands.*;
 import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
+import Run.CollectionManager;
 
 import javax.swing.*;
 import java.util.ArrayList;

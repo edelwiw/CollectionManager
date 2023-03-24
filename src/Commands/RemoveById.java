@@ -1,8 +1,12 @@
 package Commands;
 
+import Collection.Dragon;
 import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 import Run.CollectionManager;
+
+import java.util.Optional;
+import java.util.stream.Stream;
 
 
 /**
@@ -27,7 +31,9 @@ public class RemoveById implements Command{
         catch (NumberFormatException e){
            throw  new WrongArgument("Argument must be long integer number");
         }
-        collectionManager.removeById(id);
+        boolean result = collectionManager.removeById(id);
+        if(result) System.out.println("Object removed successfully");
+        else System.out.println("No such element");
     }
 
     @Override

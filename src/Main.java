@@ -2,11 +2,9 @@
 
 import Exceptions.NotEnoughArgs;
 import Run.CollectionManager;
-import Run.CommandExecutor;
+import Commands.CommandExecutor;
 
-import java.lang.reflect.Array;
 import java.nio.file.Paths;
-import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) throws NotEnoughArgs {

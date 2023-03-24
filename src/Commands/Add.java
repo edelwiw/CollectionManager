@@ -24,6 +24,7 @@ public class Add implements Command{
         Dragon dragon = new Dragon();
         cliManager.requestDragon(dragon);
         this.collectionManager.add(dragon);
+        System.out.println("Element added successfully");
     }
 
     @Override
