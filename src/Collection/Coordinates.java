@@ -3,8 +3,6 @@ package Collection;
 import Exceptions.WrongField;
 import com.opencsv.bean.CsvBindByName;
 
-import java.util.Objects;
-
 /**
  * Coordinates class. Used to store dragon coordinates.
  * @author Alexander Ivanov @edelwiw

@@ -2,7 +2,6 @@ package Utils;
 
 import Collection.*;
 import Exceptions.WrongField;
-
 import java.util.Scanner;
 
 /**

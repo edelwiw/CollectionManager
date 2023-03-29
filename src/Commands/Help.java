@@ -2,7 +2,6 @@ package Commands;
 
 import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
-
 import java.util.HashMap;
 
 /**

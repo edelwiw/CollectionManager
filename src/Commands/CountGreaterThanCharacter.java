@@ -5,12 +5,7 @@ import Collection.DragonCharacter;
 import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 import Run.CollectionManager;
-import Utils.CLIManager;
-
-import javax.sql.rowset.Predicate;
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.stream.Stream;
 
 /**

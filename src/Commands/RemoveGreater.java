@@ -5,7 +5,6 @@ import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 import Run.CollectionManager;
 import Utils.CLIManager;
-
 import java.util.Iterator;
 
 /**

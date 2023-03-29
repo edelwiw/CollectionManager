@@ -4,8 +4,6 @@ import Collection.Dragon;
 import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 import Run.CollectionManager;
-
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 

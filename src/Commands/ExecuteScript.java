@@ -2,8 +2,6 @@ package Commands;
 
 import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
-import Exceptions.WrongField;
-
 import javax.naming.NoPermissionException;
 import java.io.*;
 import java.nio.file.Files;
