@@ -62,8 +62,6 @@ public class CommandExecutor {
             try{
                 String[] argsArray = parseInput(commandReader.nextLine());
 
-                System.out.println(Arrays.toString(argsArray));
-
                 Command command = getCommand(argsArray[0]);
 
                 if (command == null){

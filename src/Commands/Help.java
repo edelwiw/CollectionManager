@@ -20,7 +20,7 @@ public class Help implements Command{
     @Override
     public void execute(String[] args) throws WrongArgument, NotEnoughArgs {
         for(String command : this.commands.keySet()){
-            System.out.println(command + "\t - " + this.commands.get(command).getDescription());
+            System.out.printf("%-35s - %s\n", command, this.commands.get(command).getDescription());
         }
     }
 
