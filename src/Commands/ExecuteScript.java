@@ -30,23 +30,27 @@ public class ExecuteScript implements Command{
         Path path;
         path = Paths.get(args[1]);
         recursionHistory.add(args[1].hashCode());
+
         try{
             // check file permissions
             if(!Files.exists(path)) throw new FileNotFoundException("File " + path + " not found");
             if(!Files.isReadable(path)) throw new NoPermissionException("Cannot read file.");
             if(!Files.isWritable(path)) throw new NoPermissionException("Cannot write to file.");
+        }
+        catch (FileNotFoundException e){
+            System.out.println("File " + path + " not found."); // file does not exist
+            return;
+        }
+        catch (NoPermissionException e){
+            System.out.print("No enough permissions to " + path + " - " + e.getMessage()); // permissions deny
+            return;
+        }
 
-            BufferedInputStream inputStream = new BufferedInputStream(Files.newInputStream(path));
+        try(BufferedInputStream inputStream = new BufferedInputStream(Files.newInputStream(path));){
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             System.out.println("Running " + path);
             run(reader);
             recursionHistory.clear();
-        }
-        catch (FileNotFoundException e){
-            System.out.println("File " + path + " not found. Data not loaded."); // file does not exist
-        }
-        catch (NoPermissionException e){
-            System.out.print("No enough permissions to " + path + " - " + e.getMessage() + " Data not loaded."); // permissions deny
         }
         catch (IOException e){
             e.printStackTrace();

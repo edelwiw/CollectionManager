@@ -1,2 +1,2 @@
 show
-execute_script scriptB.txt
+execute_script script.txt

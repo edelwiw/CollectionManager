@@ -163,34 +163,39 @@ public class CollectionManager {
      * @param path path to .csv file to load from
      */
     public void fillCollectionFromFile(Path path){
-        try (BufferedInputStream inputStream = new BufferedInputStream(Files.newInputStream(path))){
-            // check filePath;
+
+        // check if file exist
+        try{
             if(!Files.exists(path)) throw new FileNotFoundException("File " + path + " not found");
             if(!Files.isReadable(path)) throw new NoPermissionException("Cannot read file.");
             if(!Files.isWritable(path)) throw new NoPermissionException("Cannot write to file.");
+        }
+        catch (InvalidPathException e){
+            System.out.println("Argument must be a correct file path. Data not loaded.");
+            return;
+        }
+        catch (FileNotFoundException e){
+            System.out.println("File " + path + " not found. Data not loaded."); // file does not exist
+            return;
+        }
+        catch (NoPermissionException e){
+            System.out.print("No enough permissions to " + path + " - " + e.getMessage() + " Data not loaded."); // permissions deny
+            return;
+        }
+
+        try (BufferedInputStream inputStream = new BufferedInputStream(Files.newInputStream(path))){
 
             CSVReader reader = new CSVReader(new InputStreamReader(inputStream));
             CsvToBean<Dragon> csv = new CsvToBeanBuilder<Dragon>(reader).withType(Dragon.class).build();
 
-            try {
-                dragons.addAll(csv.parse());
-            }
-            catch (Throwable e){
-                System.out.println("An error occurred while reading file. Data not loaded.");
-            }
+            dragons.addAll(csv.parse());
 
             System.out.println(dragons.size() + " item(s) loaded from file " + path);
         }
-        catch (InvalidPathException e){
-            System.out.println("Argument must be a correct file path. Data not loaded.");
-        }
-        catch (FileNotFoundException e){
-            System.out.println("File " + path + " not found. Data not loaded."); // file does not exist
-        }
-        catch (NoPermissionException e){
-            System.out.print("No enough permissions to " + path + " - " + e.getMessage() + " Data not loaded."); // permissions deny
-        }
         catch (IOException e){e.printStackTrace();}
+        catch (Throwable e){
+            System.out.println("An error occurred while reading file. Data not loaded.");
+        }
     }
 
 
