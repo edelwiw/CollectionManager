@@ -192,7 +192,8 @@ public class CollectionManager {
 
             System.out.println(dragons.size() + " item(s) loaded from file " + path);
         }
-        catch (IOException e){e.printStackTrace();}
+        catch (RuntimeException e){
+            System.out.println(e.getMessage());}
         catch (Throwable e){
             System.out.println("An error occurred while reading file. Data not loaded.");
         }
