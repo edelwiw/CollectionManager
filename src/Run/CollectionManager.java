@@ -163,14 +163,12 @@ public class CollectionManager {
      * @param path path to .csv file to load from
      */
     public void fillCollectionFromFile(Path path){
-        try {
+        try (BufferedInputStream inputStream = new BufferedInputStream(Files.newInputStream(path))){
             // check filePath;
-            if(!Files.exists(path)) throw new FileNotFoundException();
+            if(!Files.exists(path)) throw new FileNotFoundException("File " + path + " not found");
             if(!Files.isReadable(path)) throw new NoPermissionException("Cannot read file.");
             if(!Files.isWritable(path)) throw new NoPermissionException("Cannot write to file.");
 
-            // create BufferedInputStream and read bytes
-            BufferedInputStream inputStream = new BufferedInputStream(Files.newInputStream(path));
             CSVReader reader = new CSVReader(new InputStreamReader(inputStream));
             CsvToBean<Dragon> csv = new CsvToBeanBuilder<Dragon>(reader).withType(Dragon.class).build();
 

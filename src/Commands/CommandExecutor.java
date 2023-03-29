@@ -6,10 +6,8 @@ import Exceptions.WrongArgument;
 import Run.CollectionManager;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.sql.SQLOutput;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,7 +45,7 @@ public class CommandExecutor {
         commands.put("count_greater_than_character", new CountGreaterThanCharacter(this.collectionManager));
         commands.put("group_counting_by_coordinates", new GroupCountingByCoordinates(this.collectionManager));
         commands.put("save", new Save(this.collectionManager));
-        // TODO execute_script file_name
+        commands.put("execute_script", new ExecuteScript(this));
 
     }
 
@@ -60,23 +58,19 @@ public class CommandExecutor {
 
         while (true){
             System.out.println("Enter a command"); // read command from terminal
-            Matcher mather = Pattern.compile("[^\" ]+|\"[^\"]*\"").matcher(commandReader.nextLine());
 
-            ArrayList<String> line = new ArrayList<>();
-            while (mather.find()) {line.add(mather.group().replaceAll("\"", ""));} // split arguments with regEx
+            try{
+                String[] argsArray = parseInput(commandReader.nextLine());
 
-            String[] argsArray = new String[line.size()]; // convert to String array
-            argsArray = line.toArray(argsArray);
+                System.out.println(Arrays.toString(argsArray));
 
-            System.out.println(Arrays.toString(argsArray));
+                Command command = getCommand(argsArray[0]);
 
-            if(!commands.containsKey(argsArray[0].toLowerCase())) { // check if command exist
-                System.out.println("Not a command. Try again.");
-                continue;
-            }
-
-            try{ // try to execute command with arguments
-                Command command = commands.get(argsArray[0]);
+                if (command == null){
+                    System.out.println("Not a command. Try again.");
+                    continue;
+                }
+                // try to execute command with arguments
                 command.execute(argsArray);
             }
             catch (WrongArgument e){
@@ -85,7 +79,29 @@ public class CommandExecutor {
             catch (NotEnoughArgs e){
                 System.out.println("Not enough arguments. " + e.getMessage() + " Try again.");
             }
+            catch (NoSuchElementException e){
+                System.out.println("Exit command");
+                return;
+            }
 
         }
+    }
+
+    Command getCommand(String commandName){
+        if(!commands.containsKey(commandName)) return null; // check if command exist
+        return commands.get(commandName);
+    }
+
+    String[] parseInput(String raw){
+        if(raw.length() == 0) return new String[]{""};
+        Matcher mather = Pattern.compile("[^\" ]+|\"[^\"]*\"").matcher(raw);
+
+        ArrayList<String> line = new ArrayList<>();
+        while (mather.find()) {line.add(mather.group().replaceAll("\"", ""));} // split arguments with regEx
+
+        String[] argsArray = new String[line.size()]; // convert to String array
+        argsArray = line.toArray(argsArray);
+        argsArray[0] = argsArray[0].toLowerCase(); // command name to lover
+        return argsArray;
     }
 }
