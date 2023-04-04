@@ -46,6 +46,7 @@ public class CollectionManager {
      */
     public void add(Dragon dragon){
         dragons.add(dragon);
+        this.sortCollection();
     }
 
     /**

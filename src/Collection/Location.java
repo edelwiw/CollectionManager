@@ -12,8 +12,8 @@ public class Location {
     private float x;
     @CsvBindByName(column = "location_y", required = true)
     private int y;
-    @CsvBindByName(column = "location_name", required = true)
-    private String name; // Value cannot be greater than 535, Value cannot be null
+    @CsvBindByName(column = "location_name", required = false)
+    private String name; // Value cannot be greater than 535, Value can be null
 
     public Location() {
     }
@@ -56,7 +56,6 @@ public class Location {
      * @throws WrongField when value is null of length greater than 535.
      */
     public void setName(String name) throws WrongField {
-        if(name == null) throw new WrongField("Name can not be null");
         if(name.length() > 535) throw new WrongField("Name length can't be greater than 535");
         this.name = name;
     }
