@@ -25,7 +25,7 @@ public class RequestHandler {
         commandMapper.put(Add.class, new AddServer(this.collectionManager));
         commandMapper.put(Info.class, new InfoServer(this.collectionManager));
 //        commandMapper.put(RemoveByID.class, new RemoveByIDSever(this.collectionManager));
-//        commandMapper.put(AddIfMin.class, new AddIfMinServer(this.collectionManager));
+        commandMapper.put(AddIfMin.class, new AddIfMinServer(this.collectionManager));
         commandMapper.put(Clear.class, new ClearServer(this.collectionManager));
         commandMapper.put(Head.class, new HeadServer(this.collectionManager));
 //        commandMapper.put(RemoveGreater.class, new RemoveGreaterServer(this.collectionManager));

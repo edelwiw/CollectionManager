@@ -32,6 +32,7 @@ public class CommandExecutor {
         commands.put("clear", Clear.class);
         commands.put("help", Help.class);
         commands.put("update", Update.class);
+        commands.put("add_if_min", AddIfMin.class);
 //        commands.put("execute_script", new ExecuteScript(this));
 
     }
