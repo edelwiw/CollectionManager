@@ -2,10 +2,10 @@ package Run;
 
 import ClientCommands.ClientCommand;
 import Exceptions.WrongArgument;
+import Utils.Response;
+import Utils.ResponseCode;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -114,6 +114,18 @@ public class Listener {
 
                             // TODO something with command
 
+                            Response response = requestsHandler.executeCommand(clientCommand);
+
+                            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+                            objectOutputStream.writeObject(response);
+                            objectOutputStream.flush();
+                            buf.clear();
+                            buf = ByteBuffer.wrap(byteArrayOutputStream.toByteArray());
+                            objectOutputStream.close();
+                            byteArrayOutputStream.close();
+
+                            socketChannel.write(buf); // send response
 
                         } catch (IOException e){
                             e.printStackTrace();
