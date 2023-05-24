@@ -35,6 +35,7 @@ public class CommandExecutor {
         commands.put("add_if_min", AddIfMin.class);
         commands.put("remove_by_id", RemoveByID.class);
         commands.put("count_greater_than_character", CountGreaterThanCharacter.class);
+        commands.put("remove_greater", RemoveGreater.class);
 //        commands.put("execute_script", new ExecuteScript(this));
 
     }
