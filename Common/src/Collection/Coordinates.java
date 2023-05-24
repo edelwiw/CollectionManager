@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Coordinates class. Used to store dragon coordinates.
  * @author Alexander Ivanov @edelwiw
  */
-public class Coordinates implements Serializable {
+public class Coordinates implements Serializable, Comparable<Coordinates> {
     @CsvBindByName(column = "coordinates_x", required = true)
     private double x; // Value can not be greater than 710
     @CsvBindByName(column = "coordinates_y", required = true)
@@ -63,4 +63,8 @@ public class Coordinates implements Serializable {
         return Double.compare(that.x, x) == 0 && y.equals(that.y);
     }
 
+    @Override
+    public int compareTo(Coordinates o) {
+        return this.y.compareTo(o.y);
+    }
 }

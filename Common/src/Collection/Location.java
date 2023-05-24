@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Location class. Used to store Person coordinates.
  * @author alexander Ivanov @edelwiw
  */
-public class Location implements Serializable {
+public class Location implements Serializable, Comparable<Location>{
     @CsvBindByName(column = "location_x", required = true)
     private float x;
     @CsvBindByName(column = "location_y", required = true)
@@ -71,5 +71,8 @@ public class Location implements Serializable {
                 '}';
     }
 
-
+    @Override
+    public int compareTo(Location o) {
+        return this.y - o.y;
+    }
 }

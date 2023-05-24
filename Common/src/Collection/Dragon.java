@@ -236,7 +236,7 @@ public class Dragon implements Comparable<Dragon>, Serializable {
 
     @Override
     public int compareTo(Dragon other) {
-        return this.name.compareTo(other.name);
+        return this.coordinates.compareTo(other.coordinates);
     }
 }
 
