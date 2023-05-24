@@ -1,3 +1,4 @@
+import ClientCommands.Add;
 import ClientCommands.ClientCommand;
 import ClientCommands.Show;
 import Exceptions.NotEnoughArgs;
@@ -25,6 +26,7 @@ public class CommandExecutor {
         this.connector = connector;
 
         commands.put("show", Show.class);
+        commands.put("add", Add.class);
 //        commands.put("execute_script", new ExecuteScript(this));
 
     }

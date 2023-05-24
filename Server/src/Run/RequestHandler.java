@@ -1,7 +1,9 @@
 package Run;
 
+import ClientCommands.Add;
 import ClientCommands.ClientCommand;
 import ClientCommands.Show;
+import RemoteCommands.AddServer;
 import RemoteCommands.ServerCommand;
 import RemoteCommands.ShowServer;
 import Utils.Response;
@@ -24,7 +26,7 @@ public class RequestHandler {
 
 //        commandMapper.put(Help.class, new HelpServer(this.commandMapper));
         commandMapper.put(Show.class, new ShowServer(this.collectionManager));
-//        commandMapper.put(Add.class, new AddServer(this.collectionManager));
+        commandMapper.put(Add.class, new AddServer(this.collectionManager));
 //        commandMapper.put(Info.class, new InfoServer(this.collectionManager));
 //        commandMapper.put(RemoveByID.class, new RemoveByIDSever(this.collectionManager));
 //        commandMapper.put(AddIfMin.class, new AddIfMinServer(this.collectionManager));
