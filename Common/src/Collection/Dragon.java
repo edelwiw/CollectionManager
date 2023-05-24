@@ -5,6 +5,8 @@ import Utils.ZonedDateTimeConverter;
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvCustomBindByName;
 import com.opencsv.bean.CsvRecurse;
+
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -13,7 +15,7 @@ import java.time.format.DateTimeFormatter;
  * Dragon class. Main collection class
  * @author Alexander Ivanov @edelwiw
  */
-public class Dragon implements Comparable<Dragon>{
+public class Dragon implements Comparable<Dragon>, Serializable {
     @CsvBindByName(column = "next_id", required = true)
     private static Long nextId = 1L;
 

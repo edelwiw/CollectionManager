@@ -30,8 +30,8 @@ public class Listener {
      *
      * @param port server port
      */
-    public Listener(int port, RequestHandler requestsHandler) throws WrongArgument, ConnectException {
-        this.requestsHandler = requestsHandler;
+    public Listener(int port, CollectionManager collectionManager) throws WrongArgument, ConnectException {
+        this.requestsHandler = new RequestHandler(collectionManager);
         ServerSocket serverSocket = null;
 
         try {

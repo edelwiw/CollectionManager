@@ -4,11 +4,13 @@ import Exceptions.WrongField;
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvRecurse;
 
+import java.io.Serializable;
+
 /**
  * Person class. Used to save Dragon killer.
  * @author Alexander Ivanov
  */
-public class Person {
+public class Person implements Serializable {
     @CsvBindByName(column = "keller_name", required = true)
     private String name; // Value can not be null, String can not be empty
     @CsvBindByName(column = "passport_id", required = true)

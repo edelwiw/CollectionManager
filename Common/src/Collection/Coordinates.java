@@ -3,11 +3,13 @@ package Collection;
 import Exceptions.WrongField;
 import com.opencsv.bean.CsvBindByName;
 
+import java.io.Serializable;
+
 /**
  * Coordinates class. Used to store dragon coordinates.
  * @author Alexander Ivanov @edelwiw
  */
-public class Coordinates {
+public class Coordinates implements Serializable {
     @CsvBindByName(column = "coordinates_x", required = true)
     private double x; // Value can not be greater than 710
     @CsvBindByName(column = "coordinates_y", required = true)

@@ -20,8 +20,7 @@ public class Main {
 //        CommandExecutor commandExecutor = new CommandExecutor(dragons);
 //        commandExecutor.enterInteractiveMode();
 
-        RequestHandler requestHandler = new RequestHandler(dragons);
-        Listener listener = new Listener(5454, requestHandler);
+        Listener listener = new Listener(5454, dragons);
         listener.startListening();
     }
 }

@@ -125,6 +125,17 @@ public class CollectionManager {
     }
 
     /**
+     * Get array with collection elements
+      * @return array with collection elements
+     */
+    public Dragon[] getArray(){
+        Dragon[] array = new Dragon[this.getSize()];
+        this.dragons.toArray(array);
+        return array;
+    }
+
+
+    /**
      * Sorts collection
      */
     public void sortCollection(){
