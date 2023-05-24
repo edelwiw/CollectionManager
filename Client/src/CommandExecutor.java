@@ -33,6 +33,7 @@ public class CommandExecutor {
         commands.put("help", Help.class);
         commands.put("update", Update.class);
         commands.put("add_if_min", AddIfMin.class);
+        commands.put("remove_by_id", RemoveByID.class);
 //        commands.put("execute_script", new ExecuteScript(this));
 
     }
