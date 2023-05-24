@@ -38,6 +38,11 @@ public class RequestHandler {
     public Response executeCommand(ClientCommand clientCommand){
 
         ServerCommand command = this.commandMapper.get(clientCommand.getClass());
+        if (command == null){
+            Response response = new Response(ResponseCode.ERROR);
+            response.setMessage("Command not found on server!");
+            return response;
+        }
         try {
             Response response = command.execute(clientCommand);
             return response;

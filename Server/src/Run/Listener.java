@@ -110,11 +110,12 @@ public class Listener {
                             ClientCommand clientCommand = (ClientCommand) objectInputStream.readObject();
                             objectInputStream.close(); // close streams
                             byteArrayInputStream.close();
-                            socketChannel.write(buf);
 
-                            // TODO something with command
+                            System.out.println(clientCommand);
 
                             Response response = requestsHandler.executeCommand(clientCommand);
+
+                            System.out.println(response);
 
                             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                             ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
