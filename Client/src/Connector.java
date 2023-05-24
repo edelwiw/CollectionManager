@@ -11,6 +11,9 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 
+/**
+ * Class for communication with server throat TCP
+ */
 public class Connector {
 
     private final String address;
@@ -24,8 +27,7 @@ public class Connector {
     private OutputStream outputStream;
 
     /**
-     * Connect to host
-     * Validate address and port, get data streams
+     * Validate address and port
      * @param address server address
      * @param port server port
      * @throws WrongArgument when address or port is incorrect
@@ -43,6 +45,10 @@ public class Connector {
         }
     }
 
+    /**
+     * Connect to host, get data streams
+     * @throws ConnectException when cannot establish connection
+     */
     private void connect() throws ConnectException{
         try {
             // try to connect to server
@@ -58,6 +64,11 @@ public class Connector {
 
     }
 
+    /**
+     * Read response from server
+     * @return Response class with payload
+     * @throws ConnectException when cannot establish connection
+     */
     private Response readResponse() throws ConnectException{
         try {
             byte[] data = new byte[4096];
@@ -76,6 +87,12 @@ public class Connector {
         }
     }
 
+    /**
+     * Sent request with command and args to server
+     * @param command command to execute
+     * @throws ConnectException when cannot establish connection
+     * @see ClientCommand
+     */
     private void sendRequest(ClientCommand command) throws ConnectException {
         try {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
