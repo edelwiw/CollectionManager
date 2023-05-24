@@ -27,6 +27,7 @@ public class CommandExecutor {
         commands.put("add", Add.class);
         commands.put("group_counting_by_coordinates", GroupCountingByCoordinates.class);
         commands.put("info", Info.class);
+        commands.put("filter_less_than_age", FilterLessThanAge.class);
 //        commands.put("execute_script", new ExecuteScript(this));
 
     }

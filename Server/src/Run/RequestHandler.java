@@ -29,7 +29,7 @@ public class RequestHandler {
 //        commandMapper.put(Clear.class, new ClearServer(this.collectionManager));
 //        commandMapper.put(Head.class, new HeadServer(this.collectionManager));
 //        commandMapper.put(RemoveGreater.class, new RemoveGreaterServer(this.collectionManager));
-//        commandMapper.put(FilterLessThanAge.class, new FilterLessThanAgeServer(this.collectionManager));
+        commandMapper.put(FilterLessThanAge.class, new FilterLessThanAgeServer(this.collectionManager));
 //        commandMapper.put(Update.class, new UpdateServer(this.collectionManager));
 //        commandMapper.put(CountGreaterThanCharacter.class, new CountGreaterThanCharacterServer(this.collectionManager));
         commandMapper.put(GroupCountingByCoordinates.class, new GroupCountingByCoordinatesServer(this.collectionManager));
