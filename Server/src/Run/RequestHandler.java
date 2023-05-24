@@ -1,11 +1,7 @@
 package Run;
 
-import ClientCommands.Add;
-import ClientCommands.ClientCommand;
-import ClientCommands.Show;
-import RemoteCommands.AddServer;
-import RemoteCommands.ServerCommand;
-import RemoteCommands.ShowServer;
+import ClientCommands.*;
+import RemoteCommands.*;
 import Utils.Response;
 import Utils.ResponseCode;
 
@@ -27,7 +23,7 @@ public class RequestHandler {
 //        commandMapper.put(Help.class, new HelpServer(this.commandMapper));
         commandMapper.put(Show.class, new ShowServer(this.collectionManager));
         commandMapper.put(Add.class, new AddServer(this.collectionManager));
-//        commandMapper.put(Info.class, new InfoServer(this.collectionManager));
+        commandMapper.put(Info.class, new InfoServer(this.collectionManager));
 //        commandMapper.put(RemoveByID.class, new RemoveByIDSever(this.collectionManager));
 //        commandMapper.put(AddIfMin.class, new AddIfMinServer(this.collectionManager));
 //        commandMapper.put(Clear.class, new ClearServer(this.collectionManager));
@@ -36,7 +32,7 @@ public class RequestHandler {
 //        commandMapper.put(FilterLessThanAge.class, new FilterLessThanAgeServer(this.collectionManager));
 //        commandMapper.put(Update.class, new UpdateServer(this.collectionManager));
 //        commandMapper.put(CountGreaterThanCharacter.class, new CountGreaterThanCharacterServer(this.collectionManager));
-//        commandMapper.put(GroupCountingByCoordinates.class, new GroupCountingByCoordinatesServer(this.collectionManager));
+        commandMapper.put(GroupCountingByCoordinates.class, new GroupCountingByCoordinatesServer(this.collectionManager));
     }
 
     public Response executeCommand(ClientCommand clientCommand){

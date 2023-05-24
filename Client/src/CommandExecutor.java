@@ -1,6 +1,4 @@
-import ClientCommands.Add;
-import ClientCommands.ClientCommand;
-import ClientCommands.Show;
+import ClientCommands.*;
 import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 import Utils.Response;
@@ -27,6 +25,8 @@ public class CommandExecutor {
 
         commands.put("show", Show.class);
         commands.put("add", Add.class);
+        commands.put("group_counting_by_coordinates", GroupCountingByCoordinates.class);
+        commands.put("info", Info.class);
 //        commands.put("execute_script", new ExecuteScript(this));
 
     }
