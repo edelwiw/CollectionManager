@@ -20,7 +20,7 @@ public class RequestHandler {
         this.collectionManager = collectionManager;
         commandMapper = new HashMap<Type, ServerCommand>();
 
-//        commandMapper.put(Help.class, new HelpServer(this.commandMapper));
+        commandMapper.put(Help.class, new HelpServer(this.commandMapper));
         commandMapper.put(Show.class, new ShowServer(this.collectionManager));
         commandMapper.put(Add.class, new AddServer(this.collectionManager));
         commandMapper.put(Info.class, new InfoServer(this.collectionManager));

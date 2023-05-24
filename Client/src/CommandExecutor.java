@@ -30,6 +30,7 @@ public class CommandExecutor {
         commands.put("filter_less_than_age", FilterLessThanAge.class);
         commands.put("head", Head.class);
         commands.put("clear", Clear.class);
+        commands.put("help", Help.class);
 //        commands.put("execute_script", new ExecuteScript(this));
 
     }
