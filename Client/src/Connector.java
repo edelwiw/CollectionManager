@@ -38,20 +38,25 @@ public class Connector {
             if (port <= 1024 || port > 65535) throw new WrongArgument("Port value should be in range 1025-65535");
             this.inetAddress = InetAddress.getByName(address);
 
+        } catch (UnknownHostException e){
+            throw new WrongArgument("Unknown host");
+        }
+    }
+
+    private void connect() throws ConnectException{
+        try {
             // try to connect to server
             this.socket = new Socket(this.inetAddress, this.port);
 
             // get data streams
-            this.outputStream =  socket.getOutputStream();
+            this.outputStream = socket.getOutputStream();
             this.inputStream = socket.getInputStream();
 
             System.out.println("Connected successfully");
-
-        } catch (UnknownHostException e){
-            throw new WrongArgument("Unknown host");
-        } catch (IOException e) {
+        }  catch (IOException e) {
             throw new ConnectException("Failed to connect to server");
         }
+
     }
 
     private Response readResponse() throws ConnectException{
@@ -83,6 +88,7 @@ public class Connector {
             byteArrayOutputStream.close();
 
             this.outputStream.write(buffer.array());
+            System.out.println("Request sent");
         } catch (IOException e) {
             e.printStackTrace();
             throw new ConnectException("Cannot write request");
@@ -90,6 +96,7 @@ public class Connector {
     }
 
     public Response sendAndGetResponse(ClientCommand command) throws ConnectException{
+        this.connect();
         this.sendRequest(command);
         return this.readResponse();
     }
