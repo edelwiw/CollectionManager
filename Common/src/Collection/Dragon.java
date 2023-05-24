@@ -124,6 +124,17 @@ public class Dragon implements Comparable<Dragon>, Serializable {
     }
 
     /**
+     * Set id for Dragon.
+     * ID cannot be null.
+     * @param id
+     * @throws WrongField if field value does not math requirements
+     */
+    public void setId(Long id) {
+        if(id == null) throw new WrongField("ID cannot be null");
+        this.id = id;
+    }
+
+    /**
      * Set name for Dragon.
      * Name can't be null.
      * Name can't be empty.
