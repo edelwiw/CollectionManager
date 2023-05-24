@@ -52,7 +52,6 @@ public class Connector {
             this.outputStream = socket.getOutputStream();
             this.inputStream = socket.getInputStream();
 
-            System.out.println("Connected successfully");
         }  catch (IOException e) {
             throw new ConnectException("Failed to connect to server");
         }
@@ -88,7 +87,6 @@ public class Connector {
             byteArrayOutputStream.close();
 
             this.outputStream.write(buffer.array());
-            System.out.println("Request sent");
         } catch (IOException e) {
             e.printStackTrace();
             throw new ConnectException("Cannot write request");
@@ -98,13 +96,14 @@ public class Connector {
     public Response sendAndGetResponse(ClientCommand command) throws ConnectException{
         this.connect();
         this.sendRequest(command);
-        return this.readResponse();
+        Response response = this.readResponse();
+        this.closeConnection();
+        return response;
     }
 
     public void closeConnection(){
         try {
             this.socket.close();
-            System.out.println("Connection closed");
         } catch (IOException e){
             System.out.println("Error while closing connection");
         }

@@ -78,7 +78,6 @@ public class Listener {
                     // key should be closed!
 
                     if (key.isAcceptable()) {
-                        System.out.println("Got acceptable key");
                         // trying to connect
                         try {
                             Socket socket = serverSocket.accept();
@@ -87,7 +86,6 @@ public class Listener {
                             SocketChannel socketChannel = socket.getChannel();
                             socketChannel.configureBlocking(false);
                             socketChannel.register(selector, SelectionKey.OP_READ);
-                            System.out.println("Connection things done");
 
                         } catch (IOException e) {
                             System.out.println("Unable to accept channel!");
@@ -99,7 +97,7 @@ public class Listener {
                     }
 
                     if (key.isReadable()){
-                        System.out.println("Gor readable key");
+                        System.out.println("Got readable key");
                         try (SocketChannel socketChannel = (SocketChannel) key.channel()){
 
                             ByteBuffer buf = ByteBuffer.allocate(BUFFER_SIZE); // create buffer
@@ -111,11 +109,9 @@ public class Listener {
                             objectInputStream.close(); // close streams
                             byteArrayInputStream.close();
 
-                            System.out.println(clientCommand);
+                            System.out.println("Got request");
 
                             Response response = requestsHandler.executeCommand(clientCommand);
-
-                            System.out.println(response);
 
                             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                             ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
@@ -127,6 +123,8 @@ public class Listener {
                             byteArrayOutputStream.close();
 
                             socketChannel.write(buf); // send response
+
+                            System.out.println("Response sent");
 
                         } catch (IOException e){
                             e.printStackTrace();

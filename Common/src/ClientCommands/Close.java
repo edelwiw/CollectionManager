@@ -8,7 +8,6 @@ public class Close implements ClientCommand{
 
     @Override
     public void prepareRequest(String[] args) throws WrongArgument, NotEnoughArgs {
-        // TODO close socket
         System.exit(0);
     }
 

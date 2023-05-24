@@ -22,6 +22,7 @@ public class HelpServer implements ServerCommand{
         for(Type el : this.commands.keySet()){
             res.append(String.format("%-35s - %s\n", this.commands.get(el).getName(), this.commands.get(el).getDescription()));
         }
+        res.append(String.format("%-35s - %s\n", "close", "close connection"));
         Response response = new Response(ResponseCode.OK);
         response.setPayload(res.toString());
         return response;
