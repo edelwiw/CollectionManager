@@ -36,8 +36,12 @@ public class Main {
 //
 //        CommandExecutor commandExecutor = new CommandExecutor(dragons);
 //        commandExecutor.enterInteractiveMode();
+        try {
+            Listener listener = new Listener(port, dragons);
+            listener.startListening();
+        } catch (WrongArgument e){
+            System.out.println(e.getMessage() + ". Stopped.");
+        }
 
-        Listener listener = new Listener(port, dragons);
-        listener.startListening();
     }
 }
