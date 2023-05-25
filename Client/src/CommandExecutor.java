@@ -70,8 +70,8 @@ public class CommandExecutor {
                     Response response = this.connector.sendAndGetResponse(command);
                     command.handleResponse(response);
                 } catch (ConnectException e){
-                    System.out.println("Error while communication with server");
-                    e.printStackTrace();
+                    System.out.println("Error while communication with server. Server may be unavailable");
+//                    e.printStackTrace();
                 }
             }
             catch (WrongArgument e){

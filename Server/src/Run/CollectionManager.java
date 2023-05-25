@@ -220,7 +220,7 @@ public class CollectionManager {
         try{
             if(!path.isAbsolute()) path = path.toAbsolutePath();
 
-            if(!Files.isRegularFile(path)) throw new WrongArgument("Path should be a regular file.");
+            if(Files.isDirectory(path)) throw new WrongArgument("Path should be a regular file.");
             if(!Files.exists(path)) Files.createFile(path);
             if (!Files.isReadable(path)) throw new NoPermissionException("Cannot read file.");
             if (!Files.isWritable(path)) throw new NoPermissionException("Cannot write to file.");

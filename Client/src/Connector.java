@@ -6,10 +6,7 @@ import org.w3c.dom.ls.LSOutput;
 
 import javax.swing.plaf.ScrollPaneUI;
 import java.io.*;
-import java.net.ConnectException;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.nio.ByteBuffer;
 
 /**
@@ -53,7 +50,9 @@ public class Connector {
     private void connect() throws ConnectException{
         try {
             // try to connect to server
-            this.socket = new Socket(this.inetAddress, this.port);
+            this.socket = new Socket();
+            InetSocketAddress inetSocketAddress = new InetSocketAddress(this.inetAddress, this.port);
+            this.socket.connect(inetSocketAddress, 1000);
 
             // get data streams
             this.outputStream = socket.getOutputStream();
