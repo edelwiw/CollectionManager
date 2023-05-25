@@ -29,7 +29,7 @@ public class CommandExecutor {
         commands.put("show", new Show(this.collectionManager));
         commands.put("clear", new Clear(this.collectionManager));
         commands.put("add", new Add(this.collectionManager));
-        commands.put("exit", new Exit());
+        commands.put("exit", new Exit(this.collectionManager));
         commands.put("info", new Info(this.collectionManager));
         commands.put("head", new Head(this.collectionManager));
         commands.put("sort", new Sort(this.collectionManager));

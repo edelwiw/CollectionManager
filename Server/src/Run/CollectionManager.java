@@ -1,14 +1,22 @@
 package Run;
 
 import Collection.Dragon;
+import Exceptions.WrongArgument;
+import Exceptions.WrongField;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+
 import javax.naming.NoPermissionException;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -204,6 +212,34 @@ public class CollectionManager {
             System.out.println(e.getMessage());}
         catch (Throwable e){
             System.out.println("An error occurred while reading file. Data not loaded.");
+        }
+    }
+
+    public void save(){
+        Path path = this.getPath();;
+        try{
+            if(!path.isAbsolute()) path = path.toAbsolutePath();
+
+            if(!Files.isRegularFile(path)) throw new WrongArgument("Path should be a regular file.");
+            if(!Files.exists(path)) Files.createFile(path);
+            if (!Files.isReadable(path)) throw new NoPermissionException("Cannot read file.");
+            if (!Files.isWritable(path)) throw new NoPermissionException("Cannot write to file.");
+
+            Writer writer = new BufferedWriter(new FileWriter(path.toFile()));
+            StatefulBeanToCsv<Dragon> beanToCsv = new StatefulBeanToCsvBuilder<Dragon>(writer).build();
+            beanToCsv.write(this.getStream());
+            writer.close();
+            System.out.println("Collection saved to file " + path + " successfully");
+        }
+        catch (InvalidPathException e){
+            System.out.println("Cannot save. Incorrect path");
+        }
+        catch (NoPermissionException e){
+            System.out.println("Cannot save. No enough permissions to " + path + " - " + e.getMessage()); // permissions deny
+        }
+        catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException | WrongArgument e){
+            e.printStackTrace();
+            System.out.println("Error while saving to file");
         }
     }
 

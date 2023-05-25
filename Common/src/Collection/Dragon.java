@@ -9,6 +9,7 @@ import com.opencsv.bean.CsvRecurse;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 
 /**
@@ -42,8 +43,7 @@ public class Dragon implements Comparable<Dragon>, Serializable {
      * Constructor. Creates an empty object of Dragon class.
      */
     public Dragon(){
-        this.id = nextId;
-        nextId += 1;
+        this.id = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
 
         this.creationDate = ZonedDateTime.now();
     }
