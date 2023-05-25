@@ -27,7 +27,6 @@ public class Client {
             Connector connector = new Connector(address, port);
             CommandExecutor commandExecutor = new CommandExecutor(connector);
             commandExecutor.enterInteractiveMode();
-            connector.closeConnection();
         }  catch (WrongArgument e){
             System.out.println(e.getMessage());
             System.exit(0);

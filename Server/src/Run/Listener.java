@@ -1,6 +1,9 @@
 package Run;
 
 import ClientCommands.ClientCommand;
+import Commands.Command;
+import Commands.CommandExecutor;
+import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 import Utils.Response;
 import Utils.ResponseCode;
@@ -15,8 +18,9 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Listener {
     private static final int BUFFER_SIZE = 4096;
@@ -24,6 +28,7 @@ public class Listener {
     private final RequestHandler requestsHandler;
     private Selector selector = null;
     private ServerSocket serverSocket;
+    private CollectionManager collectionManager;
 
     /**
      * Constructor for listener. Creates server socket
@@ -32,6 +37,7 @@ public class Listener {
      */
     public Listener(int port, CollectionManager collectionManager) throws WrongArgument, ConnectException {
         this.requestsHandler = new RequestHandler(collectionManager);
+        this.collectionManager = collectionManager;
         ServerSocket serverSocket = null;
 
         try {
@@ -63,10 +69,39 @@ public class Listener {
     }
 
     public void startListening() {
+        CommandExecutor commandExecutor = new CommandExecutor(collectionManager);
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter a command");
+
         while (true) {
             try {
-                int count = selector.select();
-                if (count == 0) continue; // nothing to handle
+                int count = selector.select(100);
+                if (count == 0) { // nothing to handle
+                    if(System.in.available() > 0){
+                        try{
+                            String[] argsArray = commandExecutor.parseInput(scanner.nextLine());
+
+                            Command command = commandExecutor.getCommand(argsArray[0]);
+
+                            if (command == null){
+                                System.out.println("Not a command. Try again.");
+                                continue;
+                            }
+                            // try to execute command with arguments
+                            command.execute(argsArray);
+                        }
+                        catch (WrongArgument e){
+                            System.out.println("Wrong argument! " + e.getMessage() + " Try again.");
+                        }
+                        catch (NotEnoughArgs e){
+                            System.out.println("Not enough arguments. " + e.getMessage() + " Try again.");
+                        }
+                        catch (NoSuchElementException e){
+                            System.out.println("Exit command");
+                            return;
+                        }
+                    }
+                }
 
                 Set<SelectionKey> keySet = selector.selectedKeys(); // get keyset
                 Iterator<SelectionKey> iterator = keySet.iterator();

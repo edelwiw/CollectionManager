@@ -81,12 +81,12 @@ public class CommandExecutor {
         }
     }
 
-    Command getCommand(String commandName){
+    public Command getCommand(String commandName){
         if(!commands.containsKey(commandName)) return null; // check if command exist
         return commands.get(commandName);
     }
 
-    String[] parseInput(String raw){
+    public String[] parseInput(String raw){
         if(raw.length() == 0) return new String[]{""};
         Matcher mather = Pattern.compile("[^\" ]+|\"[^\"]*\"").matcher(raw);
 

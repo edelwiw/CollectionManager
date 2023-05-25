@@ -4,6 +4,7 @@ import Utils.Response;
 import Utils.ResponseCode;
 import org.w3c.dom.ls.LSOutput;
 
+import javax.swing.plaf.ScrollPaneUI;
 import java.io.*;
 import java.net.ConnectException;
 import java.net.InetAddress;
@@ -58,6 +59,7 @@ public class Connector {
             this.outputStream = socket.getOutputStream();
             this.inputStream = socket.getInputStream();
 
+            System.out.println("Connected");
         }  catch (IOException e) {
             throw new ConnectException("Failed to connect to server");
         }
