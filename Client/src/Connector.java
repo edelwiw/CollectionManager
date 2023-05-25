@@ -121,6 +121,8 @@ public class Connector {
 
     public void closeConnection(){
         try {
+            this.inputStream.close();
+            this.outputStream.close();
             this.socket.close();
         } catch (IOException e){
             System.out.println("Error while closing connection");
