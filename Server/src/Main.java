@@ -41,10 +41,12 @@ public class Main {
         }
 
         Coordinates coordinates = new Coordinates();
-        coordinates.setX(123d);
+        coordinates.setX(13d);
         coordinates.setY(123L);
         try {
-            database.addCoordinates(coordinates);
+            int id = database.addCoordinates(coordinates);
+            System.out.println(database.readCoordinates(id));
+
         } catch (SQLException e){
             e.printStackTrace();
         }

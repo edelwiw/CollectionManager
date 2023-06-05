@@ -47,6 +47,28 @@ public class DatabaseConnector {
         return getId();
     }
 
+    /**
+     * Read Coordinates object with spec. id from database
+     * @param id coordinates id to read
+     * @return Coordinates instance
+     * @throws SQLException when connection issues
+     */
+    public Coordinates readCoordinates(int id) throws SQLException {
+        Statement insert = this.connection.createStatement();
+
+        String sql_command = String.format("SELECT * FROM coordinates WHERE id = %d", id);
+        ResultSet resultSet = insert.executeQuery(sql_command);
+        this.connection.commit();
+
+        resultSet.next();
+
+        Coordinates coordinates = new Coordinates();
+        coordinates.setX(resultSet.getDouble("x"));
+        coordinates.setY(resultSet.getLong("y"));
+
+        return coordinates;
+
+    }
 
     /**
      * Get id of last added element
