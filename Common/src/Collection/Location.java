@@ -68,7 +68,7 @@ public class Location implements Serializable, Comparable<Location>{
         return "Location{" +
                 "x=" + this.x +
                 ", y=" + this.y +
-                ", name='" + this.name + '\'' +
+                ", name=" + this.name +
                 '}';
     }
 
