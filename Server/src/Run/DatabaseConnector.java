@@ -265,8 +265,8 @@ public class DatabaseConnector {
         int characterId = this.getCharacterId(dragon.getCharacter());
         int killerId = this.addPerson(dragon.getKiller());
 
-        String sql_command = String.format("INSERT INTO dragons (name, coordinates_id, creation_date, age, description, weight, character_id, killer_id) " +
-                "VALUES ('%s', %d, '%s', %d, '%s', %f, %d, %d)", dragon.getName(), coordinatesId, dragon.getCreationDate().toLocalDate(), dragon.getAge(), dragon.getDescription(), dragon.getWeight(), characterId, killerId);
+        String sql_command = String.format("INSERT INTO dragons (id, name, coordinates_id, creation_date, age, description, weight, character_id, killer_id) " +
+                "VALUES (%d, '%s', %d, '%s', %d, '%s', %f, %d, %d)", dragon.getId(), dragon.getName(), coordinatesId, dragon.getCreationDate().toLocalDate(), dragon.getAge(), dragon.getDescription(), dragon.getWeight(), characterId, killerId);
         statement.executeUpdate(sql_command);
         this.connection.commit();
         return getId("dragons");
