@@ -335,4 +335,13 @@ public class DatabaseConnector {
         return ids;
     }
 
+    public void removeDragonByID(long id) throws SQLException {
+        Statement statement = this.connection.createStatement();
+
+        String sql_command = String.format("DELETE FROM dragons WHERE id = %d", id);
+        statement.executeUpdate(sql_command);
+        connection.commit();
+
+    }
+
 }

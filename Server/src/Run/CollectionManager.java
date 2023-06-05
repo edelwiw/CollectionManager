@@ -71,29 +71,35 @@ public class CollectionManager {
 
     }
 
-//    /**
-//     * Removes object from collection with specified id.
-//     * @param id id of object to be removed from collection.
-//     * @return true if object was removed successfully, false if object with spec. id does now exist.
-//     */
-//    public boolean removeById(long id){
-//        for(int index = 0; index < dragons.size(); index++){
-//            if(dragons.get(index).getId() == id){
-//                this.removeByIndex(index);
-//                return true;
-//            }
-//        }
-//       return false;
-//    }
+    /**
+     * Removes object from collection with specified id.
+     * @param id id of object to be removed from collection.
+     * @return true if object was removed successfully, false if object with spec. id does now exist.
+     */
+    public boolean removeById(long id){
+        for(int index = 0; index < dragons.size(); index++){
+            if(dragons.get(index).getId() == id){
+                this.removeByIndex(index);
+                return true;
+            }
+        }
+       return false;
+    }
 
-//    /**
-//     * Removes element with specified index
-//     * @param index object to be removed index
-//     * @throws IndexOutOfBoundsException when elements with such index does not exist
-//     */
-//    public void removeByIndex(int index) throws IndexOutOfBoundsException{
-//        dragons.remove(index);
-//    }
+    /**
+     * Removes element with specified index
+     * @param index object to be removed index
+     * @throws IndexOutOfBoundsException when elements with such index does not exist
+     */
+    public void removeByIndex(int index) throws IndexOutOfBoundsException{
+        try {
+            databaseConnector.removeDragonByID(dragons.get(index).getId());
+            dragons.remove(index);
+        } catch (SQLException e){
+            System.out.println("Error while deleting");
+        }
+
+    }
 
     /**
      * Get info about collection
@@ -186,82 +192,5 @@ public class CollectionManager {
             System.out.println("Error while reading database");
         }
     }
-
-//    /**
-//     * Fill collection from file from default file path
-//     */
-//    public void fillCollectionFromFile(){
-//        fillCollectionFromFile("asd");
-//    }
-
-//    /**
-//     * Fill collection from file
-//     * @param path path to .csv file to load from
-//     */
-//    public void fillCollectionFromFile(Path path){
-//
-//        // check if file exist
-//        try{
-//            if(!Files.exists(path)) throw new FileNotFoundException("File " + path + " not found");
-//            if(!Files.isReadable(path)) throw new NoPermissionException("Cannot read file.");
-//            if(!Files.isWritable(path)) throw new NoPermissionException("Cannot write to file.");
-//        }
-//        catch (InvalidPathException e){
-//            System.out.println("Argument must be a correct file path. Data not loaded.");
-//            return;
-//        }
-//        catch (FileNotFoundException e){
-//            System.out.println("File " + path + " not found. Data not loaded."); // file does not exist
-//            return;
-//        }
-//        catch (NoPermissionException e){
-//            System.out.print("No enough permissions to " + path + " - " + e.getMessage() + " Data not loaded."); // permissions deny
-//            return;
-//        }
-//
-//        try (BufferedInputStream inputStream = new BufferedInputStream(Files.newInputStream(path))){
-//
-//            CSVReader reader = new CSVReader(new InputStreamReader(inputStream));
-//            CsvToBean<Dragon> csv = new CsvToBeanBuilder<Dragon>(reader).withType(Dragon.class).build();
-//
-//            dragons.addAll(csv.parse());
-//
-//            System.out.println(dragons.size() + " item(s) loaded from file " + path);
-//        }
-//        catch (RuntimeException e){
-//            System.out.println(e.getMessage());}
-//        catch (Throwable e){
-//            System.out.println("An error occurred while reading file. Data not loaded.");
-//        }
-//    }
-
-//    public void save(){
-//        Path path = this.getPath();;
-//        try{
-//            if(!path.isAbsolute()) path = path.toAbsolutePath();
-//
-//            if(Files.isDirectory(path)) throw new WrongArgument("Path should be a regular file.");
-//            if(!Files.exists(path)) Files.createFile(path);
-//            if (!Files.isReadable(path)) throw new NoPermissionException("Cannot read file.");
-//            if (!Files.isWritable(path)) throw new NoPermissionException("Cannot write to file.");
-//
-//            Writer writer = new BufferedWriter(new FileWriter(path.toFile()));
-//            StatefulBeanToCsv<Dragon> beanToCsv = new StatefulBeanToCsvBuilder<Dragon>(writer).build();
-//            beanToCsv.write(this.getStream());
-//            writer.close();
-//            System.out.println("Collection saved to file " + path + " successfully");
-//        }
-//        catch (InvalidPathException e){
-//            System.out.println("Cannot save. Incorrect path");
-//        }
-//        catch (NoPermissionException e){
-//            System.out.println("Cannot save. No enough permissions to " + path + " - " + e.getMessage()); // permissions deny
-//        }
-//        catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException | WrongArgument e){
-//            e.printStackTrace();
-//            System.out.println("Error while saving to file");
-//        }
-//    }
-
 
 }
