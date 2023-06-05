@@ -1,5 +1,6 @@
 // times crying while writing this code = 4
 
+import Collection.Coordinates;
 import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 import Run.CollectionManager;
@@ -30,12 +31,26 @@ public class Main {
             }
         }
 
+        DatabaseConnector database = null;
+
         try {
-            DatabaseConnector databse = new DatabaseConnector("jdbc:postgresql://127.0.0.1:5432/collection", "alexivanov", "");
+            database = new DatabaseConnector("jdbc:postgresql://127.0.0.1:5432/collection", "alexivanov", "");
         } catch (SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace(); // TODO REMOVE
         }
+
+        Coordinates coordinates = new Coordinates();
+        coordinates.setX(123d);
+        coordinates.setY(123L);
+        try {
+            database.addCoordinates(coordinates);
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+
+
 
         if(args.length == 0) throw new NotEnoughArgs("No file path specified");
         CollectionManager dragons = new CollectionManager(Paths.get(args[0]));
