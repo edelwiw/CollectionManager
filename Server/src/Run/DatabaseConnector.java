@@ -7,6 +7,13 @@ import java.sql.*;
 public class DatabaseConnector {
     private Connection connection;
 
+    /**
+     * Create and check connection to database
+     * @param host hoar URI
+     * @param user username
+     * @param pass password
+     * @throws SQLException when connection issues
+     */
     public DatabaseConnector(String host, String user, String pass) throws SQLException{
 
         try {
@@ -25,6 +32,12 @@ public class DatabaseConnector {
         }
     }
 
+    /**
+     * Adds coordinates instance to database and returns id of added element
+     * @param coordinates instance to add
+     * @return id of added element
+     * @throws SQLException when connection issues
+     */
     public int addCoordinates(Coordinates coordinates) throws SQLException {
         Statement insert = this.connection.createStatement();
 
@@ -35,6 +48,11 @@ public class DatabaseConnector {
     }
 
 
+    /**
+     * Get id of last added element
+     * @return d of last added element
+     * @throws SQLException when connection issues
+     */
     private int getId() throws SQLException {
         Statement insert = this.connection.createStatement();
 
