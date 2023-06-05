@@ -1,6 +1,7 @@
 // times crying while writing this code = 4
 
 import Collection.Coordinates;
+import Collection.Location;
 import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 import Run.CollectionManager;
@@ -40,13 +41,12 @@ public class Main {
             e.printStackTrace(); // TODO REMOVE
         }
 
-        Coordinates coordinates = new Coordinates();
-        coordinates.setX(13d);
-        coordinates.setY(123L);
+        Location location = new Location();
+        location.setX(13f);
+        location.setY(123);
         try {
-            int id = database.addCoordinates(coordinates);
-            System.out.println(database.readCoordinates(id));
-            System.out.println(database.readDragonCharacter(1));
+            int id = database.addLocation(location);
+            System.out.println(database.readLocation(id));
 
         } catch (SQLException e){
             e.printStackTrace();

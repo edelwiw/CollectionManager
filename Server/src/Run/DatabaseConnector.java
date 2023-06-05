@@ -1,9 +1,6 @@
 package Run;
 
-import Collection.Color;
-import Collection.Coordinates;
-import Collection.Dragon;
-import Collection.DragonCharacter;
+import Collection.*;
 
 import java.sql.*;
 
@@ -47,7 +44,7 @@ public class DatabaseConnector {
         String sql_command = String.format("INSERT INTO coordinates (x, y) VALUES (%f, %d)", coordinates.getX(), coordinates.getY());
         insert.executeUpdate(sql_command);
         this.connection.commit();
-        return getId();
+        return getId("coordinates");
     }
 
     /**
@@ -111,6 +108,44 @@ public class DatabaseConnector {
 
     }
 
+    /**
+     * Adds location instance to database and returns id of added element
+     * @param location instance to add
+     * @return id of added element
+     * @throws SQLException when connection issues
+     */
+    public int addLocation(Location location) throws SQLException {
+        Statement insert = this.connection.createStatement();
+
+        String sql_command = String.format("INSERT INTO locations (x, y, name) VALUES (%f, %d, %s)", location.getX(), location.getY(), location.getName());
+        insert.executeUpdate(sql_command);
+        this.connection.commit();
+        return getId("locations");
+    }
+
+    /**
+     * Read location object with spec. id from database
+     * @param id location id to read
+     * @return Location instance
+     * @throws SQLException when connection issues
+     */
+    public Location readLocation(int id) throws SQLException {
+        Statement insert = this.connection.createStatement();
+
+        String sql_command = String.format("SELECT * FROM locations WHERE id = %d", id);
+        ResultSet resultSet = insert.executeQuery(sql_command);
+        this.connection.commit();
+
+        resultSet.next();
+
+        Location location = new Location();
+        location.setX(resultSet.getFloat("x"));
+        location.setY(resultSet.getInt("y"));
+        location.setName(resultSet.getString("name"));
+
+        return location;
+
+    }
 
 
     /**
@@ -118,10 +153,10 @@ public class DatabaseConnector {
      * @return d of last added element
      * @throws SQLException when connection issues
      */
-    private int getId() throws SQLException {
+    private int getId(String table) throws SQLException {
         Statement insert = this.connection.createStatement();
 
-        String sql_command = "SELECT currval(pg_get_serial_sequence('coordinates','id'));";
+        String sql_command = String.format("SELECT currval(pg_get_serial_sequence('%s', 'id'))", table);
         ResultSet resultSet = insert.executeQuery(sql_command);
         resultSet.next();
         int id = resultSet.getInt("currval");

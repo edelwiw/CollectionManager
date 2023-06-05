@@ -55,9 +55,10 @@ public class Location implements Serializable, Comparable<Location>{
     /**
      * Set name or location.
      * @param name name to set.
-     * @throws WrongField when value is null of length greater than 535.
+     * @throws WrongField when value length greater than 535.
      */
     public void setName(String name) throws WrongField {
+        if (name == null) name = "";
         if(name.length() > 535) throw new WrongField("Name length can't be greater than 535");
         this.name = name;
     }
