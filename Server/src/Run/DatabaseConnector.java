@@ -287,4 +287,29 @@ public class DatabaseConnector {
         return id;
     }
 
+    /**
+     * Clear database method. Drops all data in all the tables
+     * @throws SQLException when connection issues
+     */
+    public void clearDatabase() throws SQLException {
+        Statement insert = this.connection.createStatement();
+
+
+        String sql_command = "DELETE FROM dragons";
+        insert.executeUpdate(sql_command);
+
+        sql_command = "DELETE FROM persons";
+        insert.executeUpdate(sql_command);
+
+        sql_command = "DELETE FROM coordinates";
+        insert.executeUpdate(sql_command);
+
+        sql_command = "DELETE FROM locations";
+        insert.executeUpdate(sql_command);
+
+        this.connection.commit();
+
+        System.out.println("Collection cleared");
+    }
+
 }
