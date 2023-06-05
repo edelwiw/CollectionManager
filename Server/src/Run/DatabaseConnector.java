@@ -239,6 +239,7 @@ public class DatabaseConnector {
         resultSet.next();
 
         Dragon dragon = new Dragon();
+        dragon.setId(resultSet.getLong("id"));
         dragon.setName(resultSet.getString("name"));
         dragon.setCoordinates(this.readCoordinates(resultSet.getInt("coordinates_id")));
         dragon.setCreationDate(resultSet.getDate("creation_date").toLocalDate().atStartOfDay( ZoneId.of( "Europe/Moscow")));
