@@ -3,6 +3,8 @@ package Run;
 import Collection.*;
 
 import java.sql.*;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 public class DatabaseConnector {
     private Connection connection;
@@ -219,8 +221,55 @@ public class DatabaseConnector {
         person.setPassportID(resultSet.getString("passport_id"));
 
         return person;
-
     }
+
+    /**
+     * Read dragon object with spec. id from database
+     * @param id dragon id to read
+     * @return Dragon instance
+     * @throws SQLException when connection issues
+     */
+    public Dragon readDragon(int id) throws SQLException {
+        Statement insert = this.connection.createStatement();
+
+        String sql_command = String.format("SELECT * FROM dragons WHERE id = %d", id);
+        ResultSet resultSet = insert.executeQuery(sql_command);
+        this.connection.commit();
+
+        resultSet.next();
+
+        Dragon dragon = new Dragon();
+        dragon.setName(resultSet.getString("name"));
+        dragon.setCoordinates(this.readCoordinates(resultSet.getInt("coordinates_id")));
+        dragon.setCreationDate(resultSet.getDate("creation_date").toLocalDate().atStartOfDay( ZoneId.of( "Europe/Moscow")));
+        dragon.setAge(resultSet.getLong("age"));
+        dragon.setDescription(resultSet.getString("description"));
+        dragon.setWeight(resultSet.getDouble("weight"));
+        dragon.setCharacter(this.readDragonCharacter(resultSet.getInt("character_id")));
+        dragon.setKiller(this.readPerson(resultSet.getInt("killer_id")));
+        return dragon;
+    }
+
+    /**
+     * Adds dragon instance to database and returns id of added element
+     * @param dragon instance to add
+     * @return id of added element
+     * @throws SQLException when connection issues
+     */
+    public int addDragon(Dragon dragon) throws SQLException {
+        Statement insert = this.connection.createStatement();
+
+        int coordinatesId = this.addCoordinates(dragon.getCoordinates());
+        int characterId = this.getCharacterId(dragon.getCharacter());
+        int killerId = this.addPerson(dragon.getKiller());
+
+        String sql_command = String.format("INSERT INTO dragons (name, coordinates_id, creation_date, age, description, weight, character_id, killer_id) " +
+                "VALUES ('%s', %d, '%s', %d, '%s', %f, %d, %d)", dragon.getName(), coordinatesId, dragon.getCreationDate().toLocalDate(), dragon.getAge(), dragon.getDescription(), dragon.getWeight(), characterId, killerId);
+        insert.executeUpdate(sql_command);
+        this.connection.commit();
+        return getId("dragons");
+    }
+
 
     /**
      * Get id of last added element

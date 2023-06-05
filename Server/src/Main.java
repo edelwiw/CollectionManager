@@ -1,9 +1,6 @@
 // times crying while writing this code = 4
 
-import Collection.Color;
-import Collection.Coordinates;
-import Collection.Location;
-import Collection.Person;
+import Collection.*;
 import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 import Run.CollectionManager;
@@ -51,9 +48,20 @@ public class Main {
         person.setName("asd");
         person.setPassportID("123123123");
         person.setLocation(location);
+
+        Dragon dragon = new Dragon();
+        dragon.setKiller(person);
+        dragon.setWeight(123.123);
+        dragon.setCharacter(DragonCharacter.WISE);
+        dragon.setAge(3123123L);
+        dragon.setDescription("asdasd");
+        Coordinates coordinates = new Coordinates();
+        coordinates.setY(123123L);
+        coordinates.setX(123.133);
+        dragon.setCoordinates(coordinates);
         try {
-            int id = database.addPerson(person);
-            System.out.println(database.readPerson(id));
+            int id = database.addDragon(dragon);
+            System.out.println(database.readDragon(id));
 
         } catch (SQLException e){
             e.printStackTrace();
