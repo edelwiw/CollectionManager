@@ -5,6 +5,7 @@ import Collection.*;
 import java.sql.*;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 
 public class DatabaseConnector {
     private Connection connection;
@@ -41,10 +42,10 @@ public class DatabaseConnector {
      * @throws SQLException when connection issues
      */
     public int addCoordinates(Coordinates coordinates) throws SQLException {
-        Statement insert = this.connection.createStatement();
+        Statement statement = this.connection.createStatement();
 
         String sql_command = String.format("INSERT INTO coordinates (x, y) VALUES (%f, %d)", coordinates.getX(), coordinates.getY());
-        insert.executeUpdate(sql_command);
+        statement.executeUpdate(sql_command);
         this.connection.commit();
         return getId("coordinates");
     }
@@ -56,10 +57,10 @@ public class DatabaseConnector {
      * @throws SQLException when connection issues
      */
     public Coordinates readCoordinates(int id) throws SQLException {
-        Statement insert = this.connection.createStatement();
+        Statement statement = this.connection.createStatement();
 
         String sql_command = String.format("SELECT * FROM coordinates WHERE id = %d", id);
-        ResultSet resultSet = insert.executeQuery(sql_command);
+        ResultSet resultSet = statement.executeQuery(sql_command);
         this.connection.commit();
 
         resultSet.next();
@@ -79,10 +80,10 @@ public class DatabaseConnector {
      * @throws SQLException when connection issues
      */
     public Color readColor(int id) throws SQLException {
-        Statement insert = this.connection.createStatement();
+        Statement statement = this.connection.createStatement();
 
         String sql_command = String.format("SELECT * FROM colors WHERE id = %d", id);
-        ResultSet resultSet = insert.executeQuery(sql_command);
+        ResultSet resultSet = statement.executeQuery(sql_command);
         this.connection.commit();
 
         resultSet.next();
@@ -98,10 +99,10 @@ public class DatabaseConnector {
      * @throws SQLException when connection issues
      */
     public DragonCharacter readDragonCharacter(int id) throws SQLException {
-        Statement insert = this.connection.createStatement();
+        Statement statement = this.connection.createStatement();
 
         String sql_command = String.format("SELECT * FROM characters WHERE id = %d", id);
-        ResultSet resultSet = insert.executeQuery(sql_command);
+        ResultSet resultSet = statement.executeQuery(sql_command);
         this.connection.commit();
 
         resultSet.next();
@@ -115,10 +116,10 @@ public class DatabaseConnector {
      * @return id
      */
     public int getCharacterId(DragonCharacter dragonCharacter) throws SQLException {
-        Statement insert = this.connection.createStatement();
+        Statement statement = this.connection.createStatement();
 
         String sql_command = String.format("SELECT id FROM characters WHERE character = '%s'", dragonCharacter.toString());
-        ResultSet resultSet = insert.executeQuery(sql_command);
+        ResultSet resultSet = statement.executeQuery(sql_command);
         this.connection.commit();
 
         resultSet.next();
@@ -132,10 +133,10 @@ public class DatabaseConnector {
      * @return id
      */
     public int getColorID(Color color) throws SQLException {
-        Statement insert = this.connection.createStatement();
+        Statement statement = this.connection.createStatement();
 
         String sql_command = String.format("SELECT id FROM colors WHERE color_name = '%s'", color.toString());
-        ResultSet resultSet = insert.executeQuery(sql_command);
+        ResultSet resultSet = statement.executeQuery(sql_command);
         this.connection.commit();
 
         resultSet.next();
@@ -150,10 +151,10 @@ public class DatabaseConnector {
      * @throws SQLException when connection issues
      */
     public int addLocation(Location location) throws SQLException {
-        Statement insert = this.connection.createStatement();
+        Statement statement = this.connection.createStatement();
 
         String sql_command = String.format("INSERT INTO locations (x, y, name) VALUES (%f, %d, '%s')", location.getX(), location.getY(), location.getName());
-        insert.executeUpdate(sql_command);
+        statement.executeUpdate(sql_command);
         this.connection.commit();
         return getId("locations");
     }
@@ -165,10 +166,10 @@ public class DatabaseConnector {
      * @throws SQLException when connection issues
      */
     public Location readLocation(int id) throws SQLException {
-        Statement insert = this.connection.createStatement();
+        Statement statement = this.connection.createStatement();
 
         String sql_command = String.format("SELECT * FROM locations WHERE id = %d", id);
-        ResultSet resultSet = insert.executeQuery(sql_command);
+        ResultSet resultSet = statement.executeQuery(sql_command);
         this.connection.commit();
 
         resultSet.next();
@@ -188,13 +189,13 @@ public class DatabaseConnector {
      * @throws SQLException when connection issues
      */
     public int addPerson(Person person) throws SQLException {
-        Statement insert = this.connection.createStatement();
+        Statement statement = this.connection.createStatement();
 
         int location_id = this.addLocation(person.getLocation());
         int color_id = this.getColorID(person.getHairColor());
 
         String sql_command = String.format("INSERT INTO persons (name, passport_id, hair_color_id, location_id) VALUES ('%s', '%s', %d, %d)", person.getName(), person.getPassportID(), color_id, location_id);
-        insert.executeUpdate(sql_command);
+        statement.executeUpdate(sql_command);
         this.connection.commit();
         return getId("persons");
     }
@@ -206,10 +207,10 @@ public class DatabaseConnector {
      * @throws SQLException when connection issues
      */
     public Person readPerson(int id) throws SQLException {
-        Statement insert = this.connection.createStatement();
+        Statement statement = this.connection.createStatement();
 
         String sql_command = String.format("SELECT * FROM persons WHERE id = %d", id);
-        ResultSet resultSet = insert.executeQuery(sql_command);
+        ResultSet resultSet = statement.executeQuery(sql_command);
         this.connection.commit();
 
         resultSet.next();
@@ -229,11 +230,11 @@ public class DatabaseConnector {
      * @return Dragon instance
      * @throws SQLException when connection issues
      */
-    public Dragon readDragon(int id) throws SQLException {
-        Statement insert = this.connection.createStatement();
+    public Dragon readDragon(long id) throws SQLException {
+        Statement statement = this.connection.createStatement();
 
         String sql_command = String.format("SELECT * FROM dragons WHERE id = %d", id);
-        ResultSet resultSet = insert.executeQuery(sql_command);
+        ResultSet resultSet = statement.executeQuery(sql_command);
         this.connection.commit();
 
         resultSet.next();
@@ -258,7 +259,7 @@ public class DatabaseConnector {
      * @throws SQLException when connection issues
      */
     public int addDragon(Dragon dragon) throws SQLException {
-        Statement insert = this.connection.createStatement();
+        Statement statement = this.connection.createStatement();
 
         int coordinatesId = this.addCoordinates(dragon.getCoordinates());
         int characterId = this.getCharacterId(dragon.getCharacter());
@@ -266,7 +267,7 @@ public class DatabaseConnector {
 
         String sql_command = String.format("INSERT INTO dragons (name, coordinates_id, creation_date, age, description, weight, character_id, killer_id) " +
                 "VALUES ('%s', %d, '%s', %d, '%s', %f, %d, %d)", dragon.getName(), coordinatesId, dragon.getCreationDate().toLocalDate(), dragon.getAge(), dragon.getDescription(), dragon.getWeight(), characterId, killerId);
-        insert.executeUpdate(sql_command);
+        statement.executeUpdate(sql_command);
         this.connection.commit();
         return getId("dragons");
     }
@@ -278,10 +279,10 @@ public class DatabaseConnector {
      * @throws SQLException when connection issues
      */
     private int getId(String table) throws SQLException {
-        Statement insert = this.connection.createStatement();
+        Statement statement = this.connection.createStatement();
 
         String sql_command = String.format("SELECT currval(pg_get_serial_sequence('%s', 'id'))", table);
-        ResultSet resultSet = insert.executeQuery(sql_command);
+        ResultSet resultSet = statement.executeQuery(sql_command);
         resultSet.next();
         int id = resultSet.getInt("currval");
         this.connection.commit();
@@ -293,24 +294,45 @@ public class DatabaseConnector {
      * @throws SQLException when connection issues
      */
     public void clearDatabase() throws SQLException {
-        Statement insert = this.connection.createStatement();
+        Statement statement = this.connection.createStatement();
 
 
         String sql_command = "DELETE FROM dragons";
-        insert.executeUpdate(sql_command);
+        statement.executeUpdate(sql_command);
 
         sql_command = "DELETE FROM persons";
-        insert.executeUpdate(sql_command);
+        statement.executeUpdate(sql_command);
 
         sql_command = "DELETE FROM coordinates";
-        insert.executeUpdate(sql_command);
+        statement.executeUpdate(sql_command);
 
         sql_command = "DELETE FROM locations";
-        insert.executeUpdate(sql_command);
+        statement.executeUpdate(sql_command);
 
         this.connection.commit();
 
         System.out.println("Collection cleared");
+    }
+
+    /**
+     * Get all the dragons id's in databse
+     * @return id's ArrayList
+     * @throws SQLException when connection issues
+     */
+    public ArrayList<Long> getDragonsIDs() throws SQLException {
+        Statement statement = this.connection.createStatement();
+
+        String sql_command = "SELECT id FROM dragons";
+        ResultSet resultSet = statement.executeQuery(sql_command);
+        this.connection.commit();
+
+        ArrayList<Long> ids = new ArrayList<Long>();
+
+        while (resultSet.next()) {
+            ids.add(resultSet.getLong("id"));
+        }
+
+        return ids;
     }
 
 }
