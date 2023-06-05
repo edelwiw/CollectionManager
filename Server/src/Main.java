@@ -46,6 +46,7 @@ public class Main {
         try {
             int id = database.addCoordinates(coordinates);
             System.out.println(database.readCoordinates(id));
+            System.out.println(database.readColor(1));
 
         } catch (SQLException e){
             e.printStackTrace();

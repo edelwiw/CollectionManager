@@ -1,5 +1,6 @@
 package Run;
 
+import Collection.Color;
 import Collection.Coordinates;
 
 import java.sql.*;
@@ -67,6 +68,25 @@ public class DatabaseConnector {
         coordinates.setY(resultSet.getLong("y"));
 
         return coordinates;
+
+    }
+
+    /**
+     * Read color object with spec. id from database
+     * @param id color id to read
+     * @return Color instance
+     * @throws SQLException when connection issues
+     */
+    public Color readColor(int id) throws SQLException {
+        Statement insert = this.connection.createStatement();
+
+        String sql_command = String.format("SELECT * FROM colors WHERE id = %d", id);
+        ResultSet resultSet = insert.executeQuery(sql_command);
+        this.connection.commit();
+
+        resultSet.next();
+
+        return Color.valueOf(resultSet.getString("color_name"));
 
     }
 
