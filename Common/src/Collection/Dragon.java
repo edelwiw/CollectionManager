@@ -126,12 +126,20 @@ public class Dragon implements Comparable<Dragon>, Serializable {
     /**
      * Set id for Dragon.
      * ID cannot be null.
-     * @param id
+     * @param id id to set
      * @throws WrongField if field value does not math requirements
      */
     public void setId(Long id) {
         if(id == null) throw new WrongField("ID cannot be null");
         this.id = id;
+    }
+
+    /**
+     * Set creation date for Dragon.
+     * @param creationDate date to set
+     */
+    public void setCreationDate(ZonedDateTime creationDate) {
+        this.creationDate = creationDate;
     }
 
     /**
