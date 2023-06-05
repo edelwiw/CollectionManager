@@ -2,6 +2,8 @@ package Run;
 
 import Collection.Color;
 import Collection.Coordinates;
+import Collection.Dragon;
+import Collection.DragonCharacter;
 
 import java.sql.*;
 
@@ -89,6 +91,27 @@ public class DatabaseConnector {
         return Color.valueOf(resultSet.getString("color_name"));
 
     }
+
+    /**
+     * Read DragonCharacter object with spec. id from database
+     * @param id DragonCharacter id to read
+     * @return DragonCharacter instance
+     * @throws SQLException when connection issues
+     */
+    public DragonCharacter readDragonCharacter(int id) throws SQLException {
+        Statement insert = this.connection.createStatement();
+
+        String sql_command = String.format("SELECT * FROM characters WHERE id = %d", id);
+        ResultSet resultSet = insert.executeQuery(sql_command);
+        this.connection.commit();
+
+        resultSet.next();
+
+        return DragonCharacter.valueOf(resultSet.getString("character"));
+
+    }
+
+
 
     /**
      * Get id of last added element
