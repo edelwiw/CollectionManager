@@ -1,7 +1,9 @@
 // times crying while writing this code = 4
 
+import Collection.Color;
 import Collection.Coordinates;
 import Collection.Location;
+import Collection.Person;
 import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 import Run.CollectionManager;
@@ -44,9 +46,14 @@ public class Main {
         Location location = new Location();
         location.setX(13f);
         location.setY(123);
+        Person person = new Person();
+        person.setHairColor(Color.BLACK);
+        person.setName("asd");
+        person.setPassportID("123123123");
+        person.setLocation(location);
         try {
-            int id = database.addLocation(location);
-            System.out.println(database.readLocation(id));
+            int id = database.addPerson(person);
+            System.out.println(database.readPerson(id));
 
         } catch (SQLException e){
             e.printStackTrace();

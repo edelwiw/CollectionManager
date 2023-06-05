@@ -105,7 +105,40 @@ public class DatabaseConnector {
         resultSet.next();
 
         return DragonCharacter.valueOf(resultSet.getString("character"));
+    }
 
+    /**
+     * Get DragonCharacter id in database by instance
+     * @param dragonCharacter instance to find
+     * @return id
+     */
+    public int getCharacterId(DragonCharacter dragonCharacter) throws SQLException {
+        Statement insert = this.connection.createStatement();
+
+        String sql_command = String.format("SELECT id FROM characters WHERE character = '%s'", dragonCharacter.toString());
+        ResultSet resultSet = insert.executeQuery(sql_command);
+        this.connection.commit();
+
+        resultSet.next();
+
+        return resultSet.getInt("id");
+    }
+
+    /**
+     * Get Color id in database by instance
+     * @param color instance to find
+     * @return id
+     */
+    public int getColorID(Color color) throws SQLException {
+        Statement insert = this.connection.createStatement();
+
+        String sql_command = String.format("SELECT id FROM colors WHERE color_name = '%s'", color.toString());
+        ResultSet resultSet = insert.executeQuery(sql_command);
+        this.connection.commit();
+
+        resultSet.next();
+
+        return resultSet.getInt("id");
     }
 
     /**
@@ -117,7 +150,7 @@ public class DatabaseConnector {
     public int addLocation(Location location) throws SQLException {
         Statement insert = this.connection.createStatement();
 
-        String sql_command = String.format("INSERT INTO locations (x, y, name) VALUES (%f, %d, %s)", location.getX(), location.getY(), location.getName());
+        String sql_command = String.format("INSERT INTO locations (x, y, name) VALUES (%f, %d, '%s')", location.getX(), location.getY(), location.getName());
         insert.executeUpdate(sql_command);
         this.connection.commit();
         return getId("locations");
@@ -144,9 +177,50 @@ public class DatabaseConnector {
         location.setName(resultSet.getString("name"));
 
         return location;
-
     }
 
+    /**
+     * Adds person instance to database and returns id of added element
+     * @param person instance to add
+     * @return id of added element
+     * @throws SQLException when connection issues
+     */
+    public int addPerson(Person person) throws SQLException {
+        Statement insert = this.connection.createStatement();
+
+        int location_id = this.addLocation(person.getLocation());
+        int color_id = this.getColorID(person.getHairColor());
+
+        String sql_command = String.format("INSERT INTO persons (name, passport_id, hair_color_id, location_id) VALUES ('%s', '%s', %d, %d)", person.getName(), person.getPassportID(), color_id, location_id);
+        insert.executeUpdate(sql_command);
+        this.connection.commit();
+        return getId("persons");
+    }
+
+    /**
+     * Read person object with spec. id from database
+     * @param id person id to read
+     * @return Person instance
+     * @throws SQLException when connection issues
+     */
+    public Person readPerson(int id) throws SQLException {
+        Statement insert = this.connection.createStatement();
+
+        String sql_command = String.format("SELECT * FROM persons WHERE id = %d", id);
+        ResultSet resultSet = insert.executeQuery(sql_command);
+        this.connection.commit();
+
+        resultSet.next();
+
+        Person person = new Person();
+        person.setLocation(this.readLocation(resultSet.getInt("location_id")));
+        person.setHairColor(this.readColor(resultSet.getInt("hair_color_id")));
+        person.setName(resultSet.getString("name"));
+        person.setPassportID(resultSet.getString("passport_id"));
+
+        return person;
+
+    }
 
     /**
      * Get id of last added element
