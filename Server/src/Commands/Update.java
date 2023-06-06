@@ -34,9 +34,9 @@ public class Update implements Command{
 
         CLIManager cliManager = new CLIManager();
         cliManager.requestDragon(dragon); // request new fields
-        collectionManager.removeById(id);
-        collectionManager.add(dragon);
+        collectionManager.update(dragon);
 
+        System.out.println("Element updated successfully");
     }
 
     @Override

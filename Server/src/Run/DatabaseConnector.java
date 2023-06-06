@@ -6,6 +6,7 @@ import java.sql.*;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class DatabaseConnector {
     private final Connection connection;
@@ -272,6 +273,25 @@ public class DatabaseConnector {
         return getId("dragons");
     }
 
+    /**
+     * Update dragon in database
+     * @param dragon element to update
+     * @throws SQLException when connection issues
+     */
+    public void updateDragon(Dragon dragon) throws SQLException {
+        System.out.println("Update " + dragon.getId());
+        Statement statement = this.connection.createStatement();
+
+        int coordinatesId = this.addCoordinates(dragon.getCoordinates());
+        int characterId = this.getCharacterId(dragon.getCharacter());
+        int killerId = this.addPerson(dragon.getKiller());
+
+        String sql_command = String.format("UPDATE dragons SET name = '%s', coordinates_id = %d, creation_date = '%s', " +
+                "age = %d, description = '%s', weight = %f, character_id = %d, killer_id = %d  WHERE id = %d" , dragon.getName(), coordinatesId, dragon.getCreationDate().toLocalDate(), dragon.getAge(), dragon.getDescription(), dragon.getWeight(), characterId, killerId, dragon.getId());
+        statement.executeUpdate(sql_command);
+        this.connection.commit();
+    }
+
 
     /**
      * Get id of last added element
@@ -341,7 +361,6 @@ public class DatabaseConnector {
         String sql_command = String.format("DELETE FROM dragons WHERE id = %d", id);
         statement.executeUpdate(sql_command);
         connection.commit();
-
     }
 
 }

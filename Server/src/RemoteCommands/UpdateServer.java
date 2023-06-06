@@ -26,8 +26,7 @@ public class UpdateServer implements ServerCommand {
             return response;
         }
         dragon.setId(id);
-        this.collectionManager.removeById(id);
-        this.collectionManager.add(dragon);
+        this.collectionManager.update(dragon);
         return new Response(ResponseCode.OK);
     }
 

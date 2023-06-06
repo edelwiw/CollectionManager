@@ -60,6 +60,27 @@ public class CollectionManager {
     }
 
     /**
+     * Update dragon
+     * @param dragon object to update
+     */
+    public void update(Dragon dragon){
+        try{
+            databaseConnector.updateDragon(dragon);
+
+            for(int index = 0; index < dragons.size(); index++){
+                if(dragons.get(index).getId() == dragon.getId()){
+                    this.dragons.add(index, dragon);
+                    break;
+                }
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            System.out.println("Error while updating element");
+        }
+    }
+
+    /**
      * Removes all elements from collection
      */
     public void clearCollection() {
