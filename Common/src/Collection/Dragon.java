@@ -18,10 +18,9 @@ import java.util.UUID;
  */
 public class Dragon implements Comparable<Dragon>, Serializable {
     @CsvBindByName(column = "next_id", required = true)
-    private static Long nextId = 1L;
 
     @CsvBindByName(column = "ID", required = true)
-    private Long id; // Value should be positive, Field value should be unique, value should be generating automatically
+    private int id; // Value should be positive, Field value should be unique, value should be generating automatically
     @CsvBindByName(column = "name", required = true)
     private String name; // Value can not be null, String can not be empty
     @CsvRecurse
@@ -43,8 +42,7 @@ public class Dragon implements Comparable<Dragon>, Serializable {
      * Constructor. Creates an empty object of Dragon class.
      */
     public Dragon(){
-        this.id = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
-
+        this.id = -1;
         this.creationDate = ZonedDateTime.now();
     }
 
@@ -52,7 +50,7 @@ public class Dragon implements Comparable<Dragon>, Serializable {
      * Returns Dragon ID
      * @return Dragon ID
      */
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
@@ -129,7 +127,7 @@ public class Dragon implements Comparable<Dragon>, Serializable {
      * @param id id to set
      * @throws WrongField if field value does not math requirements
      */
-    public void setId(Long id) {
+    public void setId(Integer id) {
         if(id == null) throw new WrongField("ID cannot be null");
         this.id = id;
     }

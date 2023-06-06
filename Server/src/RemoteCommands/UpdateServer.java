@@ -19,7 +19,7 @@ public class UpdateServer implements ServerCommand {
     public Response execute(ClientCommand command) {
         Update clientCommand = (Update) command;
         Dragon dragon = clientCommand.getDragon();
-        long id = clientCommand.getId();
+        int id = clientCommand.getId();
         if(collectionManager.getByID(id) == null) {
             Response response = new Response(ResponseCode.ERROR);
             response.setMessage("No element with such id");

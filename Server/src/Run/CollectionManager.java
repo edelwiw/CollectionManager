@@ -48,7 +48,8 @@ public class CollectionManager {
      */
     public void add(Dragon dragon){
         try {
-            databaseConnector.addDragon(dragon);
+            int id = databaseConnector.addDragon(dragon);
+            dragon.setId(id);
             dragons.add(dragon);
             this.sortCollection();
         } catch (SQLException e){
@@ -182,8 +183,8 @@ public class CollectionManager {
 
     public void readDatabase(){
         try {
-            ArrayList<Long> ids = databaseConnector.getDragonsIDs();
-            for(Long id : ids){
+            ArrayList<Integer> ids = databaseConnector.getDragonsIDs();
+            for(int id : ids){
                 Dragon dragon = databaseConnector.readDragon(id);
                 dragons.add(dragon);
             }

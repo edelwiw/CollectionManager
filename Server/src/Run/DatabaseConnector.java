@@ -8,7 +8,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 public class DatabaseConnector {
-    private Connection connection;
+    private final Connection connection;
 
     /**
      * Create and check connection to database
@@ -240,7 +240,7 @@ public class DatabaseConnector {
         resultSet.next();
 
         Dragon dragon = new Dragon();
-        dragon.setId(resultSet.getLong("id"));
+        dragon.setId(resultSet.getInt("id"));
         dragon.setName(resultSet.getString("name"));
         dragon.setCoordinates(this.readCoordinates(resultSet.getInt("coordinates_id")));
         dragon.setCreationDate(resultSet.getDate("creation_date").toLocalDate().atStartOfDay( ZoneId.of( "Europe/Moscow")));
@@ -265,8 +265,8 @@ public class DatabaseConnector {
         int characterId = this.getCharacterId(dragon.getCharacter());
         int killerId = this.addPerson(dragon.getKiller());
 
-        String sql_command = String.format("INSERT INTO dragons (id, name, coordinates_id, creation_date, age, description, weight, character_id, killer_id) " +
-                "VALUES (%d, '%s', %d, '%s', %d, '%s', %f, %d, %d)", dragon.getId(), dragon.getName(), coordinatesId, dragon.getCreationDate().toLocalDate(), dragon.getAge(), dragon.getDescription(), dragon.getWeight(), characterId, killerId);
+        String sql_command = String.format("INSERT INTO dragons (name, coordinates_id, creation_date, age, description, weight, character_id, killer_id) " +
+                "VALUES ('%s', %d, '%s', %d, '%s', %f, %d, %d)", dragon.getName(), coordinatesId, dragon.getCreationDate().toLocalDate(), dragon.getAge(), dragon.getDescription(), dragon.getWeight(), characterId, killerId);
         statement.executeUpdate(sql_command);
         this.connection.commit();
         return getId("dragons");
@@ -319,17 +319,17 @@ public class DatabaseConnector {
      * @return id's ArrayList
      * @throws SQLException when connection issues
      */
-    public ArrayList<Long> getDragonsIDs() throws SQLException {
+    public ArrayList<Integer> getDragonsIDs() throws SQLException {
         Statement statement = this.connection.createStatement();
 
         String sql_command = "SELECT id FROM dragons";
         ResultSet resultSet = statement.executeQuery(sql_command);
         this.connection.commit();
 
-        ArrayList<Long> ids = new ArrayList<Long>();
+        ArrayList<Integer> ids = new ArrayList<Integer>();
 
         while (resultSet.next()) {
-            ids.add(resultSet.getLong("id"));
+            ids.add(resultSet.getInt("id"));
         }
 
         return ids;
