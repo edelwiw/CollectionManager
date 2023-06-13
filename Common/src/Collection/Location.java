@@ -1,7 +1,6 @@
 package Collection;
 
 import Exceptions.WrongField;
-import com.opencsv.bean.CsvBindByName;
 
 import java.io.Serializable;
 
@@ -10,11 +9,8 @@ import java.io.Serializable;
  * @author alexander Ivanov @edelwiw
  */
 public class Location implements Serializable, Comparable<Location>{
-    @CsvBindByName(column = "location_x", required = true)
     private float x;
-    @CsvBindByName(column = "location_y", required = true)
     private int y;
-    @CsvBindByName(column = "location_name", required = false)
     private String name; // Value cannot be greater than 535, Value can be null
 
     public Location() {

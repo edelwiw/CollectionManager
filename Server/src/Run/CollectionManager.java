@@ -31,7 +31,7 @@ public class CollectionManager {
 
     private final DatabaseConnector databaseConnector;
     private final LinkedList<Dragon> dragons;
-    private ZonedDateTime creationDate;
+    private final ZonedDateTime creationDate;
 
     /**
      * Constructor. Creates abject to work with collection.
