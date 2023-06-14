@@ -1,5 +1,6 @@
 import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
+import Utils.Response;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -23,8 +24,13 @@ public class Client {
             }
         }
 
+
         try {
             Connector connector = new Connector(address, port);
+
+            boolean status = UserWorker.AuthUser(connector);
+            if (!status) System.exit(0);
+
             CommandExecutor commandExecutor = new CommandExecutor(connector);
             commandExecutor.enterInteractiveMode();
         }  catch (WrongArgument e){

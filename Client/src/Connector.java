@@ -1,10 +1,8 @@
 import ClientCommands.ClientCommand;
 import Exceptions.WrongArgument;
 import Utils.Response;
-import Utils.ResponseCode;
-import org.w3c.dom.ls.LSOutput;
+import Utils.UserData;
 
-import javax.swing.plaf.ScrollPaneUI;
 import java.io.*;
 import java.net.*;
 import java.nio.ByteBuffer;
@@ -111,6 +109,35 @@ public class Connector {
         }
     }
 
+    /**
+     * Send request with user data to auth username and pass
+     * @param userData user date
+     * @throws ConnectException when connection issues
+     * @see UserData
+     */
+    private void sendAuthRequest(UserData userData) throws ConnectException {
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+            objectOutputStream.writeObject(userData);
+            objectOutputStream.flush();
+            ByteBuffer buffer = ByteBuffer.wrap(byteArrayOutputStream.toByteArray());
+            objectOutputStream.close();
+            byteArrayOutputStream.close();
+
+            this.outputStream.write(buffer.array());
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new ConnectException("Cannot write request");
+        }
+    }
+
+    /**
+     * Send command request ang get response
+     * @param command command to execute
+     * @return Response with payload
+     * @throws ConnectException when connection issues
+     */
     public Response sendAndGetResponse(ClientCommand command) throws ConnectException{
         this.connect();
         this.sendRequest(command);
@@ -118,6 +145,22 @@ public class Connector {
         this.closeConnection();
         return response;
     }
+
+    /**
+     * Send auth request ang get response
+     * @param userData user to auth
+     * @return Response with payload
+     * @throws ConnectException when connection issues
+     */
+    public Response sendAndGetAuthResponse(UserData userData) throws ConnectException{
+        this.connect();
+        this.sendAuthRequest(userData);
+        Response response = this.readResponse();
+        this.closeConnection();
+        return response;
+    }
+
+
 
     public void closeConnection(){
         try {

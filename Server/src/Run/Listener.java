@@ -7,6 +7,7 @@ import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 import Utils.Response;
 import Utils.ResponseCode;
+import Utils.UserData;
 
 import java.io.*;
 import java.net.ConnectException;
@@ -140,13 +141,22 @@ public class Listener {
                             buf.flip();
                             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(buf.array());
                             ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
-                            ClientCommand clientCommand = (ClientCommand) objectInputStream.readObject();
+                            System.out.println("Got request");
+                            Object request = objectInputStream.readObject();
+                            Response response = null;
                             objectInputStream.close(); // close streams
                             byteArrayInputStream.close();
 
-                            System.out.println("Got request");
-
-                            Response response = requestsHandler.executeCommand(clientCommand);
+                            if (request instanceof ClientCommand clientCommand) {
+                                // execute command
+                                response = requestsHandler.executeCommand(clientCommand);
+                            }   else if (request instanceof UserData) {
+                                // auth user
+                                // TODO Check if user exist
+                                // TODO Send response with auth status
+                                System.out.println(request);
+                                response = new Response(ResponseCode.ERROR);
+                            }
 
                             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                             ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
@@ -160,6 +170,7 @@ public class Listener {
                             socketChannel.write(buf); // send response
 
                             System.out.println("Response sent");
+
 
                         } catch (IOException e){
                             e.printStackTrace();
