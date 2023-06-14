@@ -8,6 +8,7 @@ import Commands.CommandExecutor;
 import Run.DatabaseConnector;
 import Run.Listener;
 import Run.RequestHandler;
+import Utils.User;
 
 import javax.imageio.plugins.jpeg.JPEGImageReadParam;
 import java.net.ConnectException;
@@ -16,7 +17,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws NotEnoughArgs, ConnectException {
+    public static void main(String[] args) throws NotEnoughArgs, ConnectException, SQLException {
 
         // request port
         Scanner scanner = new Scanner(System.in);
@@ -41,7 +42,6 @@ public class Main {
             e.printStackTrace(); // TODO REMOVE
         }
 
-        if(args.length == 0) throw new NotEnoughArgs("No file path specified");
         CollectionManager dragons = new CollectionManager(database);
         dragons.readDatabase();
 //

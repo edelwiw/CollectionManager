@@ -1,6 +1,7 @@
 package Run;
 
 import Collection.*;
+import Utils.User;
 
 import javax.swing.plaf.nimbus.State;
 import java.sql.*;
@@ -246,12 +247,13 @@ public class DatabaseConnector {
         dragon.setId(resultSet.getInt("id"));
         dragon.setName(resultSet.getString("name"));
         dragon.setCoordinates(this.readCoordinates(resultSet.getInt("coordinates_id")));
-        dragon.setCreationDate(resultSet.getDate("creation_date").toLocalDate().atStartOfDay( ZoneId.of( "Europe/Moscow")));
+        dragon.setCreationDate(resultSet.getTimestamp("creation_date").toLocalDateTime().atZone(ZoneId.of("Europe/Moscow")));
         dragon.setAge(resultSet.getLong("age"));
         dragon.setDescription(resultSet.getString("description"));
         dragon.setWeight(resultSet.getDouble("weight"));
         dragon.setCharacter(this.readDragonCharacter(resultSet.getInt("character_id")));
         dragon.setKiller(this.readPerson(resultSet.getInt("killer_id")));
+        dragon.setCreatedBy(resultSet.getInt("created_by_user_id"));
         return dragon;
     }
 
@@ -268,8 +270,8 @@ public class DatabaseConnector {
         int characterId = this.getCharacterId(dragon.getCharacter());
         int killerId = this.addPerson(dragon.getKiller());
 
-        String sql_command = String.format("INSERT INTO dragons (name, coordinates_id, creation_date, age, description, weight, character_id, killer_id) " +
-                "VALUES ('%s', %d, '%s', %d, '%s', %f, %d, %d)", dragon.getName(), coordinatesId, dragon.getCreationDate().toLocalDate(), dragon.getAge(), dragon.getDescription(), dragon.getWeight(), characterId, killerId);
+        String sql_command = String.format("INSERT INTO dragons (name, coordinates_id, creation_date, age, description, weight, character_id, killer_id, created_by_user_id) " +
+                "VALUES ('%s', %d, '%s', %d, '%s', %f, %d, %d, %d)", dragon.getName(), coordinatesId, dragon.getCreationDate().toLocalDateTime(), dragon.getAge(), dragon.getDescription(), dragon.getWeight(), characterId, killerId, dragon.getCreatedBy());
         statement.executeUpdate(sql_command);
         this.connection.commit();
         return getId("dragons");

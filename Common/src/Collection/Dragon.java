@@ -22,6 +22,7 @@ public class Dragon implements Comparable<Dragon>, Serializable {
     private Double weight; // Value should be positive
     private DragonCharacter character; // Value can not be null
     private Person killer; // Value can be null
+    private int createdBy; // ID of user that created instance
 
 
     /**
@@ -105,6 +106,14 @@ public class Dragon implements Comparable<Dragon>, Serializable {
      */
     public Person getKiller() {
         return killer;
+    }
+
+    /**
+     * get ID of user that created  instance
+     * @return user ID
+     */
+    public int getCreatedBy() {
+        return createdBy;
     }
 
     /**
@@ -207,6 +216,13 @@ public class Dragon implements Comparable<Dragon>, Serializable {
         this.killer = killer;
     }
 
+    /**
+     * Set user ID
+     * @param createdBy user ID
+     */
+    public void setCreatedBy(int createdBy) {
+        this.createdBy = createdBy;
+    }
 
     /**
      * Get dragon fields
