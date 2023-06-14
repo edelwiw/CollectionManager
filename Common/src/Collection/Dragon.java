@@ -238,7 +238,8 @@ public class Dragon implements Comparable<Dragon>, Serializable {
                 ", description=" + this.description +
                 ", weight=" + this.weight +
                 ", character=" + this.character +
-                ", killer=" + this.killer;
+                ", killer=" + this.killer +
+                ", created_by=" + this.getCreatedBy();
     }
 
 
