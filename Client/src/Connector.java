@@ -19,8 +19,8 @@ public class Connector {
 
     private Socket socket;
 
-    private InputStream inputStream;
-    private OutputStream outputStream;
+    private ObjectInputStream inputStream;
+    private ObjectOutputStream outputStream;
 
     /**
      * Validate address and port
@@ -53,8 +53,8 @@ public class Connector {
             this.socket.connect(inetSocketAddress, 1000);
 
             // get data streams
-            this.outputStream = socket.getOutputStream();
-            this.inputStream = socket.getInputStream();
+            this.outputStream = new ObjectOutputStream(socket.getOutputStream());
+            this.inputStream = new ObjectInputStream(socket.getInputStream());
 
             System.out.println("Connected");
         }  catch (IOException e) {
@@ -70,15 +70,7 @@ public class Connector {
      */
     private Response readResponse() throws ConnectException{
         try {
-            byte[] data = new byte[4096];
-
-            this.inputStream.read(data);
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(data);
-            ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
-            Response response = (Response) objectInputStream.readObject();
-            objectInputStream.close();
-            byteArrayInputStream.close();
-
+            Response response = (Response) inputStream.readObject();
             return response;
         } catch (ClassNotFoundException | IOException | ClassCastException e){
             e.printStackTrace();
@@ -94,15 +86,7 @@ public class Connector {
      */
     private void sendRequest(ClientCommand command) throws ConnectException {
         try {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-            objectOutputStream.writeObject(command);
-            objectOutputStream.flush();
-            ByteBuffer buffer = ByteBuffer.wrap(byteArrayOutputStream.toByteArray());
-            objectOutputStream.close();
-            byteArrayOutputStream.close();
-
-            this.outputStream.write(buffer.array());
+            outputStream.writeObject(command);
         } catch (IOException e) {
             e.printStackTrace();
             throw new ConnectException("Cannot write request");
@@ -117,15 +101,7 @@ public class Connector {
      */
     private void sendAuthRequest(UserData userData) throws ConnectException {
         try {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-            objectOutputStream.writeObject(userData);
-            objectOutputStream.flush();
-            ByteBuffer buffer = ByteBuffer.wrap(byteArrayOutputStream.toByteArray());
-            objectOutputStream.close();
-            byteArrayOutputStream.close();
-
-            this.outputStream.write(buffer.array());
+            outputStream.writeObject(userData);
         } catch (IOException e) {
             e.printStackTrace();
             throw new ConnectException("Cannot write request");
