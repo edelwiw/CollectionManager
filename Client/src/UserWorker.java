@@ -4,6 +4,8 @@ import Utils.UserAuthStatus;
 import Utils.UserData;
 
 import java.net.ConnectException;
+import java.nio.charset.Charset;
+import java.util.Random;
 import java.util.Scanner;
 
 public class UserWorker {
@@ -50,6 +52,7 @@ public class UserWorker {
         }
     }
 
+
     private static boolean requestYesNo(){
         Scanner scanner = new Scanner(System.in);
 
@@ -65,6 +68,4 @@ public class UserWorker {
             }
         }
     }
-
-
 }

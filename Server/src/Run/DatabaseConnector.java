@@ -299,7 +299,7 @@ public class DatabaseConnector {
 
     /**
      * Get id of last added element
-     * @return d of last added element
+     * @return id of last added element
      * @throws SQLException when connection issues
      */
     private int getId(String table) throws SQLException {
@@ -339,7 +339,7 @@ public class DatabaseConnector {
     }
 
     /**
-     * Get all the dragons id's in databse
+     * Get all the dragons id's in database
      * @return id's ArrayList
      * @throws SQLException when connection issues
      */
@@ -359,12 +359,57 @@ public class DatabaseConnector {
         return ids;
     }
 
+    /**
+     * Remove dragon by ID
+     * @param id ID
+     * @throws SQLException when connection issues
+     */
     public void removeDragonByID(long id) throws SQLException {
         Statement statement = this.connection.createStatement();
 
         String sql_command = String.format("DELETE FROM dragons WHERE id = %d", id);
         statement.executeUpdate(sql_command);
         connection.commit();
+    }
+
+    /**
+     * Read user from database by username
+     * @param username username to find by
+     * @return User
+     * @throws SQLException when connection issues
+     */
+    public User readUserByUsername(String username) throws SQLException {
+        Statement statement = this.connection.createStatement();
+
+        String sql_command = String.format("SELECT * FROM users WHERE username = '%s'", username);
+        ResultSet resultSet = statement.executeQuery(sql_command);
+        this.connection.commit();
+
+        if (!resultSet.next()) return null; // user not found
+
+        User user = new User();
+        user.setId(resultSet.getInt("id"));
+        user.setName(resultSet.getString("name"));
+        user.setUsername(resultSet.getString("surname"));
+        user.setPassHash(resultSet.getString("pass"));
+        user.setSalt(resultSet.getString("salt"));
+        return user;
+    }
+
+    /**
+     * Add user to database
+     * @param user to add
+     * @return id of added element
+     * @throws SQLException when connection issues
+     */
+    public int addUser(User user) throws SQLException {
+        Statement statement = this.connection.createStatement();
+
+        String sql_command = String.format("INSERT INTO users (name, surname, username, pass, salt) " +
+                "VALUES ('%s', '%s', '%s', '%s', '%s')", user.getName(), user.getSurname(), user.getUsername(), user.getPassHash(), user.getSalt());
+        statement.executeUpdate(sql_command);
+        this.connection.commit();
+        return getId("users");
     }
 
 }

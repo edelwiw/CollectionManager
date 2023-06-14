@@ -7,6 +7,7 @@ import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 import Utils.Response;
 import Utils.ResponseCode;
+import Utils.UserAuthStatus;
 import Utils.UserData;
 
 import java.io.*;
@@ -30,15 +31,17 @@ public class Listener {
     private Selector selector = null;
     private ServerSocket serverSocket;
     private CollectionManager collectionManager;
+    private UserAuth userAuth;
 
     /**
      * Constructor for listener. Creates server socket
      *
      * @param port server port
      */
-    public Listener(int port, CollectionManager collectionManager) throws WrongArgument, ConnectException {
+    public Listener(int port, CollectionManager collectionManager, UserAuth userAuth) throws WrongArgument, ConnectException {
         this.requestsHandler = new RequestHandler(collectionManager);
         this.collectionManager = collectionManager;
+        this.userAuth = userAuth;
         ServerSocket serverSocket = null;
 
         try {
@@ -143,7 +146,7 @@ public class Listener {
                             ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
                             System.out.println("Got request");
                             Object request = objectInputStream.readObject();
-                            Response response = null;
+                            Response response = new Response(ResponseCode.ERROR);
                             objectInputStream.close(); // close streams
                             byteArrayInputStream.close();
 
@@ -151,11 +154,24 @@ public class Listener {
                                 // execute command
                                 response = requestsHandler.executeCommand(clientCommand);
                             }   else if (request instanceof UserData) {
-                                // auth user
-                                // TODO Check if user exist
-                                // TODO Send response with auth status
+                                // user auth request
+                                if (!userAuth.isUserExist((UserData) request) && !((UserData) request).isToSignUp()){
+                                    response = new Response(ResponseCode.OK);
+                                    response.setPayload(UserAuthStatus.USER_NOT_EXIST);
+                                } else if (!userAuth.isUserExist((UserData) request) && ((UserData) request).isToSignUp()) {
+                                    userAuth.signUp((UserData) request);
+                                    response = new Response(ResponseCode.OK);
+                                    response.setPayload(UserAuthStatus.SUCCESS);
+                                } else if (userAuth.auth((UserData) request)){
+                                    response = new Response(ResponseCode.OK);
+                                    response.setPayload(UserAuthStatus.SUCCESS);
+                                } else {
+                                    response = new Response(ResponseCode.OK);
+                                    response.setPayload(UserAuthStatus.WRONG_PASS);
+                                }
+
                                 System.out.println(request);
-                                response = new Response(ResponseCode.ERROR);
+
                             }
 
                             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -177,6 +193,8 @@ public class Listener {
                             key.cancel();
                         } catch (ClassNotFoundException e) {
                             throw new RuntimeException(e);
+                        } catch (Throwable e){
+                            e.printStackTrace();
                         }
                     }
 

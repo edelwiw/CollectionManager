@@ -3,11 +3,8 @@
 import Collection.*;
 import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
-import Run.CollectionManager;
+import Run.*;
 import Commands.CommandExecutor;
-import Run.DatabaseConnector;
-import Run.Listener;
-import Run.RequestHandler;
 import Utils.User;
 
 import javax.imageio.plugins.jpeg.JPEGImageReadParam;
@@ -46,7 +43,8 @@ public class Main {
         dragons.readDatabase();
 //
         try {
-            Listener listener = new Listener(port, dragons);
+            UserAuth userAuth = new UserAuth(database);
+            Listener listener = new Listener(port, dragons, userAuth);
             listener.startListening();
         } catch (WrongArgument e){
             System.out.println(e.getMessage() + ". Stopped.");
