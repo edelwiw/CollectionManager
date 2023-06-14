@@ -36,7 +36,7 @@ public class Main {
             database = new DatabaseConnector("jdbc:postgresql://127.0.0.1:5432/collection", "alexivanov", "");
         } catch (SQLException e){
             System.out.println(e.getMessage());
-            e.printStackTrace(); // TODO REMOVE
+            e.printStackTrace();
         }
 
         CollectionManager dragons = new CollectionManager(database);

@@ -9,24 +9,16 @@ import Utils.Response;
 import Utils.ResponseCode;
 import Utils.UserAuthStatus;
 import Utils.UserData;
-import org.w3c.dom.ls.LSOutput;
 
 import java.io.*;
 import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Listener {
     private static final int BUFFER_SIZE = 4096;
@@ -121,6 +113,11 @@ public class Listener {
                 new Thread(() -> {
                     Response response = new Response(ResponseCode.ERROR);
                     if (request instanceof ClientCommand clientCommand) {
+                        try {
+                            clientCommand.getUser().setId(userAuth.getID(clientCommand.getUser()));
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
                         // execute command
                         response = requestsHandler.executeCommand(clientCommand);
                     } else if (request instanceof UserData) {
