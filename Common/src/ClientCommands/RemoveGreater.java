@@ -6,8 +6,19 @@ import Exceptions.WrongArgument;
 import Utils.CLIManager;
 import Utils.Response;
 import Utils.ResponseCode;
+import Utils.UserData;
 
 public class RemoveGreater implements ClientCommand{
+
+    private UserData userData;
+
+    public UserData getUser() {
+        return userData;
+    }
+
+    public void setUser(UserData userData) {
+        this.userData = userData;
+    }
 
     private Dragon dragon;
 

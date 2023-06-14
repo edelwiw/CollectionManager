@@ -2,6 +2,7 @@ import ClientCommands.*;
 import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 import Utils.Response;
+import Utils.UserData;
 
 import java.net.ConnectException;
 import java.util.ArrayList;
@@ -18,10 +19,12 @@ public class CommandExecutor {
 
     private final HashMap<String, Class<?>> commands;
     private final Connector connector;
+    private final UserData userData;
 
-    public CommandExecutor(Connector connector){
+    public CommandExecutor(Connector connector, UserData userData){
         this.commands = new HashMap<>();
         this.connector = connector;
+        this.userData = userData;
 
         commands.put("show", Show.class);
         commands.put("add", Add.class);
@@ -55,7 +58,7 @@ public class CommandExecutor {
             try{
                 String[] argsArray = parseInput(commandReader.nextLine());
 
-                Class<?> comm = getCommand(argsArray[0]); // TODO FIX create new instance
+                Class<?> comm = getCommand(argsArray[0]);
 
                 if (comm == null){
                     System.out.println("Not a command. Try again.");
@@ -63,6 +66,7 @@ public class CommandExecutor {
                 }
 
                 ClientCommand command = (ClientCommand) comm.newInstance();
+                command.setUser(userData);
 
                 command.prepareRequest(argsArray);
 

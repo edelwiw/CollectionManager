@@ -18,14 +18,21 @@ public class RemoveByIDSever implements ServerCommand{
     public Response execute(ClientCommand command) {
         RemoveByID clientCommand = (RemoveByID) command;
         long id = clientCommand.getId();
-        boolean result = collectionManager.removeById(id);
+        int createdByID = collectionManager.getByID(id).getCreatedBy();
 
         Response response = new Response(ResponseCode.ERROR);
-        if (result) response.setResponseCode(ResponseCode.OK);
-        else response.setMessage("No such element");
-        return response;
 
-        // TODO fix command
+        if (createdByID == command.getUser().getId()) {
+            boolean result = collectionManager.removeById(id);
+            if (result) response.setResponseCode(ResponseCode.OK);
+            else response.setMessage("No such element");
+            }
+        else {
+            response.setResponseCode(ResponseCode.OK_WITH_MESSAGE);
+            response.setMessage("You cannot remove its element");
+        }
+
+        return response;
     }
 
     @Override

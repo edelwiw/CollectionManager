@@ -7,8 +7,19 @@ import Exceptions.WrongArgument;
 import Utils.CLIManager;
 import Utils.Response;
 import Utils.ResponseCode;
+import Utils.UserData;
 
 public class Update implements ClientCommand {
+
+    private UserData userData;
+
+    public UserData getUser() {
+        return userData;
+    }
+
+    public void setUser(UserData userData) {
+        this.userData = userData;
+    }
 
     private int id;
     private Dragon dragon;

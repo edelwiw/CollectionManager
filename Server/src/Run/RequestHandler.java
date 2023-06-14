@@ -4,6 +4,7 @@ import ClientCommands.*;
 import RemoteCommands.*;
 import Utils.Response;
 import Utils.ResponseCode;
+import Utils.UserData;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;

@@ -6,11 +6,21 @@ import Exceptions.WrongArgument;
 import Utils.CLIManager;
 import Utils.Response;
 import Utils.ResponseCode;
+import Utils.UserData;
 
 
 public class Add implements ClientCommand{
 
     private Dragon dragon;
+    private UserData userData;
+
+    public UserData getUser() {
+        return userData;
+    }
+
+    public void setUser(UserData userData) {
+        this.userData = userData;
+    }
 
     public Dragon getDragon() {
         return dragon;
@@ -33,4 +43,6 @@ public class Add implements ClientCommand{
             System.out.println("Request failed with message " + response.getMessage());
         }
     }
+
+
 }

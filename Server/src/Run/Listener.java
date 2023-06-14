@@ -152,6 +152,7 @@ public class Listener {
 
                             if (request instanceof ClientCommand clientCommand) {
                                 // execute command
+                                clientCommand.getUser().setId(userAuth.getID(clientCommand.getUser()));
                                 response = requestsHandler.executeCommand(clientCommand);
                             }   else if (request instanceof UserData) {
                                 // user auth request

@@ -9,7 +9,16 @@ public class UserData implements Serializable {
     private String pass;
     private String name;
     private String surname;
+    private int id;
     private boolean toSignUp = false;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public void setToSignUp(boolean toSignUp) {
         this.toSignUp = toSignUp;

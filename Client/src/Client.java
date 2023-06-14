@@ -1,6 +1,7 @@
 import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 import Utils.Response;
+import Utils.UserData;
 
 import java.io.IOException;
 import java.net.ConnectException;
@@ -27,11 +28,11 @@ public class Client {
 
         try {
             Connector connector = new Connector(address, port);
-
-            boolean status = UserWorker.AuthUser(connector);
+            UserData userData = UserWorker.requestUsernameAndPass();
+            boolean status = UserWorker.AuthUser(connector, userData);
             if (!status) System.exit(0);
 
-            CommandExecutor commandExecutor = new CommandExecutor(connector);
+            CommandExecutor commandExecutor = new CommandExecutor(connector, userData);
             commandExecutor.enterInteractiveMode();
         }  catch (WrongArgument e){
             System.out.println(e.getMessage());

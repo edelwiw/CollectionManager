@@ -6,12 +6,23 @@ import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 import Utils.Response;
 import Utils.ResponseCode;
+import Utils.UserData;
 
 import java.util.List;
 
 public class FilterLessThanAge implements ClientCommand {
 
     private long age;
+
+    private UserData userData;
+
+    public UserData getUser() {
+        return userData;
+    }
+
+    public void setUser(UserData userData) {
+        this.userData = userData;
+    }
 
     public long getAge() {
         return age;

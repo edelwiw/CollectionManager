@@ -21,8 +21,7 @@ public class UserWorker {
         return new UserData(username, pass);
     }
 
-    public static boolean AuthUser(Connector connector) throws ConnectException {
-        UserData userData = requestUsernameAndPass();
+    public static boolean AuthUser(Connector connector, UserData userData) throws ConnectException {
         while (true) {
             Response response = connector.sendAndGetAuthResponse(userData);
             if (response.getResponseCode().equals(ResponseCode.OK)) {

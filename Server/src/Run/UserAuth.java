@@ -43,6 +43,11 @@ public class UserAuth {
         return user.validatePass(userData.getPass());
     }
 
+    public int getID(UserData userData) throws SQLException {
+        User user = database.readUserByUsername(userData.getUsername());
+        return user.getId();
+    }
+
     public boolean signUp(UserData userData) throws SQLException {
         User user = new User();
         user.setName(userData.getName());
