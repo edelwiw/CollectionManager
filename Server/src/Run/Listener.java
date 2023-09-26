@@ -7,37 +7,38 @@ import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 import Utils.Response;
 import Utils.ResponseCode;
+import Utils.UserAuthStatus;
+import Utils.UserData;
 
 import java.io.*;
 import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
+import java.sql.SQLException;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Listener {
     private static final int BUFFER_SIZE = 4096;
 
     private final RequestHandler requestsHandler;
-    private Selector selector = null;
     private ServerSocket serverSocket;
     private CollectionManager collectionManager;
+    private UserAuth userAuth;
+
+    private final ExecutorService executorService = Executors.newFixedThreadPool(5);
 
     /**
      * Constructor for listener. Creates server socket
      *
      * @param port server port
      */
-    public Listener(int port, CollectionManager collectionManager) throws WrongArgument, ConnectException {
+    public Listener(int port, CollectionManager collectionManager, UserAuth userAuth) throws WrongArgument, ConnectException {
         this.requestsHandler = new RequestHandler(collectionManager);
         this.collectionManager = collectionManager;
+        this.userAuth = userAuth;
         ServerSocket serverSocket = null;
 
         try {
@@ -45,16 +46,11 @@ public class Listener {
             if (port <= 1024 || port > 65535) throw new IllegalArgumentException("Wrong port");
 
             // create server socket
-            ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
-            serverSocketChannel.configureBlocking(false);
-            serverSocket = serverSocketChannel.socket();
-
+            serverSocket = new ServerSocket();
             InetSocketAddress inetSocketAddress = new InetSocketAddress(port);
             serverSocket.bind(inetSocketAddress);
             this.serverSocket = serverSocket;
 
-            selector = Selector.open();
-            serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
             System.out.println("Prepare done. " + "Server opened at port " + port);
 
         } catch (IllegalArgumentException e) {
@@ -73,107 +69,94 @@ public class Listener {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter a command");
 
-        while (true) {
-            try {
-                int count = selector.select(100);
-                if (count == 0) { // nothing to handle
-                    if(System.in.available() > 0){
-                        try{
-                            String[] argsArray = commandExecutor.parseInput(scanner.nextLine());
+        // for listening CLI
+        new Thread(() -> {
+            while (true) {
+                try {
+                    String[] argsArray = commandExecutor.parseInput(scanner.nextLine());
 
-                            Command command = commandExecutor.getCommand(argsArray[0]);
+                    Command command = commandExecutor.getCommand(argsArray[0]);
 
-                            if (command == null){
-                                System.out.println("Not a command. Try again.");
-                                continue;
-                            }
-                            // try to execute command with arguments
-                            command.execute(argsArray);
-                        }
-                        catch (WrongArgument e){
-                            System.out.println("Wrong argument! " + e.getMessage() + " Try again.");
-                        }
-                        catch (NotEnoughArgs e){
-                            System.out.println("Not enough arguments. " + e.getMessage() + " Try again.");
-                        }
-                        catch (NoSuchElementException e){
-                            System.out.println("Exit command");
-                            return;
-                        }
+                    if (command == null) {
+                        System.out.println("Not a command. Try again.");
+                        continue;
                     }
+                    // try to execute command with arguments
+                    command.execute(argsArray);
+                } catch (WrongArgument e) {
+                    System.out.println("Wrong argument! " + e.getMessage() + " Try again.");
+                } catch (NotEnoughArgs e) {
+                    System.out.println("Not enough arguments. " + e.getMessage() + " Try again.");
+                } catch (NoSuchElementException e) {
+                    System.out.println("Exit command");
+                    return;
                 }
-
-                Set<SelectionKey> keySet = selector.selectedKeys(); // get keyset
-                Iterator<SelectionKey> iterator = keySet.iterator();
-
-                while (iterator.hasNext()) {
-                    SelectionKey key = iterator.next(); // get key and remove it from iterator
-                    iterator.remove();
-
-                    // key should be closed!
-
-                    if (key.isAcceptable()) {
-                        // trying to connect
-                        try {
-                            Socket socket = serverSocket.accept();
-                            System.out.println("Connected to " + socket.getRemoteSocketAddress());
-
-                            SocketChannel socketChannel = socket.getChannel();
-                            socketChannel.configureBlocking(false);
-                            socketChannel.register(selector, SelectionKey.OP_READ);
-
-                        } catch (IOException e) {
-                            System.out.println("Unable to accept channel!");
-                            e.printStackTrace();
-                            key.cancel();
-                            continue;
-                        }
-
-                    }
-
-                    if (key.isReadable()){
-                        System.out.println("Got readable key");
-                        try (SocketChannel socketChannel = (SocketChannel) key.channel()){
-
-                            ByteBuffer buf = ByteBuffer.allocate(BUFFER_SIZE); // create buffer
-                            socketChannel.read(buf); // read data
-                            buf.flip();
-                            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(buf.array());
-                            ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
-                            ClientCommand clientCommand = (ClientCommand) objectInputStream.readObject();
-                            objectInputStream.close(); // close streams
-                            byteArrayInputStream.close();
-
-                            System.out.println("Got request");
-
-                            Response response = requestsHandler.executeCommand(clientCommand);
-
-                            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-                            objectOutputStream.writeObject(response);
-                            objectOutputStream.flush();
-                            buf.clear();
-                            buf = ByteBuffer.wrap(byteArrayOutputStream.toByteArray());
-                            objectOutputStream.close();
-                            byteArrayOutputStream.close();
-
-                            socketChannel.write(buf); // send response
-
-                            System.out.println("Response sent");
-
-                        } catch (IOException e){
-                            e.printStackTrace();
-                            key.cancel();
-                        } catch (ClassNotFoundException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-
-                }
-            } catch (IOException e){
-                e.printStackTrace(); // TODO
             }
         }
-    }
+        ).start();
 
+
+        executorService.submit(() -> {
+            while (true) {
+
+                Socket socket;
+                ObjectInputStream objectInputStream;
+                ObjectOutputStream objectOutputStream;
+
+                socket = serverSocket.accept();
+                System.out.println("Accepted");
+                objectInputStream = new ObjectInputStream(socket.getInputStream());
+                objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+
+                Object request = objectInputStream.readObject();
+
+                new Thread(() -> {
+                    Response response = new Response(ResponseCode.ERROR);
+                    if (request instanceof ClientCommand clientCommand) {
+                        try {
+                            clientCommand.getUser().setId(userAuth.getID(clientCommand.getUser()));
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                        // execute command
+                        response = requestsHandler.executeCommand(clientCommand);
+                    } else if (request instanceof UserData) {
+                        try {
+                            // user auth request
+                            if (!userAuth.isUserExist((UserData) request) && !((UserData) request).isToSignUp()){
+                                response = new Response(ResponseCode.OK);
+                                response.setPayload(UserAuthStatus.USER_NOT_EXIST);
+                            } else if (!userAuth.isUserExist((UserData) request) && ((UserData) request).isToSignUp()) {
+                                userAuth.signUp((UserData) request);
+                                response = new Response(ResponseCode.OK);
+                                response.setPayload(UserAuthStatus.SUCCESS);
+                            } else if (userAuth.auth((UserData) request)){
+                                response = new Response(ResponseCode.OK);
+                                response.setPayload(UserAuthStatus.SUCCESS);
+                            } else {
+                                response = new Response(ResponseCode.OK);
+                                response.setPayload(UserAuthStatus.WRONG_PASS);
+                            }
+                        } catch (SQLException e) {
+                            response.setResponseCode(ResponseCode.ERROR);
+                        }
+                    }
+
+                    Response finalResponse = response;
+                    new Thread(() -> {
+                        try {
+                            objectOutputStream.writeObject(finalResponse);
+                            objectOutputStream.flush();
+                            objectOutputStream.close();
+                            objectInputStream.close(); // close stream
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+
+                }).start();
+            }
+        });
+
+    }
 }

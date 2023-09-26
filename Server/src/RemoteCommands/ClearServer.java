@@ -17,6 +17,7 @@ public class ClearServer implements ServerCommand{
     public Response execute(ClientCommand command) {
         collectionManager.clearCollection();
         return new Response(ResponseCode.OK);
+        // TODO
     }
 
     @Override

@@ -19,14 +19,22 @@ public class UpdateServer implements ServerCommand {
     public Response execute(ClientCommand command) {
         Update clientCommand = (Update) command;
         Dragon dragon = clientCommand.getDragon();
-        long id = clientCommand.getId();
+        int id = clientCommand.getId();
+
         if(collectionManager.getByID(id) == null) {
             Response response = new Response(ResponseCode.ERROR);
             response.setMessage("No element with such id");
             return response;
         }
+
+        int user_id = collectionManager.getByID(id).getCreatedBy();
+        if (user_id != command.getUser().getId()){
+            Response response = new Response(ResponseCode.ERROR);
+            response.setMessage("You cannot edit this element");
+            return response;
+        }
         dragon.setId(id);
-        this.collectionManager.add(dragon);
+        this.collectionManager.update(dragon);
         return new Response(ResponseCode.OK);
     }
 

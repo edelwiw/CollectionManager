@@ -30,14 +30,15 @@ public class RemoveGreaterServer implements ServerCommand{
 
         RemoveGreater removeGreater = (RemoveGreater) command;
         Dragon dragon = removeGreater.getDragon();
-
         int counter = 0;
 
         while (iter.hasNext()){
             Dragon el = iter.next();
             if(el.compareTo(dragon) > 0) {
-                collectionManager.removeById(el.getId());
-                counter += 1;
+                if (el.getCreatedBy() == command.getUser().getId()) {
+                    collectionManager.removeById(el.getId());
+                    counter += 1;
+                }
             }
         }
         Response response = new Response(ResponseCode.OK);

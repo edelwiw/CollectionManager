@@ -1,7 +1,6 @@
 package Collection;
 
 import Exceptions.WrongField;
-import com.opencsv.bean.CsvBindByName;
 
 import java.io.Serializable;
 
@@ -10,11 +9,8 @@ import java.io.Serializable;
  * @author alexander Ivanov @edelwiw
  */
 public class Location implements Serializable, Comparable<Location>{
-    @CsvBindByName(column = "location_x", required = true)
     private float x;
-    @CsvBindByName(column = "location_y", required = true)
     private int y;
-    @CsvBindByName(column = "location_name", required = false)
     private String name; // Value cannot be greater than 535, Value can be null
 
     public Location() {
@@ -55,9 +51,10 @@ public class Location implements Serializable, Comparable<Location>{
     /**
      * Set name or location.
      * @param name name to set.
-     * @throws WrongField when value is null of length greater than 535.
+     * @throws WrongField when value length greater than 535.
      */
     public void setName(String name) throws WrongField {
+        if (name == null) name = "";
         if(name.length() > 535) throw new WrongField("Name length can't be greater than 535");
         this.name = name;
     }
@@ -67,7 +64,7 @@ public class Location implements Serializable, Comparable<Location>{
         return "Location{" +
                 "x=" + this.x +
                 ", y=" + this.y +
-                ", name='" + this.name + '\'' +
+                ", name=" + this.name +
                 '}';
     }
 

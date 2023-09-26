@@ -3,6 +3,7 @@ package ClientCommands;
 import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 import Utils.Response;
+import Utils.UserData;
 
 import java.io.*;
 
@@ -21,5 +22,9 @@ public interface ClientCommand extends Serializable {
     public void prepareRequest(String[] args) throws WrongArgument, NotEnoughArgs;
 
     public void handleResponse(Response response);
+
+    public UserData getUser();
+
+    public void setUser(UserData userData);
 
 }

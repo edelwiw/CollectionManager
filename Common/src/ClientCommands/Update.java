@@ -7,26 +7,37 @@ import Exceptions.WrongArgument;
 import Utils.CLIManager;
 import Utils.Response;
 import Utils.ResponseCode;
+import Utils.UserData;
 
 public class Update implements ClientCommand {
 
-    private long id;
+    private UserData userData;
+
+    public UserData getUser() {
+        return userData;
+    }
+
+    public void setUser(UserData userData) {
+        this.userData = userData;
+    }
+
+    private int id;
     private Dragon dragon;
 
     public Dragon getDragon() {
         return dragon;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
     @Override
     public void prepareRequest(String[] args) throws WrongArgument, NotEnoughArgs {
         if(args.length < 2) throw new NotEnoughArgs("Command requires \"id\" argument");
-        long id;
+        int id;
         try{
-            id = Long.parseLong(args[1]);
+            id = Integer.parseInt(args[1]);
             this.id = id;
         }
         catch (NumberFormatException e){

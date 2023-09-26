@@ -17,7 +17,7 @@ public class Exit implements Command{
 
     @Override
     public void execute(String[] args) throws WrongArgument, NotEnoughArgs {
-        this.collectionManager.save();
+//        this.collectionManager.save();
         System.out.println("Program will exit now! Bye!");
         System.exit(0);
     }

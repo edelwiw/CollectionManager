@@ -5,10 +5,21 @@ import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
 import Utils.Response;
 import Utils.ResponseCode;
+import Utils.UserData;
 
 import java.util.Arrays;
 
 public class CountGreaterThanCharacter implements ClientCommand{
+
+    private UserData userData;
+
+    public UserData getUser() {
+        return userData;
+    }
+
+    public void setUser(UserData userData) {
+        this.userData = userData;
+    }
 
     private DragonCharacter dragonCharacter;
 

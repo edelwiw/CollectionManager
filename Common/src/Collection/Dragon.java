@@ -1,15 +1,10 @@
 package Collection;
 
 import Exceptions.WrongField;
-import Utils.ZonedDateTimeConverter;
-import com.opencsv.bean.CsvBindByName;
-import com.opencsv.bean.CsvCustomBindByName;
-import com.opencsv.bean.CsvRecurse;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.UUID;
 
 
 /**
@@ -17,34 +12,24 @@ import java.util.UUID;
  * @author Alexander Ivanov @edelwiw
  */
 public class Dragon implements Comparable<Dragon>, Serializable {
-    @CsvBindByName(column = "next_id", required = true)
-    private static Long nextId = 1L;
 
-    @CsvBindByName(column = "ID", required = true)
-    private Long id; // Value should be positive, Field value should be unique, value should be generating automatically
-    @CsvBindByName(column = "name", required = true)
+    private int id; // Value should be positive, Field value should be unique, value should be generating automatically
     private String name; // Value can not be null, String can not be empty
-    @CsvRecurse
     private Coordinates coordinates; // Value can not be null
-    @CsvCustomBindByName(column = "creation_date", required = true, converter = ZonedDateTimeConverter.class)
     private java.time.ZonedDateTime creationDate; // Value can not be null, value should be generated automatically
-    @CsvBindByName(column = "age", required = true)
     private long age; // Value should be positive
-    @CsvBindByName(column = "description", required = true)
     private String description; // Value can not be null
-    @CsvBindByName(column = "weight", required = true)
     private Double weight; // Value should be positive
-    @CsvBindByName(column = "character", required = true)
     private DragonCharacter character; // Value can not be null
-    @CsvRecurse
     private Person killer; // Value can be null
+    private int createdBy; // ID of user that created instance
+
 
     /**
      * Constructor. Creates an empty object of Dragon class.
      */
     public Dragon(){
-        this.id = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
-
+        this.id = -1;
         this.creationDate = ZonedDateTime.now();
     }
 
@@ -52,7 +37,7 @@ public class Dragon implements Comparable<Dragon>, Serializable {
      * Returns Dragon ID
      * @return Dragon ID
      */
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
@@ -124,14 +109,30 @@ public class Dragon implements Comparable<Dragon>, Serializable {
     }
 
     /**
+     * get ID of user that created  instance
+     * @return user ID
+     */
+    public int getCreatedBy() {
+        return createdBy;
+    }
+
+    /**
      * Set id for Dragon.
      * ID cannot be null.
-     * @param id
+     * @param id id to set
      * @throws WrongField if field value does not math requirements
      */
-    public void setId(Long id) {
+    public void setId(Integer id) {
         if(id == null) throw new WrongField("ID cannot be null");
         this.id = id;
+    }
+
+    /**
+     * Set creation date for Dragon.
+     * @param creationDate date to set
+     */
+    public void setCreationDate(ZonedDateTime creationDate) {
+        this.creationDate = creationDate;
     }
 
     /**
@@ -215,6 +216,13 @@ public class Dragon implements Comparable<Dragon>, Serializable {
         this.killer = killer;
     }
 
+    /**
+     * Set user ID
+     * @param createdBy user ID
+     */
+    public void setCreatedBy(int createdBy) {
+        this.createdBy = createdBy;
+    }
 
     /**
      * Get dragon fields
@@ -230,7 +238,8 @@ public class Dragon implements Comparable<Dragon>, Serializable {
                 ", description=" + this.description +
                 ", weight=" + this.weight +
                 ", character=" + this.character +
-                ", killer=" + this.killer;
+                ", killer=" + this.killer +
+                ", created_by=" + this.getCreatedBy();
     }
 
 

@@ -1,10 +1,8 @@
 import ClientCommands.ClientCommand;
 import Exceptions.WrongArgument;
 import Utils.Response;
-import Utils.ResponseCode;
-import org.w3c.dom.ls.LSOutput;
+import Utils.UserData;
 
-import javax.swing.plaf.ScrollPaneUI;
 import java.io.*;
 import java.net.*;
 import java.nio.ByteBuffer;
@@ -21,8 +19,8 @@ public class Connector {
 
     private Socket socket;
 
-    private InputStream inputStream;
-    private OutputStream outputStream;
+    private ObjectInputStream inputStream;
+    private ObjectOutputStream outputStream;
 
     /**
      * Validate address and port
@@ -55,8 +53,8 @@ public class Connector {
             this.socket.connect(inetSocketAddress, 1000);
 
             // get data streams
-            this.outputStream = socket.getOutputStream();
-            this.inputStream = socket.getInputStream();
+            this.outputStream = new ObjectOutputStream(socket.getOutputStream());
+            this.inputStream = new ObjectInputStream(socket.getInputStream());
 
             System.out.println("Connected");
         }  catch (IOException e) {
@@ -72,15 +70,7 @@ public class Connector {
      */
     private Response readResponse() throws ConnectException{
         try {
-            byte[] data = new byte[4096];
-
-            this.inputStream.read(data);
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(data);
-            ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
-            Response response = (Response) objectInputStream.readObject();
-            objectInputStream.close();
-            byteArrayInputStream.close();
-
+            Response response = (Response) inputStream.readObject();
             return response;
         } catch (ClassNotFoundException | IOException | ClassCastException e){
             e.printStackTrace();
@@ -96,21 +86,34 @@ public class Connector {
      */
     private void sendRequest(ClientCommand command) throws ConnectException {
         try {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-            objectOutputStream.writeObject(command);
-            objectOutputStream.flush();
-            ByteBuffer buffer = ByteBuffer.wrap(byteArrayOutputStream.toByteArray());
-            objectOutputStream.close();
-            byteArrayOutputStream.close();
-
-            this.outputStream.write(buffer.array());
+            outputStream.writeObject(command);
         } catch (IOException e) {
             e.printStackTrace();
             throw new ConnectException("Cannot write request");
         }
     }
 
+    /**
+     * Send request with user data to auth username and pass
+     * @param userData user date
+     * @throws ConnectException when connection issues
+     * @see UserData
+     */
+    private void sendAuthRequest(UserData userData) throws ConnectException {
+        try {
+            outputStream.writeObject(userData);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new ConnectException("Cannot write request");
+        }
+    }
+
+    /**
+     * Send command request ang get response
+     * @param command command to execute
+     * @return Response with payload
+     * @throws ConnectException when connection issues
+     */
     public Response sendAndGetResponse(ClientCommand command) throws ConnectException{
         this.connect();
         this.sendRequest(command);
@@ -118,6 +121,22 @@ public class Connector {
         this.closeConnection();
         return response;
     }
+
+    /**
+     * Send auth request ang get response
+     * @param userData user to auth
+     * @return Response with payload
+     * @throws ConnectException when connection issues
+     */
+    public Response sendAndGetAuthResponse(UserData userData) throws ConnectException{
+        this.connect();
+        this.sendAuthRequest(userData);
+        Response response = this.readResponse();
+        this.closeConnection();
+        return response;
+    }
+
+
 
     public void closeConnection(){
         try {

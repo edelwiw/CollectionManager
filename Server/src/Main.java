@@ -1,18 +1,20 @@
 // times crying while writing this code = 4
 
+import Collection.*;
 import Exceptions.NotEnoughArgs;
 import Exceptions.WrongArgument;
-import Run.CollectionManager;
+import Run.*;
 import Commands.CommandExecutor;
-import Run.Listener;
-import Run.RequestHandler;
+import Utils.User;
 
+import javax.imageio.plugins.jpeg.JPEGImageReadParam;
 import java.net.ConnectException;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws NotEnoughArgs, WrongArgument, ConnectException {
+    public static void main(String[] args) throws NotEnoughArgs, ConnectException, SQLException {
 
         // request port
         Scanner scanner = new Scanner(System.in);
@@ -28,16 +30,21 @@ public class Main {
             }
         }
 
-        if(args.length == 0) throw new NotEnoughArgs("No file path specified");
-        CollectionManager dragons = new CollectionManager(Paths.get(args[0]));
-        dragons.fillCollectionFromFile();
+        DatabaseConnector database = null;
 
-//        dragons.fillCollectionFromFile();
-//
-//        CommandExecutor commandExecutor = new CommandExecutor(dragons);
-//        commandExecutor.enterInteractiveMode();
         try {
-            Listener listener = new Listener(port, dragons);
+            database = new DatabaseConnector("jdbc:postgresql://127.0.0.1:5432/collection", "alexivanov", "");
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+
+        CollectionManager dragons = new CollectionManager(database);
+        dragons.readDatabase();
+//
+        try {
+            UserAuth userAuth = new UserAuth(database);
+            Listener listener = new Listener(port, dragons, userAuth);
             listener.startListening();
         } catch (WrongArgument e){
             System.out.println(e.getMessage() + ". Stopped.");

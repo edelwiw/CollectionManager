@@ -1,8 +1,6 @@
 package Collection;
 
 import Exceptions.WrongField;
-import com.opencsv.bean.CsvBindByName;
-import com.opencsv.bean.CsvRecurse;
 
 import java.io.Serializable;
 
@@ -11,13 +9,9 @@ import java.io.Serializable;
  * @author Alexander Ivanov
  */
 public class Person implements Serializable {
-    @CsvBindByName(column = "keller_name", required = true)
     private String name; // Value can not be null, String can not be empty
-    @CsvBindByName(column = "passport_id", required = true)
     private String passportID; // String cannot be empty, Field can be null, Length shouldn't be greater than 28 and less than 8
-    @CsvBindByName(column = "hair_color", required = false)
     private Color hairColor; // Value can be null
-    @CsvRecurse
     private Location location; // Value can be null
 
     public Person(){

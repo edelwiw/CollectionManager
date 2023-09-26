@@ -20,6 +20,8 @@ public class AddServer implements ServerCommand{
     public Response execute(ClientCommand command) {
         Add clientCommand = (Add) command;
         Dragon dragon = clientCommand.getDragon();
+        dragon.setCreatedBy(command.getUser().getId());
+        System.out.println(command.getUser().getId());
         this.collectionManager.add(dragon);
         return new Response(ResponseCode.OK);
     }

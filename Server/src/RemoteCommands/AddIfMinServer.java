@@ -20,6 +20,7 @@ public class AddIfMinServer implements ServerCommand{
 
         AddIfMin clientCommand = (AddIfMin) command;
         Dragon dragon = clientCommand.getDragon();
+        dragon.setCreatedBy(command.getUser().getId());
         if(collectionManager.getSize() == 0) {
             this.collectionManager.add(dragon);
             this.collectionManager.clearCollection();
